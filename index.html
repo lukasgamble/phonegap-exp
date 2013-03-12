@@ -96,15 +96,15 @@
 				display: block;
 				top: 0;
 				left: 0; */
-				-webkit-transition-property: left; 
+				-webkit-transition-property: right; 
 				-webkit-transition-duration: 0.4s; 
 				-webkit-transition-property: ease-in-out;
 				
-				-moz-transition-property: left; 
+				-moz-transition-property: right; 
 				-moz-transition-duration: 0.4s; 
 				-moz-transition-property: ease-in-out;
 				
-				-o-transition-property: left; 
+				-o-transition-property: right; 
 				-o-transition-duration: 0.4s; 
 				-o-transition-property: ease-in-out;
 				
@@ -326,8 +326,8 @@
 				$("#menu").show();
 				
 				$(".slideContentToggle").click(function() {
+					$("#menu").show();
 					$(".pages").toggleClass("open");
-					//$(".controls").toggleClass("active");
 				});
 				
 				
@@ -335,16 +335,20 @@
 					- gives us opportunity to show loader, get data, etc
 				*/
 				$("#lnkAvailability").click(function() {
+					$("#menu").hide();
 					$(".pages").removeClass("open");
-					$.mobile.changePage($('#availability'), {transition:"slide"});
+					//$.mobile.changePage($('#availability'), {transition:"slide"});
 				});
 				
 				$("#lnkNearMe").click(function() {
+					$("#menu").hide();
 					$(".pages").removeClass("open");
+					$("#menu").hide();
 					$.mobile.changePage($('#loadsNearMe'), {transition:"slideup"});
 				});
 				
 				$("#lnkUpdateStatus").click(function() {
+					$("#menu").hide();
 					$(".pages").removeClass("open");
 					$.mobile.changePage($('#updateStatus'), {transition:"fade"});
 				});
