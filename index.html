@@ -116,16 +116,20 @@
 				
 			.open { left: 165px !important; }
 			
-			/*@media all and (-webkit-transform-3d), all and (-moz-transform-3d), all and (-o-transform-3d) {
+			@media all and (-webkit-transform-3d), all and (-moz-transform-3d), all and (-o-transform-3d) {
 				.pages {
 					-webkit-transition-property: -webkit-transform;
+					-moz-transition-property: -webkit-transform;
+					-o-transition-property: -webkit-transform;
 					}
 					
 				.open { 
 					left: 0 !important;
 					-webkit-transform: translate3d(165px, 0, 0) !important;
+					-moz-transform: translate3d(165px, 0, 0) !important;
+					-o-transform: translate3d(165px, 0, 0) !important;
 					}
-			}*/
+			}
 
 			
 		</style>
@@ -136,15 +140,7 @@
 		
 		
 		
-		<div id="menu">
-		<h3>Menu</h3>
-			<ul>
-				<li class="active"><a href="#home" class="contentLink">Home </a></li>
-				<li><a href="#home" class="contentLink">My Account</a></li>
-				<li><a href="#home" class="contentLink">My Routes</a></li>
-				<li><a href="#home" class="contentLink">Support</a></li>
-			</ul>
-		</div>
+		
 		
 		<!-- Sidebar Begin -->
 	<!--<aside id="sidebar">
@@ -163,11 +159,11 @@
 	</aside>-->
 		
 		
-		<div data-role="page" data-theme="a" class="homescreen pages">
+		<div data-role="page" data-theme="a" class="homescreen pages" id="home">
 			<div data-role="header" data-position="fixed">
 				<h1 class="headerLogo"><span>Vehotrans</span></h1>
-				<a data-role="button" data-icon="grid" data-iconpos="notext" class="xshowMenu slideContent">options</a>
-				<a data-role="button" data-icon="home" data-iconpos="notext">home</a>
+				<a data-role="button" data-icon="grid" class="xshowMenu slideContentToggle">menu</a>
+				<!--<a data-role="button" data-icon="home" data-iconpos="notext">home</a>-->
 				
 			</div>
 			<div data-role="content" data-theme="a" class="homeScreenContent">
@@ -176,13 +172,13 @@
 				<div class="ui-grid-a" style="margin-bottom: 2em;margin-top: 2em;">
 					<div class="ui-block-a">
 						<div class="veho-button-wrapper">
-							<img src="images/buttons/van.png" />
+							<img src="images/buttons/van.png" id="lnkAvailability" />
 							<br />Post Availability
 						</div>
 					</div>
 					<div class="ui-block-b">
 						<div class="veho-button-wrapper">
-							<img src="images/buttons/geo-location.png" />
+							<img src="images/buttons/geo-location.png"  id="lnkNearMe" />
 							<br />Loads Near Me
 						</div>
 					</div>
@@ -191,13 +187,13 @@
 				<div class="ui-grid-a">
 					<div class="ui-block-a">
 						<div class="veho-button-wrapper">
-							<img src="images/buttons/status.png" />
+							<img src="images/buttons/status.png" id="lnkUpdateStatus" />
 							<br />Update Status
 						</div>
 					</div>
 					<div class="ui-block-b">
 						<div class="veho-button-wrapper">
-							<img src="images/buttons/POD.png" />
+							<img src="images/buttons/POD.png" id="lnkPOD" />
 							<br />Proof Of Delivery
 						</div>
 					</div>
@@ -209,6 +205,111 @@
 				<h1>This is the Footer</h1>-->
 			</div>
 		</div>
+		
+		<!-- Start of availability page: #availability -->
+		<div data-role="page" id="availability" data-theme="a" class="pages">
+		
+			<div data-role="header" data-position="fixed">
+				<h1 class="headerLogo"><span>Vehotrans</span></h1>
+				<a data-role="button" data-icon="grid" class="slideContentToggle">menu</a>
+				<a data-role="button" data-icon="home" data-direction="reverse" href="#home">home</a>
+				
+			</div>
+		
+			<div data-role="content" data-theme="a">	
+				<h2>Post Availability</h2>
+				<p>Need to add a form here!</p>	
+				
+			</div><!-- /content -->
+		</div><!-- /availability -->
+		
+		
+		
+		<!-- Start of loadsNearMe page: #loadsNearMe -->
+		<div data-role="page" id="loadsNearMe" data-theme="a" class="pages">
+		
+			<div data-role="header" data-position="fixed">
+				<h1 class="headerLogo"><span>Vehotrans</span></h1>
+				<a data-role="button" data-icon="grid" class="slideContentToggle">menu</a>
+				<a data-role="button" data-icon="home" href="#home" data-direction="reverse">home</a>
+				
+			</div>
+		
+			<div data-role="content" data-theme="a">	
+				<h2>Loads Near Me</h2>
+				<p>Need to add a Google Map here!</p>
+				
+			</div><!-- /content -->
+		</div><!-- /loadsNearMe -->
+		
+		
+		<!-- Start of updateStatus page: #updateStatus -->
+		<div data-role="page" id="updateStatus" data-theme="a" class="pages">
+		
+			<div data-role="header" data-position="fixed">
+				<h1 class="headerLogo"><span>Vehotrans</span></h1>
+				<a data-role="button" data-icon="grid" class="slideContentToggle">menu</a>
+				<a data-role="button" data-icon="home" href="#home" data-direction="reverse">home</a>
+				
+			</div>
+		
+			<div data-role="content" data-theme="a">	
+				<h2>Update your status</h2>
+				<p>Another Form...or just a clickable list view?</p>
+				
+			</div><!-- /content -->
+		</div><!-- /updateStatus -->
+		
+		
+		<!-- Start of POD page: #POD-->
+		<div data-role="page" id="POD" data-theme="a" class="pages">
+		
+			<div data-role="header" data-position="fixed">
+				<h1 class="headerLogo"><span>Vehotrans</span></h1>
+				<a data-role="button" data-icon="grid" class="slideContentToggle">menu</a>
+				<a data-role="button" data-icon="home" href="#home" data-direction="reverse">home</a>
+				
+			</div>
+		
+			<div data-role="content" data-theme="a">	
+				<h2>Generata a POD for your Delivery</h2>
+				<p>Image capture?</p>
+				
+			</div><!-- /content -->
+		</div><!-- /POD -->
+		
+		
+		
+		<!-- Start of myAccount page: #myAccount-->
+		<div data-role="page" id="myAccount" data-theme="a" class="pages">
+		
+			<div data-role="header" data-position="fixed">
+				<h1 class="headerLogo"><span>Vehotrans</span></h1>
+				<a data-role="button" data-icon="grid" class="slideContentToggle">menu</a>
+				<a data-role="button" data-icon="home" href="#home" data-direction="reverse">home</a>
+				
+			</div>
+		
+			<div data-role="content" data-theme="a">	
+				<h2>My Account</h2>
+				<p>Change password</p>
+				
+			</div><!-- /content -->
+		</div><!-- /myAccount -->
+		
+		
+		<div id="menu" data-position="fixed" style="display: none !important;">
+		<h3>Menu</h3>
+			<ul>
+				<li class="active"><a href="#home" class="contentLink">Home </a></li>
+				<li><a href="#settings" class="contentLink">My Account</a></li>
+				<li><a href="#jobs" class="contentLink">My Jobs</a></li>
+				<li><a href="#routes" class="contentLink">My Routes</a></li>
+				<li><a href="#support" class="contentLink">Support</a></li>
+			</ul>
+		</div>
+		
+		
 		
 		<!-- JQUERY -->
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
@@ -222,10 +323,37 @@
 		<script>
 			$(document).ready(function() {
 				/* Sidebar Control */
-				$(".slideContent").click(function() {
+				$("#menu").show();
+				
+				$(".slideContentToggle").click(function() {
 					$(".pages").toggleClass("open");
 					//$(".controls").toggleClass("active");
 				});
+				
+				
+				/* Main Navigation
+					- gives us opportunity to show loader, get data, etc
+				*/
+				$("#lnkAvailability").click(function() {
+					$(".pages").removeClass("open");
+					$.mobile.changePage($('#availability'), {transition:"slide"});
+				});
+				
+				$("#lnkNearMe").click(function() {
+					$(".pages").removeClass("open");
+					$.mobile.changePage($('#loadsNearMe'), {transition:"slideup"});
+				});
+				
+				$("#lnkUpdateStatus").click(function() {
+					$(".pages").removeClass("open");
+					$.mobile.changePage($('#updateStatus'), {transition:"fade"});
+				});
+				
+				$("#lnkPOD").click(function() {
+					$(".pages").removeClass("open");
+					$.mobile.changePage($('#POD'), {transition:"pop"});
+				});
+				
 			});
 		</script>
 		
