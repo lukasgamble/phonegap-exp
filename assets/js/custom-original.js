@@ -228,5 +228,5 @@ JQTWEET = {
 
 $(document).ready(function () {
 	// start jqtweet!
-	//JQTWEET.loadTweets();
+	JQTWEET.loadTweets();
 });
