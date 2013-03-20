@@ -10,7 +10,8 @@
 //});
 
 
-$(document).bind( "mobileinit", function() {
+//$(document).bind( "mobileinit", function() {
+$(document).ready(function () {
     
     MBP.startupImage(); // Show startup image. If you want to disable delete this line
     
