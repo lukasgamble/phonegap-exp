@@ -100,6 +100,7 @@
 						
 						if(data.Authenticated){
 							$.mobile.loading("hide");
+							$('#loginDialog').hide();
 							$.mobile.changePage($('#home'), {transition:"fade"});
 						}else{
 							$.mobile.loading("hide");
