@@ -60,7 +60,27 @@
 	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 	<script>
 		$(document).bind("mobileinit", function()  {        
-		    alert("mobileinit firing now!");
+		    $('div[data-role="page"]').live('pagebeforeshow',function(event, ui){
+			//console.log("pagebeforeshow: " + ui.nextPage + " : " + ui.prevPage);
+			
+		   });
+		
+		   $('div[data-role="page"]').live('pagebeforehide',function(event, ui){
+			//console.log("pagebeforehide: " + ui.nextPage + " : " + ui.prevPage);
+			
+		       $("#menu").hide();
+		   });
+		
+		   $('div[data-role="page"]').live('pageshow',function(event, ui){
+		       //console.log("pageshow: " + ui.nextPage + " : " + ui.prevPage);
+		       //alert("pageshow - showing menu");
+		       $("#menu").show();
+		   });
+		
+		   $('div[data-role="page"]').live('pagehide',function(event, ui){
+		       //console.log("pagehide: " + ui.nextPage + " : " + ui.prevPage);
+		       //alert("pagehide");
+		   });
 		});
 	</script>
 	
