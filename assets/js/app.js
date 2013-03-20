@@ -17,26 +17,21 @@ $(document).bind( "mobileinit", function() {
     
     $('div[data-role="page"]').live('pagebeforeshow',function(event, ui){
          //console.log("pagebeforeshow: " + ui.nextPage + " : " + ui.prevPage);
-	 //alert("pagebeforeshow");
     });
  
     $('div[data-role="page"]').live('pagebeforehide',function(event, ui){
          //console.log("pagebeforehide: " + ui.nextPage + " : " + ui.prevPage);
-	 //alert("pagebeforehide");
-	 //alert($("#menu"));
-	$("#hideTest").hide();
+
 	$("#menu").hide();
     });
  
     $('div[data-role="page"]').live('pageshow',function(event, ui){
-        //console.log("pageshow: " + ui.nextPage + " : " + ui.prevPage);
-	//alert("pageshow - showing menu");
+        //console.log("pageshow: " + ui.nextPage + " : " + ui.prevPage);;
 	$("#menu").show();
     });
  
     $('div[data-role="page"]').live('pagehide',function(event, ui){
-        //console.log("pagehide: " + ui.nextPage + " : " + ui.prevPage);
-	//alert("pagehide");
+
     });
 });
 
