@@ -324,7 +324,12 @@ SLIDE MENU STYLES
 ---------------------------------------------------------------------*/
 body{background:#5a5959 url(../images/menuBg.gif) top left repeat-y; -webkit-text-size-adjust:none !important}
 
-#menu{width:165px; height:100%; display:block !important; float:left}
+#menu {
+	width:165px;
+	height:100%;
+	display:block; /* !important;*/
+	float:left
+	}
 #menu ul{margin:0; padding:0; width:inherit}
 #menu ul li{list-style-type:none; margin:0px 0}
 #menu ul li a:link, #menu ul li a:visited{border-bottom:solid #333 1px; color:#fff; font-size:14px; font-weight:500; text-decoration:none; width:165px; display:block; padding:10px 0px 10px 10px; text-shadow:0px 1px 1px #000}
