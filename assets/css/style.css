@@ -324,7 +324,7 @@ SLIDE MENU STYLES
 ---------------------------------------------------------------------*/
 body{
 	/*background:#5a5959 url(../images/menuBg.gif) top left repeat-y;*/
-	background:#5a5959 url(../images/splashscreens/apple-touch-startup-image-748x1024);
+	background:#5a5959 url(../images/splashscreens/apple-touch-startup-image-748x1024.png);
 	background-size: cover; 
 	-webkit-text-size-adjust:none !important}
 
