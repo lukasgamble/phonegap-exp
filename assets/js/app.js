@@ -24,6 +24,7 @@ $(document).bind( "mobileinit", function() {
          //console.log("pagebeforehide: " + ui.nextPage + " : " + ui.prevPage);
 	 //alert("pagebeforehide");
 	 //alert($("#menu"));
+	$("#hideTest").hide();
 	$("#menu").hide();
     });
  
