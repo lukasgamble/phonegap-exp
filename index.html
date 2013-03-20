@@ -58,6 +58,12 @@
 	
 	<!-- JQUERY -->
 	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script>
+		$(document).bind("mobileinit", function()  {        
+		    alert("mobileinit firing now!");
+		});
+	</script>
+	
 	
 	<!-- APP INIT SCRIPTS -->
 	<script src="assets/js/helper.js"></script>
@@ -80,6 +86,18 @@
 
 		$(document).ready(function() {
 
+			
+			// I don't know why the line has to be present, but otherwise does not work
+			$(this).delegate("body", "pageinit", function(ev, data){
+				alert("pageinit called");
+				}); 
+			
+		 
+			$(this).delegate("body", "mobileinit", function(ev, data){
+				alert("mobileinit called");
+				}); 
+			
+			
 			$('#btnLogin').click(function(){
 				
 				$.mobile.loading( 'show', {
@@ -162,7 +180,7 @@
         <!-- /Menu -->
         
         
-        
+        <!--<div id="page-selector">-->
 	
 	<!-- *********************************************************
        	 LOGIN PAGE BEGIN
@@ -392,6 +410,10 @@
        	 MYACCOUNT PAGE END
         ********************************************************* -->
         
+	
+	
+	<!--</div>-->
+	
 	<!-- Javascripts is down of the page for fast open -->
         
         <script src="assets/js/vendor/zepto.min.js"></script>
