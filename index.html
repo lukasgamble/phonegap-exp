@@ -47,11 +47,11 @@
         <link rel="stylesheet" href="assets/css/add2home.css"><!-- Iphone Bubble  -->
         <link rel="stylesheet" href="assets/css/icons/icons.css" type="text/css" >
         <link rel="stylesheet" href="assets/css/icons/nav-icons.css" type="text/css" >
-	<link rel="stylesheet" href="assets/css/flexslider.css" type="text/css" media="screen" />
+	<!--<link rel="stylesheet" href="assets/css/flexslider.css" type="text/css" media="screen" />-->
 	<link rel="stylesheet" href="assets/css/style.css" type="text/css" > <!-- Theme Style Sheet File -->
         <link rel="stylesheet" href="assets/css/normalize.css">
         <link rel="stylesheet" href="assets/css/main.css">
-	<link rel="stylesheet" href="assets/css/photoswipe.css">
+	<!--<link rel="stylesheet" href="assets/css/photoswipe.css">-->
 	<link rel="stylesheet" href="assets/css/vehotrans.css">
 
         <link rel="stylesheet" type="text/css" href="assets/css/icons/nav-icons-black.css"> 
@@ -64,62 +64,72 @@
         <script src="assets/js/vendor/modernizr-2.6.1.min.js"></script>
 	
 	<!-- JQUERY -->
-        <!--<script src="assets/js/jquery-1.6.4.min.js"></script>-->
-	<!--<script src="assets/js/jquery-1.9.1.min.js"></script>-->
 	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 	
+	<!-- APP INIT SCRIPTS -->
+	<script src="assets/js/helper.js"></script>
+	<script src="assets/js/app.js"></script>
+	
+	
 	<!-- JQUERY MOBILE -->
-	<!--<script src="assets/js/jquery.mobile-1.0.1.min.js"></script>-->
-	<!--<script src="assets/js/jquery.mobile-1.3.0.js"></script>-->
 	<script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
 	
 	<!-- PATCHES FOR MIGRATING FROM OLD VERSION OF JQUERY -->
 	<!--<script src="assets/js/jquery-migrate-1.1.1.js"></script>-->
 	
+	<!-- DETECT BROWSER MIGRATION PATCH -->
 	<script src="assets/js/jquery.mb.browser.min.js"></script>
 	
-	
-<!--	<script src="/Scripts/jquery-1.6.2.js" type="text/javascript"></script>-->
+
 
 	
 	<script>
 		
 		var baseUrl = "http://vehotrans.azurewebsites.net/";
-		
-		//$.ajaxSetup({ error: handleError });
-		
+
 		$(document).ready(function() {
 
 			$('#btnLogin').click(function(){
-
-			    
-			    $.ajax({
-                                type: "GET",
-                                //url: baseUrl + "Services/MobileAuthentication.asmx/AuthenticateMobileUser",
-				url: baseUrl + "Person/22",
-                                //data: "{'countryCode': '" + $('#' + ddlCountry).val() + "', 'filter': '" + $(this).val() + "'}",
-				//data: '{"email" : "lukas.gamble@vehogroup.com", "password" : "verves11"}',
-                                contentType: 'application/json; charset=utf-8',
-                                dataType: "json",
-				timeout: 10000,
-				success: function (data) {
-					alert("success!");
-					//console.log(data)
-					$.mobile.changePage($('#home'), {transition:"fade"});
-					//$("login").remove();
-					},
-				error: function(jqXHR, textStatus, errorThrown ){
-					//alert('error')
-					console.log(jqXHR);
-					console.log(textStatus);
-					console.log(errorThrown);
-					}
-			    });
-
-
-
-
-			    return false;// don't actually submit the form!
+				
+				$.mobile.loading( 'show', {
+					text: "Authenticating...",
+					textVisible: true,
+					theme: "a",
+					textonly: false
+				});
+				
+				$.ajax({
+					type: "GET",
+					url: baseUrl + "Person/" + $("#txtEmail").val() + "/" + $("#txtPassword").val(),
+					//data: '{"email": "' + $("#txtEmail").val() + '", "password": "' + $("#txtPassword").val() + '"}',
+					contentType: 'application/json; charset=utf-8',
+					dataType: "json",
+					//timeout: 10000,
+					success: function (data) {
+						
+						if(data.Authenticated){
+							$.mobile.loading("hide");
+							$.mobile.changePage($('#home'), {transition:"fade"});
+						}else{
+							$.mobile.loading("hide");
+							//alert("Sorry, email & password combination not recognised.");
+							//$("#loginDialog").popup("open");
+							//$.mobile.changePage('#loginDialog', {transition: 'pop', role: 'dialog'});
+							$.mobile.changePage('#loginDialog', {role: 'dialog'});
+						}
+						
+						//$("#login").remove();
+						},
+					error: function(jqXHR, textStatus, errorThrown ){
+						$.mobile.loading("hide");
+						//$("#menu").hide();
+						$.mobile.changePage('#loginDialog', {role: 'dialog'});
+						//alert(textStatus);
+						//console.log(jqXHR);
+						//console.log(textStatus);
+						//console.log(errorThrown);
+						}
+				});
 			});
 		});
 		
@@ -150,20 +160,7 @@
                 <!-- / Social Links -->
                 <div class="hr-full-black"></div>
             
-            
-            
            	<ul>
-            	
-                    <!--<li><a href="#home" class="contentLink" data-transition="fade">Home <span class="icon"></span></a></li>
-                    <li><a href="#aboutus" class="contentLink" data-transition="pop">About Us<span class="icon"></span></a></li>
-                    <li><a href="#services" class="contentLink" data-transition="flip">Services<span class="icon"></span></a></li>
-                    <li><a href="#blog" class="contentLink" data-transition="fade">Blog<span class="icon"></span></a></li>
-                    <li><a href="#products" class="contentLink" data-transition="fade">Products<span class="icon"></span></a></li>
-                    <li><a href="#gallery" class="contentLink" data-transition="flip">Gallery<span class="icon"></span></a></li>
-                    <li><a href="#portfolio" class="contentLink" data-transition="slideup">Portfolio<span class="icon"></span></a></li>
-                    <li><a href="#twitter" class="contentLink" data-transition="slide">Twitter<span class="icon"></span></a></li>
-                    <li><a href="#contact" class="contentLink" data-transition="slideup">Contact<span class="icon"></span></a></li>-->
-
 			<li class="active"><a href="#home" class="contentLink" data-transition="slide">Home <span class="icon"></span></a></li>
 			<li><a href="#jobs" class="contentLink" data-transition="slide">My Jobs<span class="icon"></span></a></li>
 			<li><a href="#routes" class="contentLink" data-transition="slide">My Routes<span class="icon"></span></a></li>
@@ -187,7 +184,7 @@
 	<!-- *********************************************************
        	 LOGIN PAGE BEGIN
         ********************************************************* -->
-	<div data-role="page" class="pages xhomescreen" id="login" data-theme="a">
+	<div data-role="page" id="login" data-theme="a">
         	
             <!-- Header Begin -->
 	    <div data-role="header" class="header" data-theme="a">
@@ -195,33 +192,33 @@
             </div>
 	    
 	    <div data-role="content">
-		<!--<form name="frmLogin" id="frmLogin">-->
+		<h2 style="text-align: center">Login</h2>
+		<p style="text-align: center">Please use your Vehotrans login details to access our mobile services.</p>
 			
-			<!--<fieldset>
-				<legend>Login</legend>-->
-			<h2 style="text-align: center">Login</h2>
-			<p style="text-align: center">Please use your Vehotrans login details to access our mobile services.</p>
-				
-				<div style="margin: 20px 0;">
-				<label for="txtEmail">Email:</label>
-				<input type="text" name="txtEmail" id="txtEmail" />
-				</div>
-				<div style="margin: 0 0 20px 0;">
-				<label for="txtPassword">Password:</label>
-				<input type="text" name="txtPassword" id="txtPassword" />
-				</div>
-				<div class="clearfix"></div>
-				
-				<!--<input type="submit" name="btnSubmit" id="btnSubmit" value="Login" data-theme="b" />-->
-				<button data-theme="b" id="btnLogin">Login</button>
-				<div class="clearfix"></div>
-			<!--</fieldset>-->
-		<!--</form>-->
+		<div style="margin: 20px 0;">
+			<label for="txtEmail">Email:</label>
+			<input type="text" name="txtEmail" id="txtEmail" />
+		</div>
+		<div style="margin: 0 0 20px 0;">
+			<label for="txtPassword">Password:</label>
+			<input type="password" name="txtPassword" id="txtPassword" />
+		</div>
+		<div class="clearfix"></div>
 		
-		
-		
+		<button data-theme="b" id="btnLogin">Login</button>
+		<div class="clearfix"></div>
 	    </div>
-	    
+	</div>
+	
+	
+	<div data-role="popup" id="loginDialog" data-overlay-theme="a" data-theme="b" data-dismissible="false" data-position-to="window" class="ui-corner-all">
+		<div data-role="header" data-theme="a" class="ui-corner-top">
+		    <h1>Login Failed</h1>
+		</div>
+		<div data-role="content" data-theme="d" class="ui-corner-bottom ui-content" style="text-align: center;">
+		    <p>Sorry, email &amp; password combination not recognised.</p>
+		    <a href="javascript:;" data-role="button" data-inline="true" data-rel="back" data-theme="b">Try Again</a>
+		</div>
 	</div>
 	<!-- *********************************************************
        	 LOGIN PAGE END
@@ -611,13 +608,13 @@
 	<!-- Javascripts is down of the page for fast open -->
         
         <script src="assets/js/vendor/zepto.min.js"></script>
-        <script src="assets/js/helper.js"></script>
-	<script src="assets/js/custom.js"></script>
+        
+	
         <script src="assets/js/add2home.js" charset="utf-8"></script><!-- Iphone Bubble  -->
         
-   		<!--  Photo Swipe Gallery  -->
-		<script src="assets/js/klass.min.js"></script>
-        <script src="assets/js/photoswipe.js"></script>
+   	<!--  Photo Swipe Gallery  -->
+	<!--<script src="assets/js/klass.min.js"></script>
+        <script src="assets/js/photoswipe.js"></script>-->
         <!--  Photo Swipe Gallery End -->
         
         <!--  Photo Swipe Gallery Custom JS  -->
@@ -630,7 +627,7 @@
         <!--  Photo Swipe Gallery Custom JS End-->
         
         <!-- Slider -->
-        <script src="assets/js/jquery.flexslider.js"></script>
+        <!--<script src="assets/js/jquery.flexslider.js"></script>
         <script>
         $(document).ready(function() {
             $('.flexslider').flexslider({
@@ -641,7 +638,7 @@
                     }
                 });
         });
-        </script>
+        </script>-->
         <!-- / Slider -->
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. ( Optional ) 
