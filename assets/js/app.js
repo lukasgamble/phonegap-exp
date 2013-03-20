@@ -10,31 +10,32 @@
 //});
 
 
-//$(document).bind( "mobileinit", function() {
-$(document).ready(function () {
+$(document).bind( "mobileinit", function() {
+//$(document).ready(function () {
     
     MBP.startupImage(); // Show startup image. If you want to disable delete this line
     
     $('div[data-role="page"]').live('pagebeforeshow',function(event, ui){
          //console.log("pagebeforeshow: " + ui.nextPage + " : " + ui.prevPage);
-	 
+	 alert("pagebeforeshow");
     });
  
     $('div[data-role="page"]').live('pagebeforehide',function(event, ui){
          //console.log("pagebeforehide: " + ui.nextPage + " : " + ui.prevPage);
-	 
+	 alert("pagebeforehide");
+	 alert($("#menu"));
 	$("#menu").hide();
     });
  
     $('div[data-role="page"]').live('pageshow',function(event, ui){
         //console.log("pageshow: " + ui.nextPage + " : " + ui.prevPage);
-	//alert("pageshow - showing menu");
+	alert("pageshow - showing menu");
 	$("#menu").show();
     });
  
     $('div[data-role="page"]').live('pagehide',function(event, ui){
         //console.log("pagehide: " + ui.nextPage + " : " + ui.prevPage);
-	//alert("pagehide");
+	alert("pagehide");
     });
 });
 

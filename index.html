@@ -58,7 +58,7 @@
 	
 	<!-- JQUERY -->
 	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-	<script>
+	<!--<script>
 		$(document).bind("mobileinit", function()  {        
 		    $('div[data-role="page"]').live('pagebeforeshow',function(event, ui){
 			//console.log("pagebeforeshow: " + ui.nextPage + " : " + ui.prevPage);
@@ -82,7 +82,7 @@
 		       alert("pagehide");
 		   });
 		});
-	</script>
+	</script>-->
 	
 	
 	<!-- APP INIT SCRIPTS -->
@@ -109,12 +109,7 @@
 			
 			// I don't know why the line has to be present, but otherwise does not work
 			$(this).delegate("body", "pageinit", function(ev, data){
-				alert("pageinit called");
-				}); 
-			
-		 
-			$(this).delegate("body", "mobileinit", function(ev, data){
-				alert("mobileinit called");
+				//alert("pageinit called");
 				}); 
 			
 			
