@@ -101,7 +101,8 @@ h6{font-size:10px; padding:0px; line-height:21px;}
 		height:30px;
 		line-height:30px;
 		color:#9b9b9b;
-		background-color: #555555; 
+		/*background-color: #555555;*/
+		background-color: #33B5E5;
 		/*border:solid 1px #cacaca;*/
 		width:100%;
 		overflow:hidden;
@@ -110,7 +111,20 @@ h6{font-size:10px; padding:0px; line-height:21px;}
 		}
 	.breadcrumb li{ list-style-type:none;  float:left;  padding-left:10px;}
 	
-	.breadcrumb a{font-size:11px; height:30px; display:block; background-image:url(../images/bc_separator.png); background-repeat:no-repeat; background-position:right top; padding-right:14px; text-decoration:none; color:#454545; font-weight:400; padding-top:5px}
+	.breadcrumb a{
+			font-size:11px;
+			height:30px;
+			display:block;
+			/*background-image:url(../images/bc_separator.png);*/
+			background-image:url(../images/bc_separator_veho_blue.png);
+			background-repeat:no-repeat;
+			background-position:right top;
+			padding-right:14px;
+			text-decoration:none;
+			color:#454545;
+			font-weight:400;
+			padding-top:5px
+			}
 	.breadcrumb a:hover{color:#35acc5}
 	.homeicon{background-image:url(../images/icons/black/House.png); background-repeat:no-repeat; background-position:center center; background-size:contain; width:16px; height:16px; padding-left:2px}
 /*--------------------------------------------------
