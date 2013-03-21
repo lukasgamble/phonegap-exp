@@ -94,7 +94,20 @@ h6{font-size:10px; padding:0px; line-height:21px;}
 	.hr-full{background-image:url(../images/hr.png); height:2px; background-repeat:repeat-x; margin-bottom:12px; margin-top:12px}
 	.hr-full-black{border-bottom:solid #333 1px; height:1px; margin-bottom:2px; margin-top:17px}
 	.hr-full-nopad{background-image:url(../images/hr.png); height:2px; background-repeat:repeat-x;}
-	.breadcrumb{ font-size:11px ;     background-image:url('../images/bc_bg.png');  background-repeat:repeat-x;  height:30px;  line-height:30px;  color:#9b9b9b;  border:solid 1px #cacaca;  width:100%;  overflow:hidden;  margin:0px;  padding:0px}
+	.breadcrumb{
+		/*font-size:11px ;
+		background-image:url('../images/bc_bg.png');
+		background-repeat:repeat-x;*/
+		height:30px;
+		line-height:30px;
+		color:#9b9b9b;
+		background-color: #555555; 
+		/*border:solid 1px #cacaca;*/
+		width:100%;
+		overflow:hidden;
+		margin:0px;
+		padding:0px
+		}
 	.breadcrumb li{ list-style-type:none;  float:left;  padding-left:10px;}
 	
 	.breadcrumb a{font-size:11px; height:30px; display:block; background-image:url(../images/bc_separator.png); background-repeat:no-repeat; background-position:right top; padding-right:14px; text-decoration:none; color:#454545; font-weight:400; padding-top:5px}
