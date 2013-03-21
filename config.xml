@@ -24,7 +24,7 @@
 	-->
   <author href="http://www.vehotrans.com"
           email="mobile@vehotrans.com">
-    Chris Loftus
+            Lukas Gamble
   </author>
 
   <!-- 
@@ -34,10 +34,10 @@
      on the device screen. Note that PhoneGap will also look for a default icon
      in the project's top level folder called icon.png.
   --> 
-  <icon src="icons/android/ldpi.png" gap:platform="android" gap:density="ldpi" />
-  <icon src="icons/android/mdpi.png" gap:platform="android" gap:density="mdpi" />
-  <icon src="icons/android/hdpi.png" gap:platform="android" gap:density="hdpi" />
-  <icon src="icons/android/xhdpi.png" gap:platform="android" gap:density="xhdpi" />
+  <icon src="assets/images/android/ldpi.png" gap:platform="android" gap:density="ldpi" />
+  <icon src="assets/images/android/mdpi.png" gap:platform="android" gap:density="mdpi" />
+  <icon src="assets/images/android/hdpi.png" gap:platform="android" gap:density="hdpi" />
+  <icon src="assets/images/android/xhdpi.png" gap:platform="android" gap:density="xhdpi" />
 
 	<!--
 		An example of a preference setting. This preference will prevent landscape mode.
@@ -49,8 +49,8 @@
 		Use the following if you want a launch splash screen to appear briefly
 	-->
   
-  <gap:splash src="images/phone_startup2x.png" width="640" height="960"/>
-  <gap:splash src="images/phone_startup.png" width="320" height="480"/>
+  <gap:splash src="images/startup/startup-retina.jpg" width="640" height="920"/>
+  <gap:splash src="images/startup/startup.jpg" width="320" height="460"/>
   
 
 	<!--
