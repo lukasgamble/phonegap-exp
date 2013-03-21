@@ -46,7 +46,7 @@
         <link rel="stylesheet" href="assets/css/normalize.css">
         <link rel="stylesheet" href="assets/css/main.css">
 	<link rel="stylesheet" href="assets/css/vehotrans.css">
-
+	<link rel="stylesheet" href="assets/css/validation.css">
         <link rel="stylesheet" type="text/css" href="assets/css/icons/nav-icons-black.css"> 
         <!-- / CSS Files -->
         
@@ -65,63 +65,13 @@
 	
 	<!-- JQUERY MOBILE -->
 	<script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
-	<script>
-		
-		var baseUrl = "http://vehotrans.azurewebsites.net/";
-
-		$(document).ready(function() {
-
-			
-			// I don't know why the line has to be present, but otherwise does not work
-			$(this).delegate("body", "pageinit", function(ev, data){
-				//alert("pageinit called");
-				}); 
-			
-			
-			$("#hideTest").click(function(){
-				
-			});
-			
-			$('#btnLogin').click(function(){
-				
-				$.mobile.loading( 'show', {
-					text: "Authenticating...",
-					textVisible: true,
-					theme: "a",
-					textonly: false
-				});
-				
-				$.ajax({
-					type: "GET",
-					url: baseUrl + "Person/" + $("#txtEmail").val() + "/" + $("#txtPassword").val(),
-					contentType: 'application/json; charset=utf-8',
-					dataType: "json",
-					success: function (data) {
-						
-						if(data.Authenticated){
-							$.mobile.loading("hide");
-							$('#loginDialog').hide();
-							$.mobile.changePage($('#home'), {transition:"fade"});
-						}else{
-							$.mobile.loading("hide");
-							$.mobile.changePage('#loginDialog', {role: 'dialog'});
-						}
-						
-						},
-					error: function(jqXHR, textStatus, errorThrown ){
-						$.mobile.loading("hide");
-						$.mobile.changePage('#loginDialog', {role: 'dialog'});
-						//console.log(jqXHR);
-						//console.log(textStatus);
-						//console.log(errorThrown);
-						}
-				});
-			});
-		});
-		
-
-	</script>
 	
+	<!-- JQUERY VALIDATE -->
+	<script src="assets/js/jquery.validate.min.js"></script>
+	
+	
+	
+
 	
 </head>
     <body>        
@@ -157,7 +107,7 @@
 			<li><a href="#loadsNearMe" class="contentLink" data-transition="slide">Loads Near Me<span class="icon"></span></a></li>
 			<li><a href="#updateStatus" class="contentLink" data-transition="slide">Job Status<span class="icon"></span></a></li>
 			<li><a href="#POD" class="contentLink" data-transition="slide">P.O.D.<span class="icon"></span></a></li>
-
+			<li><a href="#login" class="contentLink" data-transition="slide">Logout<span class="icon"></span></a></li>
                </ul>
             
             
@@ -171,41 +121,52 @@
        	 LOGIN PAGE BEGIN
         ********************************************************* -->
 	<div data-role="page" id="login" data-theme="a">
-        	
-            <!-- Header Begin -->
-	    <div data-role="header" class="header" data-theme="a">
-		<div class="logo"></div>
-            </div>
-	    
-	    <div data-role="content">
-		<h2 style="text-align: center">Login</h2>
-		<p style="text-align: center">Please use your Vehotrans login details to access our mobile services.</p>
-			
-		<div style="margin: 20px 0;">
-			<label for="txtEmail">Email:</label>
-			<input type="text" name="txtEmail" id="txtEmail" />
-		</div>
-		<div style="margin: 0 0 20px 0;">
-			<label for="txtPassword">Password:</label>
-			<input type="password" name="txtPassword" id="txtPassword" />
-		</div>
-		<div class="clearfix"></div>
 		
-		<button data-theme="b" id="btnLogin">Login</button>
-		<div class="clearfix"></div>
-	    </div>
+		<form id="loginForm" name="loginForm" action="javascript:;" method="post">
+			<!-- Header Begin -->
+			<div data-role="header" class="header" data-theme="a">
+				<div class="logo"></div>
+			</div>
+			
+			<div data-role="content">
+				<h2 style="text-align: center">Login</h2>
+				<p style="text-align: center">Please use your Vehotrans login details to access our mobile services.</p>
+				
+				  	
+				<!--<div style="margin: 20px 0;">
+					<label for="txtEmail">Email:</label>
+					<input type="text" name="txtEmail" id="txtEmail" class="required email" />
+				</div>
+				<div style="margin: 0 0 20px 0;">
+					<label for="txtPassword">Password:</label>
+					<input type="password" name="txtPassword" id="txtPassword" class="required" />
+				</div>
+				<div class="clearfix"></div>-->
+				
+				<div class="field control-group" style="margin: 20px 0;">
+					<label for="txtEmail" class="control-label">Email:</label>
+					<div class="controls">
+						<input type="text" name="txtEmail" id="txtEmail" class="required email" />
+					</div>
+				</div>
+				
+				<div class="field control-group" style="margin: 0 0 20px 0;">
+					<label for="txtPassword" class="control-label">Password:</label>
+					<div class="controls">
+						<input type="password" name="txtPassword" id="txtPassword" class="required" />
+					</div>
+				</div>
+				
+				
+				<button data-theme="b" id="btnLogin">Login</button>
+				<div class="clearfix"></div>
+			</div>
+		
+		</form>
 	</div>
 	
 	
-	<div data-role="popup" id="loginDialog" data-overlay-theme="a" data-theme="b" data-dismissible="false" data-position-to="window" class="ui-corner-all">
-		<div data-role="header" data-theme="a" class="ui-corner-top">
-		    <h1>Login Failed</h1>
-		</div>
-		<div data-role="content" data-theme="d" class="ui-corner-bottom ui-content" style="text-align: center;">
-		    <p>Sorry, email &amp; password combination not recognised.</p>
-		    <a href="javascript:;" data-role="button" data-inline="true" data-rel="back" data-theme="b">Try Again</a>
-		</div>
-	</div>
+	
 	<!-- *********************************************************
        	 LOGIN PAGE END
         ********************************************************* -->
@@ -399,16 +360,115 @@
         ********************************************************* -->
         
 	
+	<!-- *********************************************************
+       	 LOGIN DIALOGE PAGE START
+        ********************************************************* -->
+	<div data-role="popup" id="loginDialog" data-overlay-theme="a" data-theme="b" data-dismissible="false" data-position-to="window" class="ui-corner-all">
+		<div data-role="header" data-theme="a" class="ui-corner-top">
+		    <h1>Login Failed</h1>
+		</div>
+		<div data-role="content" data-theme="d" class="ui-corner-bottom ui-content" style="text-align: center;">
+		    <p>Sorry, email &amp; password combination not recognised.</p>
+		    <a href="javascript:;" data-role="button" data-inline="true" data-rel="back" data-theme="b">Try Again</a>
+		</div>
+	</div>
+	<!-- *********************************************************
+       	 LOGIN DIALOGE PAGE END
+        ********************************************************* -->
 	
 	<!--</div>-->
+	
+	
+	
 	
 	<!-- Javascripts is down of the page for fast open -->
 
 	<!-- DETECT BROWSER MIGRATION PATCH -->
 	<script src="assets/js/jquery.mb.browser.min.js"></script>
+	<script src="assets/js/Theme.js"></script>
 	
         <script src="assets/js/vendor/zepto.min.js"></script>
         <script src="assets/js/add2home.js" charset="utf-8"></script><!-- Iphone Bubble  -->
         
+	<script>
+		
+		var baseUrl = "http://vehotrans.azurewebsites.net/";
+
+   
+		
+		$(document).ready(function() {
+			
+			// needs to be present
+			$(this).delegate("body", "pageinit", function(ev, data){
+				//alert("pageinit called");
+				}); 
+			
+			
+			
+			Theme.init();
+			var rules = {
+				rules: {
+				}
+			};
+			var validationHandlers = {
+				submitHandler: function(form){
+							//alert("form validator has been run!");
+							login();
+						}
+				
+			}
+			
+			Theme.showValidationTicks = false;
+			var validationObj = $.extend(
+						     rules,
+						     validationHandlers,
+						     Theme.validationRules
+						     );
+			$('#loginForm').validate(validationObj);
+
+
+				
+			var login = function () {	
+				
+				$.mobile.loading( 'show', {
+					text: "Authenticating...",
+					textVisible: true,
+					theme: "a",
+					textonly: false
+				});
+				
+				$.ajax({
+					type: "GET",
+					url: baseUrl + "Person/" + $("#txtEmail").val() + "/" + $("#txtPassword").val(),
+					contentType: 'application/json; charset=utf-8',
+					dataType: "json",
+					success: function (data) {
+						
+						if(data.Authenticated){
+							$.mobile.loading("hide");
+							$('#loginDialog').hide();
+							$.mobile.changePage($('#home'), {transition:"fade"});
+						}else{
+							$.mobile.loading("hide");
+							$.mobile.changePage('#loginDialog', {role: 'dialog'});
+						}
+						
+						},
+					error: function(jqXHR, textStatus, errorThrown ){
+						$.mobile.loading("hide");
+						$.mobile.changePage('#loginDialog', {role: 'dialog'});
+						//console.log(jqXHR);
+						//console.log(textStatus);
+						//console.log(errorThrown);
+						}
+				});
+				return false;
+			//});
+			};
+		});
+		
+
+	</script>
+	
     </body>
 </html>
