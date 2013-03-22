@@ -111,7 +111,7 @@ h6{font-size:10px; padding:0px; line-height:21px;}
 		}
 	.breadcrumb li{ list-style-type:none;  float:left;  padding-left:10px;}
 	
-	.breadcrumb a{
+	.breadcrumb a, .breadcrumb span {
 			font-size:11px;
 			height:30px;
 			display:block;
@@ -121,7 +121,9 @@ h6{font-size:10px; padding:0px; line-height:21px;}
 			background-position:right top;
 			padding-right:14px;
 			text-decoration:none;
-			color:#454545;
+			/*color: #454545;*/
+			text-transform: uppercase;
+			color: #ffffff;
 			font-weight:400;
 			padding-top:5px
 			}
@@ -351,8 +353,8 @@ SLIDE MENU STYLES
 ---------------------------------------------------------------------*/
 body{
 	/*background:#5a5959 url(../images/menuBg.gif) top left repeat-y;*/
-	background:#5a5959 url(../images/startup/startupTabletPortraitRetina.jpg);
-	background-size: cover; 
+	background:#5a5959; /* url(../images/startup/startupTabletPortraitRetina.jpg);*/
+	/*background-size: contain; */
 	-webkit-text-size-adjust:none !important}
 
 #menu {
@@ -372,10 +374,11 @@ body{
 li.active a span.icon{background-position:0 -20px !important}
 
 a.menuBtn{
-	background:transparent url(../images/menuBtn.png) top left no-repeat    !important;
+	background:transparent url(../images/menuButton.png) top left no-repeat    !important;
 	background-size:contain;
-	width:31px;
-	height:31px;
+	/*width:31px;
+	height:31px;*/
+	width: 84px;
 	background-size:contain;
 	text-indent:-999em !important;
 	display:block !important;
@@ -384,7 +387,7 @@ a.menuBtn{
 	-webkit-border-radius:0 !important;
 	border-radius:0 !important;
 	border: none !important;
-	margin-top: 5px !important;
+	margin-top: 6px !important;
 	}
 a.menuBtn .ui-btn-inner{border:none}
 a.menuBtn{background-size:contain !important}
@@ -396,10 +399,11 @@ a.backBtn{background-size:contain !important}
 a.backBtn:hover{border:none !important}
 
 a.homeBtn{
-	background:transparent url(../images/homeBtn.png) top left no-repeat    !important;
+	background:transparent url(../images/homeButton.png) top right no-repeat    !important;
 	background-size:contain;
-	width:31px;
-	height:31px;
+	/*width:31px;
+	height:31px;*/
+	width: 84px;
 	background-size:contain;
 	text-indent:-999em !important;
 	display:block !important;
@@ -408,7 +412,7 @@ a.homeBtn{
 	-webkit-border-radius:0 !important;
 	border-radius:0 !important;
 	border: none !important;
-	margin-top: 5px !important;
+	margin-top: 6px !important;
 	}
 a.homeBtn .ui-btn-inner{border:none}
 a.homeBtn{background-size:contain !important}
