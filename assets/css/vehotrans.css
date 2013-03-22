@@ -61,3 +61,7 @@
     
     
 }
+
+.ui-content.ui-body-a {
+    background-image: none;
+}
