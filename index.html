@@ -238,20 +238,43 @@
         ********************************************************* -->
 		<div data-role="page" id="availability" data-theme="a" class="pages">
 		
-			<div data-role="header" class="header" data-theme="a">
-			<a href="javascript:;" class="showMenu menuBtn">Menu</a>
-			<div class="logo">&nbsp;</div>
-			<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
-			</div>
-			    
-			<div data-role="content" data-theme="a">	
-				<h2>Post Availability</h2>
-				<p>Need to add a form here!</p>
-				
-				
-				<a href="javascript:;" id="hideTest">hide me</a>
-				
-			</div><!-- /content -->
+			<form id="availabilityForm" name="availabilityForm" action="javascript:;" method="post">
+				<div data-role="header" class="header" data-theme="a">
+				<a href="javascript:;" class="showMenu menuBtn">Menu</a>
+				<div class="logo">&nbsp;</div>
+				<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
+				</div>
+				    
+				<div data-role="content" data-theme="a">	
+					<h2 style="text-align: center">Your Availability</h2>
+					<p style="text-align: center">Use this form to notivy the Vehotrans Freight Exchange that you are available to pick up a new load.</p>
+					
+					
+					<div class="field control-group" style="margin: 20px 0;">
+						<label for="ddlVehicle" class="control-label">Select Vehicle:</label>
+						<div class="controls">
+							<select id="ddlVehicle">
+								<option>
+									Ford Mondeo: LS58 HNA
+								</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="field control-group" style="margin: 0 0 20px 0;">
+						
+						<div class="controls">
+							<label for="cboAvailabilityLocation">
+								<input type="checkbox" name="cboAvailabilityLocation">post current location
+							</label>
+						</div>
+					</div>
+					
+					<button data-theme="b" id="btnPostAvailability">Post Availability</button>
+					<div class="clearfix" style="margin-bottom: 100px;"></div>
+					
+				</div><!-- /content -->
+			</form>
 		</div>
 	<!-- *********************************************************
        	 AVAILABILITY PAGE END
@@ -290,6 +313,8 @@
 					<div id="loadsMap" style="height:400px;"></div>
 				<!--</div>-->
 				<!--<div id="loadsMap" style="height:100%;"></div>-->
+				
+				<div id="geolocation">loaction info here...</div>
 			</div>
 			<div data-role="footer" class="footer" data-theme="c" data-position="fixed">
 				<h2>No loads currently available</h2>
@@ -417,6 +442,10 @@
 		
 		$(document).ready(function() {
 			
+			
+			selectCordova();
+			
+			
 			// needs to be present
 			$(this).delegate("body", "pageinit", function(ev, data){
 				//alert("pageinit called");
@@ -496,6 +525,96 @@
 		
 		
 		
+	    function selectCordova() {
+		
+		//console.log("selecting Cordova...");
+		
+		if(isMobile.Android()){
+		    $("script").attr("src", "lib/android/cordova-2.5.0.js").appendTo("head");
+		    alert("android");
+		}else if(isMobile.iOS()){
+		    $("script").attr("src", "lib/ios/cordova.ios.js").appendTo("head");
+		    alert("iOS");
+		}else if(isMobile.BlackBerry()){
+		    $("script").attr("src", "lib/blackberry/cordova-2.5.0.js").appendTo("head");
+		    alert("blackberry");
+		}else if(isMobile.Windows()){
+		    $("script").attr("src", "lib/windowsPhone7/cordova-2.5.0.js").appendTo("head");
+		    alert("Windows");
+		}
+		     
+		document.addEventListener("deviceready", onDeviceReady, false);
+	    }
+	    
+
+	    function onDeviceReady(){
+		    console.log("device is ready");
+		    alert("device is ready");
+	    }
+	    
+	    
+	    var isMobile = {
+		Android: function() {
+		    return navigator.userAgent.match(/Android/i);
+		},
+		BlackBerry: function() {
+		    return navigator.userAgent.match(/BlackBerry/i);
+		},
+		iOS: function() {
+		    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+		},
+		Opera: function() {
+		    return navigator.userAgent.match(/Opera Mini/i);
+		},
+		Windows: function() {
+		    return navigator.userAgent.match(/IEMobile/i);
+		},
+		any: function() {
+		    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+		}
+	    };
+			
+	</script>
+	
+	
+	
+	
+	
+	
+<!--	<script type="text/javascript" charset="utf-8" src="cordova-2.3.0.js"></script>-->
+	<script type="text/javascript" charset="utf-8">
+    
+	//// Wait for Cordova to load
+	////
+	//document.addEventListener("deviceready", onDeviceReady, false);
+	//   
+	//// Cordova is ready
+	////
+	//function onDeviceReady() {
+	//    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+	//}
+    
+	// onSuccess Geolocation
+	//
+	function onSuccess(position) {
+	    var element = document.getElementById('geolocation');
+	    element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
+				'Longitude: '          + position.coords.longitude             + '<br />' +
+				'Altitude: '           + position.coords.altitude              + '<br />' +
+				'Accuracy: '           + position.coords.accuracy              + '<br />' +
+				'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
+				'Heading: '            + position.coords.heading               + '<br />' +
+				'Speed: '              + position.coords.speed                 + '<br />' +
+				'Timestamp: '          +                                   position.timestamp          + '<br />';
+	}
+    
+	// onError Callback receives a PositionError object
+	//
+	function onError(error) {
+	    alert('code: '    + error.code    + '\n' +
+		    'message: ' + error.message + '\n');
+	}
+    
 	</script>
 	
     </body>
