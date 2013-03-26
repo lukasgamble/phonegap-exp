@@ -478,7 +478,7 @@
 						     );
 			$('#loginForm').validate(validationObj);
 
-
+			
 				
 			var login = function () {	
 				
@@ -526,9 +526,65 @@
 		
 
 		
+		var getVehicles = function() {
+			$.mobile.loading( 'show', {
+				text: "Loading vehicles...",
+				textVisible: true,
+				theme: "a",
+				textonly: false
+			});
+			$.ajax({
+				type: "POST",
+				url: baseUrl + "vehicle/CompanyVehicles/DA5FA755-B440-4311-ADEF-FA766004AF05",
+				dataType: "json",
+				success: function (data) {
+					$.mobile.loading("hide");
+					console.log(data);
+				},
+				error: function(jqXHR, textStatus, errorThrown ){
+					$.mobile.loading("hide");
+					console.log("failed!");
+					console.log(jqXHR);
+					console.log(textStatus);
+					console.log(errorThrown);
+				},
+				
+			});
+			//$.ajax({
+			//	type: "GET",
+			//	url: baseUrl + "rest/Person/" + $("#txtEmail").val() + "/" + $("#txtPassword").val(),// + "22E68B5A-3747-4086-A042-88FEF0D2CE1E",
+			//	contentType: 'application/json; charset=utf-8',
+			//	dataType: "json",
+			//	success: function (data) {
+			//		
+			//		console.log(data);
+			//		//if(data.Authenticated){
+			//		//	// hide the loader
+			//		//	$.mobile.loading("hide");
+			//		//
+			//		//	
+			//		//	// bind the items to the drop down
+			//		//	console.log(data);
+			//		//}else{
+			//		//	$.mobile.loading("hide");
+			//		//	$.mobile.changePage('#loginDialog', {role: 'dialog'});
+			//		//}
+			//		
+			//		},
+			//	error: function(jqXHR, textStatus, errorThrown ){
+			//		$.mobile.loading("hide");
+			//		//$.mobile.changePage('#loginDialog', {role: 'dialog'});
+			//		}
+			//});
+		};
 		
-		
-		
+		// Page Show Functions
+		$('#availability').live('pageshow', function() {
+			getVehicles();
+		});	
+	    
+	    
+	    
 	    function selectCordova() {
 		
 		//console.log("selecting Cordova...");
@@ -578,6 +634,10 @@
 		}
 	    };
 			
+	
+	
+		
+
 	</script>
 	
 	
