@@ -126,7 +126,7 @@
         ********************************************************* -->
 	<div data-role="page" id="login" data-theme="a">
 		
-		<form id="loginForm" name="loginForm" action="javascript:;" method="post">
+		<form id="loginForm" name="loginForm" action="javascript:;" method="post" class="xvalidate">
 			<!-- Header Begin -->
 			<div data-role="header" class="header" data-theme="a">
 				<div class="logo"></div>
@@ -242,7 +242,7 @@
         ********************************************************* -->
 		<div data-role="page" id="availability" data-theme="a" class="pages">
 		
-			<form id="availabilityForm" name="availabilityForm" action="javascript:;" method="post">
+			<form id="availabilityForm" name="availabilityForm" action="javascript:;" method="post" class="validate">
 				<div data-role="header" class="header" data-theme="a">
 				<a href="javascript:;" class="showMenu menuBtn">Menu</a>
 				<div class="logo">&nbsp;</div>
@@ -251,15 +251,14 @@
 				    
 				<div data-role="content" data-theme="a">	
 					<h2 style="text-align: center">Your Availability</h2>
-					<p style="text-align: center">Use this form to notivy the Vehotrans Freight Exchange that you are available to pick up a new load.</p>
+					<p style="text-align: center">Use this form to notivy the Vehotrans Freight Exchange that you are available for new loads.</p>
 					
 					
 					<div class="field control-group" style="margin: 20px 0;">
-						<label for="ddlVehicle" class="control-label">Select Vehicle:</label>
 						<div class="controls">
-							<select id="ddlVehicle">
-								<option value="LS58 HNA">
-									Ford Mondeo: LS58 HNA
+							<select id="ddlVehicle" data-placeholder="true" class="required initial">
+								<option value="">
+									Select Vehicle...
 								</option>
 							</select>
 						</div>
@@ -268,13 +267,13 @@
 					<div class="field control-group" style="margin: 0 0 20px 0;">
 						
 						<div class="controls">
-							<label for="cboAvailabilityLocation">
-								<input type="checkbox" name="cboAvailabilityLocation">post current location
+							<label for="cboAvailabilityLocation" style="text-align: center">
+								<input type="checkbox" name="cboAvailabilityLocation">Use Current Location
 							</label>
 						</div>
 					</div>
 					
-					<button data-theme="b" id="btnPostAvailability">Post Availability</button>
+					<button data-theme="b" id="btnPostAvailability">Available Now!</button>
 					<div class="clearfix" style="margin-bottom: 100px;"></div>
 					
 				</div><!-- /content -->
@@ -398,7 +397,7 @@
         
 	
 	<!-- *********************************************************
-       	 LOGIN DIALOGE PAGE START
+       	 LOGIN DIALOG PAGE START
         ********************************************************* -->
 	<div data-role="popup" id="loginDialog" data-overlay-theme="a" data-theme="b" data-dismissible="false" data-position-to="window" class="ui-corner-all">
 		<div data-role="header" data-theme="a" class="ui-corner-top">
@@ -446,7 +445,7 @@
 		
 		$(document).ready(function() {
 			
-			
+			// injet device relevant cordova framework
 			selectCordova();
 			
 			
@@ -456,30 +455,86 @@
 				}); 
 			
 			
-			
+			/* *********************************************************
+			FORMS VALIDATION
+			********************************************************* */
 			Theme.init();
+			Theme.showValidationTicks = false;
+			
 			var rules = {
 				rules: {
 				}
 			};
-			var validationHandlers = {
+			// LOGIN
+			var loginHandler = {
 				submitHandler: function(form){
-							//alert("form validator has been run!");
-							login();
-						}
-				
+					login();
+				}
 			}
+			var customLoginMethods = Theme.validationRules;
+			var loginValidationObj = $.extend(
+							loginHandler,
+							customLoginMethods
+						);
+			$('#btnLogin').click(function(){
+				$('#loginForm').validate(loginValidationObj)
+			});
 			
-			Theme.showValidationTicks = false;
-			var validationObj = $.extend(
-						     rules,
-						     validationHandlers,
-						     Theme.validationRules
-						     );
-			$('#loginForm').validate(validationObj);
-
 			
+			// POST AVAILABILITY
+			var availabilityHandler = {
+				submitHandler: function(form) {
+						postAvailability();
+					}
+			}
+			var customAvailabilityMethods = Theme.validationRules;
+			var availabilityValidationObj = $.extend(
+							availabilityHandler,
+							customAvailabilityMethods
+						);
+			$('#btnPostAvailability').click(function(){
+				$('#availabilityForm').validate(availabilityValidationObj);
+			});
+			
+			
+			
+			
+			/* *********************************************************
+			END FORMS VALIDATION
+			********************************************************* */
+			
+			
+			
+			// POST AVAILABILITY
+			var postAvailability = function () {	
 				
+				$.mobile.loading( 'show', {
+					text: "Posting Availability...",
+					textVisible: true,
+					theme: "a",
+					textonly: false
+				});
+				$.ajax({
+				type: "POST",
+				url: baseUrl + "vehicle/CompanyVehicles/"  + $("#userDataStore").data("companyGUID"),
+				dataType: "json",
+				success: function (data) {
+					$.mobile.loading("hide");
+					console.log(data);
+				},
+				error: function(jqXHR, textStatus, errorThrown ){
+					$.mobile.loading("hide");
+					console.log("failed!");
+					console.log(jqXHR);
+					console.log(textStatus);
+					console.log(errorThrown);
+				},
+				
+			});
+			};	
+			
+			
+			// LOGIN USER	
 			var login = function () {	
 				
 				$.mobile.loading( 'show', {
@@ -488,7 +543,6 @@
 					theme: "a",
 					textonly: false
 				});
-				
 				$.ajax({
 					type: "GET",
 					url: baseUrl + "rest/Person/" + $("#txtEmail").val() + "/" + $("#txtPassword").val(),
@@ -502,9 +556,8 @@
 							// hide the dialog
 							$('#loginDialog').hide();
 							//store credentials with the userDataStore div object
-							$("#userDataStore").data({"firstName": data.FirstName, "lastName": data.LastName, "email": data.EmailAddress, "GUID": data.PersonGuid});
+							$("#userDataStore").data({"firstName": data.FirstName, "lastName": data.LastName, "email": data.EmailAddress, "GUID": data.PersonGuid, "companyGUID": data.CompanyGUID});
 							// display the username
-							//console.log($("#userDataStore").data("FirstName") + ' ' + $("#userDataStore").data("LastName"));
 							$("#welcomeText").html('Welcome back ' + $("#userDataStore").data("firstName") + ' ' + $("#userDataStore").data("lastName"));
 							// load the homescreen
 							$.mobile.changePage($('#home'), {transition:"fade"});
@@ -525,7 +578,7 @@
 		});
 		
 
-		
+		// GET COMPANY VEHICLES
 		var getVehicles = function() {
 			$.mobile.loading( 'show', {
 				text: "Loading vehicles...",
@@ -535,11 +588,17 @@
 			});
 			$.ajax({
 				type: "POST",
-				url: baseUrl + "vehicle/CompanyVehicles/DA5FA755-B440-4311-ADEF-FA766004AF05",
+				url: baseUrl + "vehicle/CompanyVehicles/" + $("#userDataStore").data("companyGUID"),
 				dataType: "json",
 				success: function (data) {
 					$.mobile.loading("hide");
-					console.log(data);
+					data.map(function (val, i){
+					    if (val){
+						var elem = $('<option>').val(val.VehicleGUID).text(val.VehicleRegNo + ' ' + val.VehicleType);
+						elem.appendTo("#ddlVehicle");
+					    }
+					    
+					})
 				},
 				error: function(jqXHR, textStatus, errorThrown ){
 					$.mobile.loading("hide");
@@ -550,32 +609,6 @@
 				},
 				
 			});
-			//$.ajax({
-			//	type: "GET",
-			//	url: baseUrl + "rest/Person/" + $("#txtEmail").val() + "/" + $("#txtPassword").val(),// + "22E68B5A-3747-4086-A042-88FEF0D2CE1E",
-			//	contentType: 'application/json; charset=utf-8',
-			//	dataType: "json",
-			//	success: function (data) {
-			//		
-			//		console.log(data);
-			//		//if(data.Authenticated){
-			//		//	// hide the loader
-			//		//	$.mobile.loading("hide");
-			//		//
-			//		//	
-			//		//	// bind the items to the drop down
-			//		//	console.log(data);
-			//		//}else{
-			//		//	$.mobile.loading("hide");
-			//		//	$.mobile.changePage('#loginDialog', {role: 'dialog'});
-			//		//}
-			//		
-			//		},
-			//	error: function(jqXHR, textStatus, errorThrown ){
-			//		$.mobile.loading("hide");
-			//		//$.mobile.changePage('#loginDialog', {role: 'dialog'});
-			//		}
-			//});
 		};
 		
 		// Page Show Functions
@@ -591,16 +624,16 @@
 		
 		if(isMobile.Android()){
 		    $("script").attr("src", "lib/android/cordova-2.5.0.js").appendTo("head");
-		    alert("android");
+		    //alert("android");
 		}else if(isMobile.iOS()){
 		    $("script").attr("src", "lib/ios/cordova.ios.js").appendTo("head");
-		    alert("iOS");
+		    //alert("iOS");
 		}else if(isMobile.BlackBerry()){
 		    $("script").attr("src", "lib/blackberry/cordova-2.5.0.js").appendTo("head");
-		    alert("blackberry");
+		    //alert("blackberry");
 		}else if(isMobile.Windows()){
 		    $("script").attr("src", "lib/windowsPhone7/cordova-2.5.0.js").appendTo("head");
-		    alert("Windows");
+		    //alert("Windows");
 		}
 		     
 		document.addEventListener("deviceready", onDeviceReady, false);
@@ -609,7 +642,7 @@
 
 	    function onDeviceReady(){
 		    console.log("device is ready");
-		    alert("device is ready");
+		    //alert("device is ready");
 	    }
 	    
 	    
