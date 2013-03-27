@@ -445,6 +445,10 @@
 		
 		$(document).ready(function() {
 			
+			
+			//console.log(onDeviceReady) 
+			document.addEventListener("deviceready", onDeviceReady, false);
+			
 			// injet device relevant cordova framework
 			selectCordova();
 			
@@ -635,15 +639,14 @@
 		    $("script").attr("src", "lib/windowsPhone7/cordova-2.5.0.js").appendTo("head");
 		    //alert("Windows");
 		}
-		     
-		document.addEventListener("deviceready", onDeviceReady, false);
+		
 	    }
-	    
+		
 
-	    function onDeviceReady(){
-		    console.log("device is ready");
-		    //alert("device is ready");
-	    }
+		function onDeviceReady(){
+			alert("device is ready");
+			navigator.geolocation.getCurrentPosition(onSuccess, onError);
+		}
 	    
 	    
 	    var isMobile = {
