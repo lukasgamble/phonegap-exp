@@ -304,19 +304,17 @@
         ********************************************************* -->
 		
 		<div id="gps_map" data-role="page" data-theme="c">
-			<div data-role="header" class="header" data-theme="a" data-position="fixed">
+			<div data-role="header" class="header" data-theme="a">
 				<a href="javascript:;" class="showMenu menuBtn">Menu</a>
 				<!--<div class="logo">&nbsp;</div>-->
 				<h1>Loads Near Me</h1>
 				<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
 			</div>
 			<div data-role="content" data-theme="c" style="padding: 0;">
-					<div id="loadsMap" style="height:300px;"></div>
-					<div id="aroundMeMapInfo" style="padding: 10px; margin-bottom: 100%">
+					<div id="loadsMap" style="height: 270px;"></div>
+					<div id="aroundMeMapInfo" style="padding: 10px;margin-bottom: 300px;">
 						<h2 id="aroundMeInfoTitle">Map info</h2>
 						<p id="aroundMeInfoContent">Current Location:</p>
-						
-						<button data-theme="c" id="btnRefreshMap">Refresh Map</button>
 					</div>
 				
 				
@@ -404,13 +402,13 @@
 		
 			<div data-role="header" class="header" data-theme="a">
 			<a href="javascript:;" class="showMenu menuBtn">Menu</a>
-			<h1>Proof Of Delivery</h1>
+			<h1>P.O.D.</h1>
 			<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
 			</div>
 		
 			<div data-role="content" data-theme="a">	
 				<!--<h2>Proof Of Delivery</h2>-->
-				<h2 style="text-align: center;">Date Time Stamp</h2>
+				<h2 style="text-align: center;" id="PODTime"></h2>
 				<div class="field control-group" style="margin: 20px 0;">
 					<div class="controls">
 						<select id="ddlPODJob" data-placeholder="true" class="required">
@@ -539,9 +537,7 @@
 			}
 			
 			
-			$('#btnRefreshMap').click(function(){
-				getLocation();
-			});
+			
 			
 			
 			// needs to be present
@@ -723,8 +719,10 @@
 			getVehicles();
 			
 		});	
-	    
-	    
+		$('#POD').live('pageshow', function() {
+			var now = new Date();
+			$("#PODTime").html(now.toString());
+		});
 	    
 		// this is not needed!!!!!!!!!!!!!!!!!!!!!!!!!!
 		// PHONEGAP BUILD INCLUDES THE  CORRECT CORDOVA AT BUILD TIME!!!!

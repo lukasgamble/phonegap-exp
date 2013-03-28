@@ -389,7 +389,7 @@ body{
 	background-image: linear-gradient(top, #505050, #454545);
 	padding: 1px 4px;
 	border-bottom: 1px solid #2D2D2D;
-	/*border-top: 1px solid #2D2D2D;*/
+	text-shadow: none;
 }
 
 .active{background-color:#383737; background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(30,29,29,1)),color-stop(21%,rgba(56,55,55,1)))}

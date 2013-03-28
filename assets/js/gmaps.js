@@ -1,6 +1,14 @@
 var getLocation = function(){
         //alert("finding location")
-        navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);   
+        //navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
+        if (Modernizr.geolocation) {
+            navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
+        } else {
+            // no native support; maybe try a fallback?
+            alert('Your device does not support Geo Location');
+            return false;
+        }
+        
 };
 
 // onSuccess Geolocation
@@ -65,16 +73,13 @@ $('#gps_map').live('pageinit', function() {
             
             var self = this;
             
-            
-            var pos = getLocation();
-            if (pos){
+            self.success = function(pos){
                 var latlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
                 // convert to address
                 geocoder = new google.maps.Geocoder();
                 geocoder.geocode({'latLng': latlng}, function(results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         if (results[1]) {
-                                //alert(results[1].formatted_address);
                                 $("#userDataStore").data({"geoAddress": results[1].formatted_address});
                                 $("#aroundMeInfoTitle").html("Current Location");
                                 $("#aroundMeInfoContent").html(results[1].formatted_address);
@@ -105,6 +110,12 @@ $('#gps_map').live('pageinit', function() {
                         //map.panTo(latlng);
                 }
             }
+
+            
+            navigator.geolocation.getCurrentPosition(self.success, onGeoError, {maximumAge: 75000});
+            
+            
+    
            
     }});
 });
