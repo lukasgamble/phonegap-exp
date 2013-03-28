@@ -54,6 +54,11 @@
         <link rel="stylesheet" type="text/css" href="assets/css/icons/navIconsBlack.css"> 
         <!-- / CSS Files -->
         
+	
+	<!-- PHONEGAP!!!!! -->
+	<script src="phonegap.js"></script>
+	
+	
         <!-- This script prevents links from opening in Mobile Safari. https://gist.github.com/1042026 -->
         <!--
         <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
@@ -98,19 +103,27 @@
 		    <p>&nbsp;</p>
                 </div>
                 <!-- / Social Links -->
-                <div class="hr-full-black"></div>
+                
             
            	<ul>
 			<li class="active"><a href="#home" class="contentLink" data-transition="slide">Home <span class="icon"></span></a></li>
+		</ul>
+			<div class="separator">Manage</div>
+		<ul>
 			<li><a href="#jobs" class="contentLink" data-transition="slide">My Jobs<span class="icon"></span></a></li>
-			<li><a href="#routes" class="contentLink" data-transition="slide">My Routes<span class="icon"></span></a></li>
+			<!--<li><a href="#routes" class="contentLink" data-transition="slide">My Routes<span class="icon"></span></a></li>-->
 			<li><a href="#myAccount" class="contentLink" data-transition="slide">My Account<span class="icon"></span></a></li>
 			<li><a href="#support" class="contentLink" data-transition="slide">Support<span class="icon"></span></a></li>
-			
+		</ul>
+		<div class="separator">Functions</div>
+		<ul>	
 			<li><a href="#availability" class="contentLink" data-transition="slide">Post Availability<span class="icon"></span></a></li>
 			<li><a href="#gps_map" class="contentLink" data-transition="slide">Loads Near Me<span class="icon"></span></a></li>
 			<li><a href="#updateStatus" class="contentLink" data-transition="slide">Job Status<span class="icon"></span></a></li>
 			<li><a href="#POD" class="contentLink" data-transition="slide">P.O.D.<span class="icon"></span></a></li>
+		</ul>
+		<div class="separator">Exit</div>
+		<ul>
 			<li><a href="#login" class="contentLink" data-transition="slide">Logout<span class="icon"></span></a></li>
                </ul>
             
@@ -289,42 +302,52 @@
 	<!-- *********************************************************
        	 NEARME PAGE BEGIN
         ********************************************************* -->
-		<div data-role="page" id="loadsNearMe" data-theme="a" class="pages">
 		
-			<div data-role="header" class="header" data-theme="a">
-				<a href="javascript:;" class="showMenu menuBtn">Menu</a>
-				<div class="logo">&nbsp;</div>
-				<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
-			</div>
-		
-			<div data-role="content" data-theme="a">	
-				<h2>Loads Near Me</h2>
-				<p>Need to add a Google Map here!</p>
-				
-			</div><!-- /content -->
-		</div>
-		
-		<div id="gps_map" data-role="page" data-theme="a">
+		<div id="gps_map" data-role="page" data-theme="c">
 			<div data-role="header" class="header" data-theme="a" data-position="fixed">
 				<a href="javascript:;" class="showMenu menuBtn">Menu</a>
 				<!--<div class="logo">&nbsp;</div>-->
 				<h1>Loads Near Me</h1>
 				<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
 			</div>
-			<div data-role="content" style="padding: 0; height: 100%">	
-				<!--<div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">-->
-					<div id="loadsMap" style="height:400px;"></div>
-				<!--</div>-->
-				<!--<div id="loadsMap" style="height:100%;"></div>-->
+			<div data-role="content" data-theme="c" style="padding: 0;">
+					<div id="loadsMap" style="height:300px;"></div>
+					<div id="aroundMeMapInfo" style="padding: 10px; margin-bottom: 100%">
+						<h2 id="aroundMeInfoTitle">Map info</h2>
+						<p id="aroundMeInfoContent">Current Location:</p>
+						
+						<button data-theme="c" id="btnRefreshMap">Refresh Map</button>
+					</div>
 				
-				<div id="geolocation">loaction info here...</div>
+				
 			</div>
-			<div data-role="footer" class="footer" data-theme="c" data-position="fixed">
+			<!--<div data-role="footer" class="footer" data-theme="c" data-position="fixed">
 				<h2>No loads currently available</h2>
-			</div>
+			</div>-->
 		</div>
 	<!-- *********************************************************
        	 NEARME PAGE END
+        ********************************************************* -->
+	
+	
+	<!-- *********************************************************
+       	 JOBS PAGE BEGIN
+        ********************************************************* -->
+		
+		<div id="jobs" data-role="page" data-theme="a">
+			<div data-role="header" class="header" data-theme="a" data-position="fixed">
+				<a href="javascript:;" class="showMenu menuBtn">Menu</a>
+				<!--<div class="logo">&nbsp;</div>-->
+				<h1>Jobs</h1>
+				<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
+			</div>
+			<div data-role="content" data-theme="a">
+				
+			</div>
+			
+		</div>
+	<!-- *********************************************************
+       	 JOBS PAGE END
         ********************************************************* -->
 		
 	
@@ -340,8 +363,31 @@
 			</div>
 		
 			<div data-role="content" data-theme="a">	
-				<h2>Update your status</h2>
-				<p>Another Form...or just a clickable list view?</p>
+				<h2 style="text-align: center;">Update Job Status</h2>
+				<p style="text-align: center;">Vehotrans will publish the status of your current job</p>
+				
+				<div class="field control-group" style="margin: 20px 0;">
+					<div class="controls">
+						<select id="ddlJobStatus" data-placeholder="true" class="required">
+							<option value="">
+								Select Your Job...
+							</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="field control-group" style="margin: 20px 0;">
+					<div class="controls">
+						<select id="ddlJobStatus" data-placeholder="true" class="required">
+							<option value="">
+								Select Status...
+							</option>
+						</select>
+					</div>
+				</div>
+				
+				<button data-theme="b" id="btnUpdateStatus">Update Status</button>
+				<div class="clearfix" style="margin-bottom: 100px;"></div>
 				
 			</div><!-- /content -->
 		</div>
@@ -358,13 +404,33 @@
 		
 			<div data-role="header" class="header" data-theme="a">
 			<a href="javascript:;" class="showMenu menuBtn">Menu</a>
-			<div class="logo">&nbsp;</div>
+			<h1>Proof Of Delivery</h1>
 			<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
 			</div>
 		
 			<div data-role="content" data-theme="a">	
-				<h2>Generata a POD for your Delivery</h2>
-				<p>Image capture?</p>
+				<!--<h2>Proof Of Delivery</h2>-->
+				<h2 style="text-align: center;">Date Time Stamp</h2>
+				<div class="field control-group" style="margin: 20px 0;">
+					<div class="controls">
+						<select id="ddlPODJob" data-placeholder="true" class="required">
+							<option value="">
+								Select Your Job...
+							</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="field control-group" style="margin: 20px 0;">
+					<div class="controls">
+						<input id="txtSignedBy" type="text" placeholder="Signed By Name" />
+					</div>
+				</div>
+				
+				
+				
+				<button data-theme="b" id="btnUpdateStatus">Send P.O.D.</button>
+				<div class="clearfix" style="margin-bottom: 100px;"></div>
 				
 			</div><!-- /content -->
 		</div>
@@ -409,7 +475,7 @@
 		</div>
 	</div>
 	<!-- *********************************************************
-       	 LOGIN DIALOGE PAGE END
+       	 LOGIN DIALOG PAGE END
         ********************************************************* -->
 	
 	<!--</div>-->
@@ -434,7 +500,7 @@
 	<script type="text/javascript" src="assets/js/jqueryUiMap.js"></script>
 	<script type="text/javascript" src="assets/js/jqueryUiMapServices.js"></script>
 	<script type="text/javascript" src="assets/js/jqueryUiMapExtensions.js"></script>
-	<script type="text/javascript" src="assets/js/gmaps.js"></script>
+	
 	
 	
 	<script>
@@ -446,11 +512,36 @@
 		$(document).ready(function() {
 			
 			
-			//console.log(onDeviceReady) 
-			document.addEventListener("deviceready", onDeviceReady, false);
+			if(!Modernizr.input.placeholder){
+
+				$('[placeholder]').focus(function() {
+				  var input = $(this);
+				  if (input.val() == input.attr('placeholder')) {
+					input.val('');
+					input.removeClass('placeholder');
+				  }
+				}).blur(function() {
+				  var input = $(this);
+				  if (input.val() == '' || input.val() == input.attr('placeholder')) {
+					input.addClass('placeholder');
+					input.val(input.attr('placeholder'));
+				  }
+				}).blur();
+				$('[placeholder]').parents('form').submit(function() {
+				  $(this).find('[placeholder]').each(function() {
+					var input = $(this);
+					if (input.val() == input.attr('placeholder')) {
+					  input.val('');
+					}
+				  })
+				});
 			
-			// injet device relevant cordova framework
-			selectCordova();
+			}
+			
+			
+			$('#btnRefreshMap').click(function(){
+				getLocation();
+			});
 			
 			
 			// needs to be present
@@ -488,6 +579,7 @@
 			// POST AVAILABILITY
 			var availabilityHandler = {
 				submitHandler: function(form) {
+						getLocation();
 						postAvailability();
 					}
 			}
@@ -509,6 +601,12 @@
 			
 			
 			
+			
+			
+			
+			
+			
+			
 			// POST AVAILABILITY
 			var postAvailability = function () {	
 				
@@ -524,7 +622,6 @@
 				dataType: "json",
 				success: function (data) {
 					$.mobile.loading("hide");
-					console.log(data);
 				},
 				error: function(jqXHR, textStatus, errorThrown ){
 					$.mobile.loading("hide");
@@ -582,6 +679,12 @@
 		});
 		
 
+		
+		
+		
+		
+		
+		
 		// GET COMPANY VEHICLES
 		var getVehicles = function() {
 			$.mobile.loading( 'show', {
@@ -618,104 +721,70 @@
 		// Page Show Functions
 		$('#availability').live('pageshow', function() {
 			getVehicles();
+			
 		});	
 	    
 	    
 	    
-	    function selectCordova() {
-		
-		//console.log("selecting Cordova...");
-		
-		if(isMobile.Android()){
-		    $("script").attr("src", "lib/android/cordova-2.5.0.js").appendTo("head");
-		    //alert("android");
-		}else if(isMobile.iOS()){
-		    $("script").attr("src", "lib/ios/cordova.ios.js").appendTo("head");
-		    //alert("iOS");
-		}else if(isMobile.BlackBerry()){
-		    $("script").attr("src", "lib/blackberry/cordova-2.5.0.js").appendTo("head");
-		    //alert("blackberry");
-		}else if(isMobile.Windows()){
-		    $("script").attr("src", "lib/windowsPhone7/cordova-2.5.0.js").appendTo("head");
-		    //alert("Windows");
+		// this is not needed!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// PHONEGAP BUILD INCLUDES THE  CORRECT CORDOVA AT BUILD TIME!!!!
+		function selectCordova() {
+		    
+		    //console.log("selecting Cordova...");
+		    
+		    if(isMobile.Android()){
+			$("script").attr("src", "lib/android/cordova-2.5.0.js").appendTo("head");
+			//alert("android");
+		    }else if(isMobile.iOS()){
+			$("script").attr("src", "lib/ios/cordova.ios.js").appendTo("head");
+			//alert("iOS");
+		    }else if(isMobile.BlackBerry()){
+			$("script").attr("src", "lib/blackberry/cordova-2.5.0.js").appendTo("head");
+			//alert("blackberry");
+		    }else if(isMobile.Windows()){
+			$("script").attr("src", "lib/windowsPhone7/cordova-2.5.0.js").appendTo("head");
+			//alert("Windows");
+		    }
+		    
 		}
-		
-	    }
 		
 
-		function onDeviceReady(){
-			alert("device is ready");
-			navigator.geolocation.getCurrentPosition(onSuccess, onError);
-		}
+		//function onDeviceReady(){
+		//	alert("device is ready");
+		//	navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
+		//}
 	    
 	    
-	    var isMobile = {
-		Android: function() {
-		    return navigator.userAgent.match(/Android/i);
-		},
-		BlackBerry: function() {
-		    return navigator.userAgent.match(/BlackBerry/i);
-		},
-		iOS: function() {
-		    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-		},
-		Opera: function() {
-		    return navigator.userAgent.match(/Opera Mini/i);
-		},
-		Windows: function() {
-		    return navigator.userAgent.match(/IEMobile/i);
-		},
-		any: function() {
-		    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-		}
-	    };
+		var isMobile = {
+		    Android: function() {
+			return navigator.userAgent.match(/Android/i);
+		    },
+		    BlackBerry: function() {
+			return navigator.userAgent.match(/BlackBerry/i);
+		    },
+		    iOS: function() {
+			return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+		    },
+		    Opera: function() {
+			return navigator.userAgent.match(/Opera Mini/i);
+		    },
+		    Windows: function() {
+			return navigator.userAgent.match(/IEMobile/i);
+		    },
+		    any: function() {
+			return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+		    }
+		};
 			
 	
 	
-		
+			
 
 	</script>
 	
 	
-	
-	
-	
-	
-<!--	<script type="text/javascript" charset="utf-8" src="cordova-2.3.0.js"></script>-->
-	<script type="text/javascript" charset="utf-8">
     
-	//// Wait for Cordova to load
-	////
-	//document.addEventListener("deviceready", onDeviceReady, false);
-	//   
-	//// Cordova is ready
-	////
-	//function onDeviceReady() {
-	//    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-	//}
+	<script type="text/javascript" src="assets/js/gmaps.js"></script>
     
-	// onSuccess Geolocation
-	//
-	function onSuccess(position) {
-	    var element = document.getElementById('geolocation');
-	    element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
-				'Longitude: '          + position.coords.longitude             + '<br />' +
-				'Altitude: '           + position.coords.altitude              + '<br />' +
-				'Accuracy: '           + position.coords.accuracy              + '<br />' +
-				'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-				'Heading: '            + position.coords.heading               + '<br />' +
-				'Speed: '              + position.coords.speed                 + '<br />' +
-				'Timestamp: '          +                                   position.timestamp          + '<br />';
-	}
-    
-	// onError Callback receives a PositionError object
-	//
-	function onError(error) {
-	    alert('code: '    + error.code    + '\n' +
-		    'message: ' + error.message + '\n');
-	}
-    
-	</script>
-	
     </body>
 </html>
