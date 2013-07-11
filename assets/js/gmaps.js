@@ -130,61 +130,7 @@ $('#gps_map').live("pagehide", function() {
 });
 
 
-/************** POD Map *******************/
- var loadPODMap = function(latLng, zoom){
-        $('#PODMap').gmap({
-        'center': latLng,
-        'zoom': zoom,
-        'disableDefaultUI':false,
-        'mapTypeControl' : false, 
-        'navigationControl' : true,
-        'streetViewControl' : false, 
-        'callback': function(map) {
-                
-                //var currentPosition = new google.maps.LatLong(lat, lon);
-                var self = this;
-            
-                self.success = function(pos){
-                        var latlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-                        // convert to address
-                        geocoder = new google.maps.Geocoder();
-                        geocoder.geocode({'latLng': latlng}, function(results, status) {
-                            if (status == google.maps.GeocoderStatus.OK) {
-                                if (results[1]) {
-                                        $("#userDataStore").data({"geoAddress": results[1].formatted_address});
-                                        $("#PODMapInfoTitle").html("Current Location");
-                                        $("#PODMapInfoContent").html(results[1].formatted_address);
-                                } else {
-                                        alert('No results found');
-                                        }
-                            } else {
-                                alert('Geocoder failed due to: ' + status);
-                            }
-                        });
-                        
-                        // are there any markers currently loaded?
-                        if ( !self.get('markers').client ) {
-                                // no marker, so add one
-                                self.addMarker({
-                                        'id': 'client',
-                                        'position': latlng,
-                                        //'bounds': true,
-                                        // need to pass in data in a function
-                                        title: $("#userDataStore").data("firstName") + ' ' + $("#userDataStore").data("lastName")
-                                });
-                                map.setCenter(latlng);
-                                map.setZoom(zoom);
-                                
-                        } else {
-                                self.get('markers').client.setPosition(latlng);
-                                //map.panTo(latlng);
-                        }
-                }
-        }
-        
-});
- }
- 
+
 
 
 
