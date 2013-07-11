@@ -23,14 +23,9 @@
 		PhoneGap Build website
 	-->
   <author href="http://www.vehotrans.com"
-          email="lukas.gamble@vehogroup.com">
+          email="mobile@vehotrans.com">
             Lukas Gamble
   </author>
-
-
-	<!-- specify which phonegap version to use -->
-	<preference name="phonegap-version" value="2.9.0" />	
-
 
   <!-- 
      We can specify the icons to use for different platforms. In this case we

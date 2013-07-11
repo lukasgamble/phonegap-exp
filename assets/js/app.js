@@ -41,6 +41,77 @@ $(document).bind( "mobileinit", function() {
 // SLIDE OPEN MENU PLUGIN
 // https://github.com/aldomatic/FB-Style-Page-Slide-Menu
 // ---------------------------------------------------------------------------------
+$(function () {
+    var menuStatus;
+    var show = function() {
+        if(menuStatus) {
+            return;
+        }
+        $('#menu').show();
+        $.mobile.activePage.animate({
+            marginLeft: "165px",
+        }, 300, function () {
+            menuStatus = true
+        });
+    };
+    var hide = function() {
+        if(!menuStatus) {
+            return;
+        }
+        $.mobile.activePage.animate({
+            marginLeft: "0px",
+        }, 300, function () {
+            menuStatus = false
+            $('#menu').hide();
+        });
+    };
+    var toggle = function() {
+        if (!menuStatus) {
+            show();
+        } else {
+            hide();
+        }
+        return false;
+    };
+ 
+    // Show/hide the menu
+    $("a.showMenu").click(function(){
+	toggle();
+	
+	// need to remove any validation error labels everytime we switch views
+	//$(".validate").each(function() {
+	//	$(this).validate();
+	//});
+	//$(".validate").each(function() {
+	//	$(this).validate({
+	//		showErrors: function(errorMap, errorList) {
+	//			//return false;
+	//			console.log(errorList);
+	//		}
+	//	});
+	//});
+    });
+    
+    $('#menu, .pages').live("swipeleft", hide);
+    $('.pages').live("swiperight", show);
+ 
+    $('div[data-role="page"]').live('pagebeforeshow', function (event, ui) {
+        menuStatus = false;
+        $(".pages").css("margin-left", "0");
+    });
+ 
+    // Menu behaviour
+    $("#menu li a").click(function () {
+        var p = $(this).parent().parent();
+        p.siblings().removeClass('active');
+        //p.addClass('active');
+	
+	//make sure the menu hides!
+	hide();
+    });
+});
+ 
+	/*
 	$(function(){
 		var menuStatus;
 		
@@ -104,7 +175,7 @@ $(document).bind( "mobileinit", function() {
 		});
 
 });	
-
+*/
 
 // Jquery Twitter by http://www.queness.com/post/8567/create-a-dead-simple-twitter-feed-with-jquery
 

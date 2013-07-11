@@ -28,7 +28,7 @@ var Theme = function () {
                 $(element).parents('.control-group').removeClass('error').addClass('success');
                 if (Theme.showValidationTicks){
                     $(element).parents('.controls:not(:has(.clean))').find('div:last').before('<div class="clean"></div>');
-                    console.log(Theme.showValidationTicks);
+                    //console.log(Theme.showValidationTicks);
                 }   
             },
             errorPlacement: function (error, element) {

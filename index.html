@@ -56,7 +56,7 @@
         
 	
 	<!-- PHONEGAP!!!!! -->
-	<script src="phonegap.js"></script>
+	<!--<script src="phonegap.js"></script>-->
 	
 	
         <!-- This script prevents links from opening in Mobile Safari. https://gist.github.com/1042026 -->
@@ -78,6 +78,9 @@
 	<!-- JQUERY VALIDATE -->
 	<script src="assets/js/jqueryValidateMin.js"></script>
 	
+	<!-- KNOCKOUT -->
+	<!--<script src="assets/js/knockout-2.2.1.js"></script>-->
+	
 	
 	
 
@@ -91,7 +94,7 @@
 	
 	
 	<!-- Menu Begin -->
-        <div id="menu">
+        <div id="menu" style="display: none;">
         		
                 <!-- Social Links -->
             	<div class="social-links">
@@ -106,7 +109,7 @@
                 
             
            	<ul>
-			<li class="active"><a href="#home" class="contentLink" data-transition="slide">Home <span class="icon"></span></a></li>
+			<li><a href="#home" class="contentLink" data-transition="slide">Home <span class="icon"></span></a></li>
 		</ul>
 			<div class="separator">Manage</div>
 		<ul>
@@ -236,7 +239,7 @@
 		
 		
                 
-          	<div class="clearfix"></div>
+          	<div class="clearfix" style="margin-bottom: 300px;"></div>
 				
                 
                 
@@ -253,7 +256,7 @@
 	<!-- *********************************************************
        	 AVAILABILITY PAGE BEGIN
         ********************************************************* -->
-		<div data-role="page" id="availability" data-theme="a" class="pages">
+		<div data-role="page" id="availability" data-theme="c" class="pages">
 		
 			<form id="availabilityForm" name="availabilityForm" action="javascript:;" method="post" class="validate">
 				<div data-role="header" class="header" data-theme="a">
@@ -262,7 +265,7 @@
 				<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
 				</div>
 				    
-				<div data-role="content" data-theme="a">	
+				<div data-role="content" data-theme="c">	
 					<h2 style="text-align: center">Your Availability</h2>
 					<p style="text-align: center">Use this form to notify the Vehotrans Freight Exchange that you are available for new loads</p>
 					
@@ -281,7 +284,7 @@
 						
 						<div class="controls">
 							<label for="cboAvailabilityLocation" style="text-align: center">
-								<input type="checkbox" name="cboAvailabilityLocation">Post Your Current Location
+								<input type="checkbox" name="cboAvailabilityLocation">Display Your Current Location
 							</label>
 						</div>
 					</div>
@@ -301,8 +304,7 @@
 	
 	<!-- *********************************************************
        	 NEARME PAGE BEGIN
-        ********************************************************* -->
-		
+        ********************************************************* -->		
 		<div id="gps_map" data-role="page" data-theme="c">
 			<div data-role="header" class="header" data-theme="a">
 				<a href="javascript:;" class="showMenu menuBtn">Menu</a>
@@ -332,18 +334,107 @@
        	 JOBS PAGE BEGIN
         ********************************************************* -->
 		
-		<div id="jobs" data-role="page" data-theme="a">
-			<div data-role="header" class="header" data-theme="a" data-position="fixed">
+		<div id="jobs" data-role="page" data-theme="c">
+			<!--<div data-role="header" class="header" data-theme="a" data-position="fixed">-->
+			<div data-role="header" class="header" data-theme="a">
 				<a href="javascript:;" class="showMenu menuBtn">Menu</a>
 				<!--<div class="logo">&nbsp;</div>-->
-				<h1>Jobs</h1>
+				<h1>My Jobs</h1>
 				<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
 			</div>
-			<div data-role="content" data-theme="a">
+			<div data-role="content" data-theme="c">
 				
+				<h2 style="text-align: center">Current Jobs List</h2>
+				<p style="text-align: center">Touch on a job to view full details</p>
+				
+				<ul data-role="listview" data-divider-theme="b" data-inset="true" id="jobsList">
+					<!--
+					<li data-role="list-divider" role="heading">
+					    Jobs: Today
+					</li>
+					<li data-theme="c">
+					    <a href="#" data-transition="slide">
+						08:00 GB-Baglan, SA12 to GB-CoventGarden, WC2
+					    </a>
+					</li>
+					<li data-theme="c">
+					    <a href="#" data-transition="slide">
+						13:00 GB-Hampstead, NW6 to GB-Norwich, NR2
+					    </a>
+					</li>
+					<li data-role="list-divider" role="heading">
+					    Jobs: 17 APR 2013
+					</li>
+					<li data-theme="c">
+					    <a href="#" data-transition="slide">
+						10:00 GB-Norwich, NR2 to GB-Bromley, BR1
+					    </a>
+					</li>
+					<li data-theme="c">
+					    <a href="#" data-transition="slide">
+						14:00 GB-West Harrow, HA2 to GB-Swansea, SA1
+					    </a>
+					</li>
+					<li data-role="list-divider" role="heading">
+					    Jobs: 18 APR 2013
+					</li>
+					<li data-theme="c">
+					    <a href="#" data-transition="slide">
+						09:00 GB-Cardiff, CF10 to GB-Cadbury Heath, BS30
+					    </a>
+					</li>
+					-->
+				</ul>
+				
+				
+			
+							    
 			</div>
 			
 		</div>
+		
+		<div data-role="page" id="jobDetail">
+			<form id="jobDetailForm" name="jobDetailForm" action="javascript:;" method="post" class="validate">
+				<div data-theme="a" data-role="header">
+				    <h1>
+					Job Info
+				    </h1>
+				    <a href="#jobs" class="ui-btn-left backBtn" data-direction="reverse" data-transition="slide">back</a>
+				    <a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
+				</div>
+			
+				<div data-role="content">
+					<h3 style="text-align: center">
+						<span id="jobFrom">
+							
+						</span> to <span id="jobTo"></span>
+						<br />
+						<span id="jobCollectionDate" style="font-weight: normal;"></span>
+					</h3>
+					<h4 style="text-align: center">
+						Current Status: <span id="jobStatus"></span>
+					</h4>
+					
+					<div class="field control-group" style="margin: 20px 0;">
+						<div class="controls">
+							<select id="ddlJobStatus" data-placeholder="true" class="required initial">
+								<option value="" data-placeholder="true">
+									Select Job Status...
+								</option>
+							</select>
+						</div>
+					</div>
+					
+					
+					<button data-theme="b" id="btnStatusUpdate">Update Status</button>
+					<div class="clearfix" style="margin-bottom: 100px;"></div>
+				</div>
+			
+				<div data-theme="a" data-role="footer" data-position="fixed">
+
+				</div>
+			</form>	
+		    </div>  
 	<!-- *********************************************************
        	 JOBS PAGE END
         ********************************************************* -->
@@ -352,42 +443,59 @@
 	<!-- *********************************************************
        	 UPDATESTATUS PAGE BEGIN
         ********************************************************* -->
-		<div data-role="page" id="updateStatus" data-theme="a" class="pages">
-		
-			<div data-role="header" class="header" data-theme="a">
-			<a href="javascript:;" class="showMenu menuBtn">Menu</a>
-			<div class="logo">&nbsp;</div>
-			<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
-			</div>
-		
-			<div data-role="content" data-theme="a">	
-				<h2 style="text-align: center;">Update Job Status</h2>
-				<p style="text-align: center;">Vehotrans will publish the status of your current job</p>
-				
-				<div class="field control-group" style="margin: 20px 0;">
-					<div class="controls">
-						<select id="ddlJobStatus" data-placeholder="true" class="required">
-							<option value="">
-								Select Your Job...
-							</option>
-						</select>
-					</div>
+		<div data-role="page" id="updateStatus" data-theme="c" class="pages">
+			
+			<form id="jobStatusForm" name="jobStatusForm" action="javascript:;" method="post" class="validate">
+				<div data-role="header" class="header" data-theme="a">
+				<a href="javascript:;" class="showMenu menuBtn">Menu</a>
+				<div class="logo">&nbsp;</div>
+				<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
 				</div>
-				
-				<div class="field control-group" style="margin: 20px 0;">
-					<div class="controls">
-						<select id="ddlJobStatus" data-placeholder="true" class="required">
-							<option value="">
-								Select Status...
-							</option>
-						</select>
+			
+				<div data-role="content" data-theme="c">	
+					<h2 style="text-align: center;">Update Job Status</h2>
+					<p style="text-align: center;">Vehotrans will publish the status of your selected job</p>
+					
+					
+					<div id="statusUpdateDetails" style="display: none;">
+						<br />
+						<h3 style="text-align: center">
+							<span id="updatedJobInfo">
+								
+							</span>
+						</h3>
+						<h4 style="text-align: center">
+							Current Status: <span id="updatedJobStatus"></span>
+						</h4>
 					</div>
-				</div>
-				
-				<button data-theme="b" id="btnUpdateStatus">Update Status</button>
-				<div class="clearfix" style="margin-bottom: 100px;"></div>
-				
-			</div><!-- /content -->
+					
+					
+					
+					<div class="field control-group" style="margin: 20px 0;">
+						<div class="controls">
+							<select id="ddlJob" data-placeholder="true" class="required">
+								<option value="">
+									Select Your Job...
+								</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="field control-group" style="margin: 20px 0;">
+						<div class="controls">
+							<select id="ddlJobStatus2" data-placeholder="true" class="required">
+								<option value="">
+									Select Status...
+								</option>
+							</select>
+						</div>
+					</div>
+					
+					<button data-theme="b" id="btnUpdateJobStatus">Update Status</button>
+					<div class="clearfix" style="margin-bottom: 100px;"></div>
+					
+				</div><!-- /content -->
+			</form>
 		</div>
 	<!-- *********************************************************
        	 UPDATESTATUS PAGE END
@@ -398,39 +506,49 @@
 	<!-- *********************************************************
        	 P.O.D. PAGE BEGIN
         ********************************************************* -->	
-		<div data-role="page" id="POD" data-theme="a" class="pages">
-		
-			<div data-role="header" class="header" data-theme="a">
-			<a href="javascript:;" class="showMenu menuBtn">Menu</a>
-			<h1>P.O.D.</h1>
-			<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
-			</div>
-		
-			<div data-role="content" data-theme="a">	
-				<!--<h2>Proof Of Delivery</h2>-->
-				<h2 style="text-align: center;" id="PODTime"></h2>
-				<div class="field control-group" style="margin: 20px 0;">
-					<div class="controls">
-						<select id="ddlPODJob" data-placeholder="true" class="required">
-							<option value="">
-								Select Your Job...
-							</option>
-						</select>
-					</div>
+		<div data-role="page" id="POD" data-theme="c" class="pages">
+			<form id="podForm" name="podForm" action="javascript:;" method="post" class="validate">
+				<div data-role="header" class="header" data-theme="a">
+				<a href="javascript:;" class="showMenu menuBtn">Menu</a>
+				<h1>P.O.D.</h1>
+				<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
 				</div>
-				
-				<div class="field control-group" style="margin: 20px 0;">
-					<div class="controls">
-						<input id="txtSignedBy" type="text" placeholder="Signed By Name" />
+			
+				<div data-role="content" data-theme="c">	
+					<!--<h2>Proof Of Delivery</h2>-->
+					<h2 style="text-align: center;" id="PODTime"></h2>
+					<div class="field control-group" style="margin: 20px 0;">
+						<div class="controls">
+							<select id="ddlPodJob" data-placeholder="true" class="required">
+								<option value="">
+									Select Your Job...
+								</option>
+							</select>
+						</div>
 					</div>
-				</div>
-				
-				
-				
-				<button data-theme="b" id="btnUpdateStatus">Send P.O.D.</button>
-				<div class="clearfix" style="margin-bottom: 100px;"></div>
-				
-			</div><!-- /content -->
+					
+					<div class="field control-group" style="margin: 20px 0;">
+						<div class="controls">
+							<input id="txtSignedBy" type="text" placeholder="Signatory Name" class="required" />
+						</div>
+					</div>
+					
+					
+					
+					<button data-theme="b" id="bntSendPod">Send P.O.D.</button>
+					<div class="clearfix" style="margin-bottom: 100px;"></div>
+					
+					
+					
+					<div id="PODMap" style="height: 270px;"></div>
+					<div id="PODMapInfo" style="padding: 10px;margin-bottom: 300px;">
+						<h2 id="PODMapInfoTitle">Map info</h2>
+						<p id="PODMapInfoContent">Current Location:</p>
+					</div>
+					
+					
+				</div><!-- /content -->
+			</form>
 		</div>
 	<!-- *********************************************************
        	 P.O.D. PAGE END
@@ -441,7 +559,7 @@
 	<!-- *********************************************************
        	 MYACCOUNT PAGE BEGIN
         ********************************************************* -->
-		<div data-role="page" id="myAccount" data-theme="a" class="pages">
+		<div data-role="page" id="myAccount" data-theme="c" class="pages">
 		
 			<div data-role="header" class="header" data-theme="a">
 			<a href="javascript:;" class="showMenu menuBtn">Menu</a>
@@ -449,7 +567,7 @@
 			<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
 			</div>
 		
-			<div data-role="content" data-theme="a">	
+			<div data-role="content" data-theme="c">	
 				<h2>My Account</h2>
 				<p>Change password</p>
 				
@@ -503,9 +621,43 @@
 	
 	<script>
 		
-		var baseUrl = "http://vehotrans.azurewebsites.net/";
+		
+		
 
-   
+
+		var baseUrl = "http://vehotrans.azurewebsites.net/";
+		var lat, lon;
+		
+		$(document).on("pageinit", function(){
+			
+			//console.log('pageinit called');
+			
+			//$('#POD').live('pageshow', function() {
+			//	var now = new Date();
+			//	$("#PODTime").html(now.toString());
+			//	getCompanyJobs("podScreen", "DESC");
+			//	console.log('calling geolocation');
+			//	navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
+			//});
+			//
+			//function onGeoError(error){
+			//	if(error == 1){
+			//		alert('Please turn on geolocation services');
+			//	}
+			//};
+			//
+			//function onGeoSuccess(position){
+			//	lat = position.coords.latitude;
+			//	lon = position.coords.longitude;
+			//	console.log(lat);
+			//	console.log(lon);
+			//	
+			//	//var currentPosition = new google.maps.LatLong(lat, lon);
+			//	
+			//	
+			//}
+		});
+		
 		
 		$(document).ready(function() {
 			
@@ -540,14 +692,17 @@
 			
 			
 			
+			
 			// needs to be present
 			$(this).delegate("body", "pageinit", function(ev, data){
 				//alert("pageinit called");
 				}); 
 			
 			
+			
+			
 			/* *********************************************************
-			FORMS VALIDATION
+			FORMS VALIDATION AND PROCESSING
 			********************************************************* */
 			Theme.init();
 			Theme.showValidationTicks = false;
@@ -556,6 +711,12 @@
 				rules: {
 				}
 			};
+			
+			var vehoMobiValidationDefaults = Theme.validationRules;
+			
+			
+			
+			
 			// LOGIN
 			var loginHandler = {
 				submitHandler: function(form){
@@ -581,14 +742,71 @@
 			}
 			var customAvailabilityMethods = Theme.validationRules;
 			var availabilityValidationObj = $.extend(
-							availabilityHandler,
-							customAvailabilityMethods
-						);
+				availabilityHandler,
+				customAvailabilityMethods
+			);
 			$('#btnPostAvailability').click(function(){
 				$('#availabilityForm').validate(availabilityValidationObj);
 			});
 			
 			
+			
+			/* *********************************************************
+			UPDATE STATUS
+			********************************************************* */
+			$('#btnStatusUpdate').click(function(){
+				this.validationDefaults = Theme.validationRules;
+				this.updateHandler = {
+					submitHandler: function(form) {
+						updateJobStatus($("#jobDetail").data("JobGuid"), $("#ddlJobStatus").val(), $("#userDataStore").data("GUID"), $("select[id=ddlJobStatus] option:selected").text(), "jobDetailScreen")
+					}
+				}
+				this.validationObj = $.extend(
+					this.validationDefaults,
+					this.updateHandler
+				);
+				$('#jobDetailForm').validate(this.validationObj);
+
+			});
+			
+			
+			/* *********************************************************
+			UPDATE JOB STATUS
+			********************************************************* */ 
+			$('#btnUpdateJobStatus').click(function(){
+				
+				this.validationDefaults = Theme.validationRules;
+				this.updateHandler = {
+					submitHandler: function(form) {
+						updateJobStatus($("#ddlJob").val(), $("#ddlJobStatus2").val(), $("#userDataStore").data("GUID"), $("select[id=ddlJobStatus2] option:selected").text(), "updateStatusScreen")
+					}
+				}
+				this.validationObj = $.extend(
+					this.validationDefaults,
+					this.updateHandler
+				);
+				
+				$('#jobStatusForm').validate(this.validationObj);
+			});
+			
+			
+			/* *********************************************************
+			SEND POD
+			********************************************************* */ 
+			$('#bntSendPod').click(function(){
+				this.validationDefaults = Theme.validationRules;
+				this.updateHandler = {
+					submitHandler: function(form) {
+						console.log("sending POD...");
+					}
+				}
+				this.validationObj = $.extend(
+					this.validationDefaults,
+					this.updateHandler
+				);
+				
+				$('#podForm').validate(this.validationObj);
+			});
 			
 			
 			/* *********************************************************
@@ -613,27 +831,94 @@
 					textonly: false
 				});
 				$.ajax({
-				type: "POST",
-				url: baseUrl + "vehicle/CompanyVehicles/"  + $("#userDataStore").data("companyGUID"),
-				dataType: "json",
-				success: function (data) {
-					$.mobile.loading("hide");
-				},
-				error: function(jqXHR, textStatus, errorThrown ){
-					$.mobile.loading("hide");
-					console.log("failed!");
-					console.log(jqXHR);
-					console.log(textStatus);
-					console.log(errorThrown);
-				},
+					type: "POST",
+					url: baseUrl + "vehicle/CompanyVehicles/"  + $("#userDataStore").data("companyGUID"),
+					dataType: "json",
+					success: function (data) {
+						$.mobile.loading("hide");
+					},
+					error: function(jqXHR, textStatus, errorThrown ){
+						$.mobile.loading("hide");
+						alert('Network error has occurred.  Do you have an internet connection?');
+					},
 				
-			});
-			};	
+				});
+			};
+			
+			
+			
+			
+			// UPDATE JOB STATUS
+			var updateJobStatus = function (jobGuid, statusId, userGuid, statusName, callOrigin) {	
+				
+				console.log('updateJobStatus called from ' + callOrigin);
+				console.log(jobGuid);
+				console.log(statusId);
+				console.log(userGuid);
+				console.log(statusName);
+				console.log(callOrigin);
+				
+				$.mobile.loading( 'show', {
+					text: "Posting Update...",
+					textVisible: true,
+					theme: "a",
+					textonly: false
+				});
+				$.ajax({
+					type: "POST",
+					url: baseUrl + "job/statusAdd/"  + jobGuid + '/' + statusId + '/' + userGuid,
+					dataType: "json",
+					success: function (data) {
+						$.mobile.loading("hide");
+						
+						// need switcher here
+						switch (callOrigin){
+							case "jobDetailScreen":
+								$('#jobStatus').html(statusName);
+								$('#ddlJobStatus')[0].selectedIndex = 0;
+								$('#ddlJobStatus').selectmenu("refresh", true);
+								break;
+							
+							case "updateStatusScreen":
+								
+								//display the details
+								$('#updatedJobInfo').html($("select[id=ddlJob] option:selected").text());
+								$('#updatedJobStatus').html($("select[id=ddlJobStatus2] option:selected").text());
+								$('#statusUpdateDetails').show();
+								
+								// reset the dropdowns
+								$('#ddlJobStatus2')[0].selectedIndex = 0;
+								$('#ddlJobStatus2').selectmenu("refresh", true);
+								
+								$('#ddlJob')[0].selectedIndex = 0;
+								$('#ddlJob').selectmenu("refresh", true);
+								
+								
+								break;
+						}
+						
+						
+						alert('job successfully updated')
+						
+	
+						
+					},
+					error: function(jqXHR, textStatus, errorThrown ){
+						$.mobile.loading("hide");
+						alert('Network error has occurred.  Do you have an internet connection?');
+					},
+				
+				});
+			};
+			
+			
 			
 			
 			// LOGIN USER	
 			var login = function () {	
 				
+				
+			
 				$.mobile.loading( 'show', {
 					text: "Authenticating...",
 					textVisible: true,
@@ -641,9 +926,9 @@
 					textonly: false
 				});
 				$.ajax({
+					
 					type: "GET",
-					url: baseUrl + "rest/Person/" + $("#txtEmail").val() + "/" + $("#txtPassword").val(),
-					contentType: 'application/json; charset=utf-8',
+					url: baseUrl + "rest/Person/" + $("#txtEmail").val() + "/" + $("#txtPassword").val() ,
 					dataType: "json",
 					success: function (data) {
 						
@@ -653,11 +938,12 @@
 							// hide the dialog
 							$('#loginDialog').hide();
 							//store credentials with the userDataStore div object
-							$("#userDataStore").data({"firstName": data.FirstName, "lastName": data.LastName, "email": data.EmailAddress, "GUID": data.PersonGuid, "companyGUID": data.CompanyGUID});
+							$("#userDataStore").data({"firstName": data.FirstName, "lastName": data.LastName, "email": data.EmailAddress, "GUID": data.PersonGUID, "companyGUID": data.CompanyGUID});
 							// display the username
 							$("#welcomeText").html('Welcome back ' + $("#userDataStore").data("firstName") + ' ' + $("#userDataStore").data("lastName"));
 							// load the homescreen
 							$.mobile.changePage($('#home'), {transition:"fade"});
+							
 						}else{
 							$.mobile.loading("hide");
 							$.mobile.changePage('#loginDialog', {role: 'dialog'});
@@ -666,20 +952,20 @@
 						},
 					error: function(jqXHR, textStatus, errorThrown ){
 						$.mobile.loading("hide");
+						console.log(jqXHR);
+						console.log(textStatus);
+						console.log(errorThrown);
 						$.mobile.changePage('#loginDialog', {role: 'dialog'});
 						}
 				});
 				return false;
 			//});
 			};
-		});
+			
+			
+			});
 		
 
-		
-		
-		
-		
-		
 		
 		// GET COMPANY VEHICLES
 		var getVehicles = function() {
@@ -695,6 +981,10 @@
 				dataType: "json",
 				success: function (data) {
 					$.mobile.loading("hide");
+					this.placholder = $("#ddlVehicle option:first-child")[0];
+					$("#ddlVehicle").empty();
+					$("#ddlVehicle").add(this.placeholder)
+					
 					data.map(function (val, i){
 					    if (val){
 						var elem = $('<option>').val(val.VehicleGUID).text(val.VehicleRegNo + ' ' + val.VehicleType);
@@ -705,24 +995,266 @@
 				},
 				error: function(jqXHR, textStatus, errorThrown ){
 					$.mobile.loading("hide");
-					console.log("failed!");
-					console.log(jqXHR);
-					console.log(textStatus);
-					console.log(errorThrown);
+					//console.log("failed!");
+					//console.log(jqXHR);
+					//console.log(textStatus);
+					//console.log(errorThrown);
+					alert('Network error has occurred.  Do you have an internet connection?');
 				},
 				
 			});
 		};
+		
+		
+		
+		// JOB STATUS LIST HANDLER
+		var jobStatusListHandler = function(type, data){
+			switch(type){
+				case "jobDetailScreen":
+					this.placholder = $("#ddlJobStatus option:first-child")[0];
+					$("#ddlJobStatus").empty();
+					$("#ddlJobStatus").add(this.placeholder)
+					
+					var placeHolderElem = $('<option value="" data-placeholder="true">').text('Select Job Status...');
+					placeHolderElem.appendTo('#ddlJobStatus')
+					data.map(function (val, i){
+					    if (val){
+						var elem = $('<option>').val(val.StatusId).text(val.StatusName);
+						elem.appendTo("#ddlJobStatus");
+					    }
+					    
+					})
+					break;
+				
+				case "updateStatusScreen":
+					
+					this.placholder = $("#ddlJobStatus2 option:first-child")[0];
+					$("#ddlJobStatus2").empty();
+					$("#ddlJobStatus2").add(this.placeholder)
+					
+					var placeHolderElem = $('<option value="" data-placeholder="true">').text('Select Job Status...');
+					placeHolderElem.appendTo('#ddlJobStatus2')
+					data.map(function (val, i){
+					    if (val){
+						var elem = $('<option>').val(val.StatusId).text(val.StatusName);
+						elem.appendTo("#ddlJobStatus2");
+					    }
+					    
+					})
+					break;
+			}
+		}
+		
+		
+		// GET JOB STATUSES
+		var getJobStatus = function(displayType) {
+			$.mobile.loading( 'show', {
+				text: "Loading Job Status...",
+				textVisible: true,
+				theme: "a",
+				textonly: false
+			});
+			$.ajax({
+				type: "POST",
+				url: baseUrl + "job/Status",
+				dataType: "json",
+				success: function (data) {
+					$.mobile.loading("hide");
+					
+					jobStatusListHandler(displayType, data);
+					
+				},
+				error: function(jqXHR, textStatus, errorThrown ){
+					$.mobile.loading("hide");
+					//console.log("failed!");
+					//console.log(jqXHR);
+					//console.log(textStatus);
+					//console.log(errorThrown);
+					alert('Network error has occurred.  Do you have an internet connection?');
+				},
+				
+			});
+		};
+		
+		
+		
+		
+		// COMPANY JOBS HANDLER
+		var JobsListHandler = function(type, data){
+			switch(type){
+				case "listview":
+					
+					var jobDay = "";
+					data.map(function (val, i){
+					    if (val){
+						if(jobDay != val.StartDateDay){
+							var sep = $('<li data-role="list-divider" role="heading">').html(val.StartDateDay);
+							sep.appendTo("#jobsList");
+							jobDay = val.StartDateDay
+						}
+						var liElem = $('<li data-theme="c">');
+						var aElem = $('<a href="#jobDetail" data-transition="slide">').html(val.StartDateTime + ' ' + val.StartLocation + ' to ' + val.EndLocation)
+						aElem.data(val);
+						aElem.appendTo(liElem);
+						liElem.appendTo("#jobsList");
+						$(aElem).click(function(){
+							$('#jobDetail').data($(this).data());
+						});
+					    }
+					    
+					})
+					
+					$('#jobsList').listview('refresh');
+					
+					break;
+				
+				case "updateStatusScreen":
+					
+					this.placholder = $("#ddlJob option:first-child")[0];
+					$("#ddlJob").empty();
+					$("#ddlJob").add(this.placeholder)
+					
+					var placeHolderElem = $('<option value="" data-placeholder="true">').text('Select Job...');
+					placeHolderElem.appendTo('#ddlJob')
+					data.map(function (val, i){
+					    if (val){
+						var elem = $('<option>').val(val.JobGuid).text(val.StartDateDay + ' ' + val.StartDateTime + ' ' + val.StartLocation + ' to ' + val.EndLocation);
+						elem.appendTo("#ddlJob");
+					    }
+					    
+					})
+					
+					break;
+				
+				case "podScreen":
+					
+					this.placholder = $("#ddlPodJob option:first-child")[0];
+					$("#ddlPodJob").empty();
+					$("#ddlPodJob").add(this.placeholder)
+					
+					var placeHolderElem = $('<option value="" data-placeholder="true">').text('Select Job...');
+					placeHolderElem.appendTo('#ddlPodJob')
+					data.map(function (val, i){
+					    if (val){
+						var elem = $('<option>').val(val.JobGuid).text(val.StartDateDay + ' ' + val.StartDateTime + ' ' + val.StartLocation + ' to ' + val.EndLocation);
+						elem.appendTo("#ddlPodJob");
+					    }
+					    
+					})
+					
+					break;
+			}
+		}
+		
+		
+		// GET COMPANY Jobs
+		var getCompanyJobs = function(displayType, sortDirection) {
+			
+			$("#jobsList").empty();
+			
+			$.mobile.loading( 'show', {
+				text: "Loading jobs...",
+				textVisible: true,
+				theme: "a",
+				textonly: false
+			});
+			
+			$.ajax({
+				type: "POST",
+				url: baseUrl + "job/CompanyJobs/" + $("#userDataStore").data("companyGUID") + "/" + sortDirection,
+				dataType: "json",
+				success: function (data) {
+					
+					JobsListHandler(displayType, data);
+					$.mobile.loading("hide");
+				},
+				
+				error: function(jqXHR, textStatus, errorThrown ){
+					$.mobile.loading("hide");
+					alert('Network error has occurred please try again!');
+				},
+				
+			});
+			
+			
+		};
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		$('#POD').live('pageshow', function() {
+			var now = new Date();
+			$("#PODTime").html(now.toString());
+			getCompanyJobs("podScreen", "DESC");
+			console.log('calling geolocation');
+			navigator.geolocation.getCurrentPosition(onPODGeoSuccess, onPODGeoError);
+			
+			
+			
+		});
+	
+		function onPODGeoError(error){
+			if(error == 1){
+				alert('Please turn on geolocation services');
+			}
+		};
+		
+		function onPODGeoSuccess(position){
+			lat = position.coords.latitude;
+			lon = position.coords.longitude;
+			console.log(lat);
+			console.log(lon);
+			loadPODMap(lat +','+lon, 10);
+			
+			
+			
+			
+		}
+		
+		
+		
 		
 		// Page Show Functions
 		$('#availability').live('pageshow', function() {
 			getVehicles();
 			
 		});	
-		$('#POD').live('pageshow', function() {
-			var now = new Date();
-			$("#PODTime").html(now.toString());
+		
+		$('#jobs').live('pageshow', function() {
+			getCompanyJobs("listview", "ASC");
 		});
+		$('#jobDetail').live('pagebeforeshow', function(){
+			var jobInfo = $(this).data();
+			$('#jobFrom').html(jobInfo.StartLocation);
+			$('#jobTo').html(jobInfo.EndLocation);
+			$('#jobCollectionDate').html(jobInfo.StartDateDay + ' ' + jobInfo.StartDateTime);
+			$('#jobStatus').html(jobInfo.Status == '' ? 'Status has not been set' : jobInfo.Status);	
+		});
+		$('#jobDetail').live('pageshow', function(){
+			getJobStatus("jobDetailScreen");
+		});
+		$('#updateStatus').live('pagebeforeshow', function() {
+			$('#statusUpdateDetails').hide();
+		});
+		$('#updateStatus').live('pageshow', function() {
+			getCompanyJobs("updateStatusScreen", "DESC");
+			getJobStatus("updateStatusScreen");
+		});
+		
+		
+		
+		
+		
+		
 	    
 		// this is not needed!!!!!!!!!!!!!!!!!!!!!!!!!!
 		// PHONEGAP BUILD INCLUDES THE  CORRECT CORDOVA AT BUILD TIME!!!!

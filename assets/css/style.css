@@ -415,7 +415,23 @@ a.menuBtn .ui-btn-inner{border:none}
 a.menuBtn{background-size:contain !important}
 a.menuBtn:hover{border:none !important}
 
-a.backBtn{background:transparent url(../images/backBtn.png) top left no-repeat    !important; background-size:contain; width:31px; height:31px; background-size:contain; text-indent:-999em !important; display:block !important; -webkit-box-shadow:0 0px 0 rgba(150,150,150,.3) !important; box-shadow:0 0px 0 rgba(150,150,150,.3) !important;}
+a.backBtn{
+	background:transparent url(../images/backButton.png) top left no-repeat    !important;
+	background-size:contain;
+	/*width:31px;
+	height:31px;*/
+	width: 105px;
+	background-size:contain;
+	text-indent:-999em !important;
+	display:block !important;
+	-webkit-box-shadow:0 0px 0 rgba(150,150,150,.3) !important;
+	box-shadow:0 0px 0 rgba(150,150,150,.3) !important;
+	
+	-webkit-border-radius:0 !important;
+	border-radius:0 !important;
+	border: none !important;
+	margin-top: 6px !important;
+	}
 a.backBtn .ui-btn-inner{border:none}
 a.backBtn{background-size:contain !important}
 a.backBtn:hover{border:none !important}
