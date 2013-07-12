@@ -1252,7 +1252,7 @@
 						       //map.panTo(latlng);
 					       }
 					}
-					navigator.geolocation.getCurrentPosition(self.success, onPODGeoError, {maximumAge: 75000});
+					navigator.geolocation.getCurrentPosition(self.success, onPODGeoError, {maximumAge:75000,timeout:5000,enableHighAccuracy:true});
 			       }
 			       
 		       });
