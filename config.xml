@@ -65,6 +65,11 @@
 		Here are some examples (although in our app we don't use any)
 	-->
 	<plugin name="Geolocation" value="org.apache.cordova.GeoBroker" />
+	
+	<feature name="http://api.phonegap.com/1.0/geolocation" />
+	
+	
+	
 	<!--
   <plugin name="Geolocation" value="org.apache.cordova.GeoBroker"/>
   <plugin name="Device" value="org.apache.cordova.Device" />
