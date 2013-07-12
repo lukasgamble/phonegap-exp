@@ -23,7 +23,7 @@
 		PhoneGap Build website
 	-->
   <author href="http://www.vehotrans.com"
-          email="mobile@vehotrans.com">
+          email="lukas.gamble@vehogroup.com">
             Lukas Gamble
   </author>
 
@@ -38,12 +38,17 @@
   <icon src="assets/images/android/mdpi.png" gap:platform="android" gap:density="mdpi" />
   <icon src="assets/images/android/hdpi.png" gap:platform="android" gap:density="hdpi" />
   <icon src="assets/images/android/xhdpi.png" gap:platform="android" gap:density="xhdpi" />
+  
 
 	<!--
 		An example of a preference setting. This preference will prevent landscape mode.
 		By default both orientations are allowed.
 	-->
   <preference name="orientation" value="portrait"/>
+  <preference name="phonegap-version" value="2.9.0" />
+  <preference name="fullscreen" value="true" />
+  <preference name="ios-statusbarstyle" value="black-opaque" />
+  <preference name="show-splash-screen-spinner" value="true" />
 
 	<!--
 		Use the following if you want a launch splash screen to appear briefly
@@ -59,7 +64,7 @@
 		http://docs.phonegap.com/en/2.3.0/index.html
 		Here are some examples (although in our app we don't use any)
 	-->
-	<plugin name="Geolocation" value="org.apache.cordova.GeoBroker"/>
+	<plugin name="Geolocation" value="org.apache.cordova.GeoBroker" />
 	<!--
   <plugin name="Geolocation" value="org.apache.cordova.GeoBroker"/>
   <plugin name="Device" value="org.apache.cordova.Device" />
