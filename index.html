@@ -1209,9 +1209,12 @@
 			       'streetViewControl' : false, 
 			       'callback': function(map) {
 				       
-				       //var currentPosition = new google.maps.LatLong(lat, lon);
-				       var self = this;
-				       //console.log(self);
+					//var currentPosition = new google.maps.LatLong(lat, lon);
+					var self = this;
+					console.log('running the callback function');
+				       
+					
+				       
 				       self.success = function(pos){
 					       
 					       console.log("success...now lets drop a marker!")
@@ -1249,7 +1252,8 @@
 						       self.get('markers').client.setPosition(latlng);
 						       //map.panTo(latlng);
 					       }
-				       }
+					}
+					navigator.geolocation.getCurrentPosition(self.success, onPODGeoError, {maximumAge: 75000});
 			       }
 			       
 		       });
