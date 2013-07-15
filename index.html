@@ -580,7 +580,7 @@
 	<!-- *********************************************************
        	 LOGIN DIALOG PAGE START
         ********************************************************* -->
-	<div data-role="popup" id="loginDialog" data-overlay-theme="a" data-theme="b" data-dismissible="false" data-position-to="window" class="ui-corner-all">
+	<!--<div data-role="popup" id="loginDialog" data-overlay-theme="a" data-theme="b" data-dismissible="false" data-position-to="window" class="ui-corner-all">
 		<div data-role="header" data-theme="a" class="ui-corner-top">
 		    <h1>Login Failed</h1>
 		</div>
@@ -588,7 +588,7 @@
 		    <p>Sorry, email &amp; password combination not recognised.</p>
 		    <a href="javascript:;" data-role="button" data-inline="true" data-rel="back" data-theme="b">Try Again</a>
 		</div>
-	</div>
+	</div>-->
 	<!-- *********************************************************
        	 LOGIN DIALOG PAGE END
         ********************************************************* -->
@@ -625,7 +625,7 @@
 
 
 		var baseUrl = "http://vehotrans.azurewebsites.net/";
-		var lat, lon;
+		var lat, lon, co_ords;
 		
 		
 		
@@ -731,9 +731,13 @@
 							loginHandler,
 							customLoginMethods
 						);
+			
+			
 			$('#btnLogin').click(function(){
 				$('#loginForm').validate(loginValidationObj)
 			});
+			
+			
 			
 			
 			// POST AVAILABILITY
@@ -749,7 +753,17 @@
 				customAvailabilityMethods
 			);
 			$('#btnPostAvailability').click(function(){
-				$('#availabilityForm').validate(availabilityValidationObj);
+				this.validationDefaults = Theme.validationRules;
+				this.updateHandler = {
+					submitHandler: function(form) {
+						postAvailability();
+					}
+				}
+				this.validationObj = $.extend(
+					this.validationDefaults,
+					this.updateHandler
+				);
+				$('#availabilityForm').validate(this.validationObj);
 			});
 			
 			
@@ -796,11 +810,37 @@
 			/* *********************************************************
 			SEND POD
 			********************************************************* */ 
+			var postPOD = function () {	
+				
+				$.mobile.loading( 'show', {
+					text: "Sending P.O.D....",
+					textVisible: true,
+					theme: "a",
+					textonly: false
+				});
+				
+				
+				$.ajax({ 
+					type: "POST",
+					url: baseUrl + "job/pod/" + $("#ddlPodJob").val() + '/' + $("#userDataStore").data("GUID") + '/' + $("#txtSignedBy").val() + '/' + $("#userDataStore").data("geoAddress"),
+					dataType: "json",
+					success: function (data) {
+						$.mobile.loading("hide");
+						alert("POD has been sent to Vehotrans");
+					},
+					error: function(jqXHR, textStatus, errorThrown ){
+						$.mobile.loading("hide");
+						alert('Network error has occurred.  Do you have an internet connection?');
+					},
+				
+				});
+			};
 			$('#bntSendPod').click(function(){
 				this.validationDefaults = Theme.validationRules;
 				this.updateHandler = {
 					submitHandler: function(form) {
-						console.log("sending POD...");
+						// POST POD
+						postPOD();
 					}
 				}
 				this.validationObj = $.extend(
@@ -835,10 +875,16 @@
 				});
 				$.ajax({
 					type: "POST",
-					url: baseUrl + "vehicle/CompanyVehicles/"  + $("#userDataStore").data("companyGUID"),
+					//PostVehicle/{vehicleGuid}/{country}/{postcode}/{place}/{personGuid}
+					url: baseUrl + "vehicle/PostVehicle/" + $("#ddlVehicle").val()
+						+ '/' + $("#userDataStore").data("geoCountry")
+						+ '/' + $("#userDataStore").data("geoPostcode")
+						+ '/' + $("#userDataStore").data("geoPlacename")
+						+ '/' + $("#userDataStore").data("GUID"),
 					dataType: "json",
 					success: function (data) {
 						$.mobile.loading("hide");
+						alert('Your vehicle availability has been posted to the Vehotrans website.');
 					},
 					error: function(jqXHR, textStatus, errorThrown ){
 						$.mobile.loading("hide");
@@ -853,13 +899,6 @@
 			
 			// UPDATE JOB STATUS
 			var updateJobStatus = function (jobGuid, statusId, userGuid, statusName, callOrigin) {	
-				
-				console.log('updateJobStatus called from ' + callOrigin);
-				console.log(jobGuid);
-				console.log(statusId);
-				console.log(userGuid);
-				console.log(statusName);
-				console.log(callOrigin);
 				
 				$.mobile.loading( 'show', {
 					text: "Posting Update...",
@@ -939,7 +978,7 @@
 							// hide the loader
 							$.mobile.loading("hide");
 							// hide the dialog
-							$('#loginDialog').hide();
+							//$('#loginDialog').hide();
 							//store credentials with the userDataStore div object
 							$("#userDataStore").data({"firstName": data.FirstName, "lastName": data.LastName, "email": data.EmailAddress, "GUID": data.PersonGUID, "companyGUID": data.CompanyGUID});
 							// display the username
@@ -949,7 +988,8 @@
 							
 						}else{
 							$.mobile.loading("hide");
-							$.mobile.changePage('#loginDialog', {role: 'dialog'});
+							//$.mobile.changePage('#loginDialog', {role: 'dialog'});
+							alert("Login Failed. Email & Password combination not recognised.");
 						}
 						
 						},
@@ -958,7 +998,8 @@
 						console.log(jqXHR);
 						console.log(textStatus);
 						console.log(errorThrown);
-						$.mobile.changePage('#loginDialog', {role: 'dialog'});
+						//$.mobile.changePage('#loginDialog', {role: 'dialog'});
+						alert("There was a problem connecting to the server.  Do you have an internet connection?");
 						}
 				});
 				return false;
@@ -969,409 +1010,463 @@
 			});
 		
 
-		
-		// GET COMPANY VEHICLES
-		var getVehicles = function() {
-			$.mobile.loading( 'show', {
-				text: "Loading vehicles...",
-				textVisible: true,
-				theme: "a",
-				textonly: false
-			});
-			$.ajax({
-				type: "POST",
-				url: baseUrl + "vehicle/CompanyVehicles/" + $("#userDataStore").data("companyGUID"),
-				dataType: "json",
-				success: function (data) {
-					$.mobile.loading("hide");
-					this.placholder = $("#ddlVehicle option:first-child")[0];
-					$("#ddlVehicle").empty();
-					$("#ddlVehicle").add(this.placeholder)
+			
+			// GET COMPANY VEHICLES
+			var getVehicles = function() {
+				$.mobile.loading( 'show', {
+					text: "Loading vehicles...",
+					textVisible: true,
+					theme: "a",
+					textonly: false
+				});
+				$.ajax({
+					type: "POST",
+					url: baseUrl + "vehicle/CompanyVehicles/" + $("#userDataStore").data("companyGUID"),
+					dataType: "json",
+					success: function (data) {
+						$.mobile.loading("hide");
+						this.placholder = $("#ddlVehicle option:first-child")[0];
+						$("#ddlVehicle").empty();
+						$("#ddlVehicle").add(this.placeholder)
+						
+						var placeHolderElem = $('<option value="" data-placeholder="true">').text('Select Vehicle...');
+						placeHolderElem.appendTo('#ddlVehicle')
+						data.map(function (val, i){
+						    if (val){
+							var elem = $('<option>').val(val.VehicleGUID).text(val.VehicleRegNo + ' ' + val.VehicleType);
+							elem.appendTo("#ddlVehicle");
+						    }
+						    
+						})
+					},
+					error: function(jqXHR, textStatus, errorThrown ){
+						$.mobile.loading("hide");
+						alert('Network error has occurred.  Do you have an internet connection?');
+					},
 					
-					data.map(function (val, i){
-					    if (val){
-						var elem = $('<option>').val(val.VehicleGUID).text(val.VehicleRegNo + ' ' + val.VehicleType);
-						elem.appendTo("#ddlVehicle");
-					    }
-					    
-					})
-				},
-				error: function(jqXHR, textStatus, errorThrown ){
-					$.mobile.loading("hide");
-					//console.log("failed!");
-					//console.log(jqXHR);
-					//console.log(textStatus);
-					//console.log(errorThrown);
-					alert('Network error has occurred.  Do you have an internet connection?');
-				},
-				
-			});
-		};
-		
-		
-		
-		// JOB STATUS LIST HANDLER
-		var jobStatusListHandler = function(type, data){
-			switch(type){
-				case "jobDetailScreen":
-					this.placholder = $("#ddlJobStatus option:first-child")[0];
-					$("#ddlJobStatus").empty();
-					$("#ddlJobStatus").add(this.placeholder)
+				});
+			};
+			
+			
+			
+			// JOB STATUS LIST HANDLER
+			var jobStatusListHandler = function(type, data){
+				switch(type){
+					case "jobDetailScreen":
+						this.placholder = $("#ddlJobStatus option:first-child")[0];
+						$("#ddlJobStatus").empty();
+						$("#ddlJobStatus").add(this.placeholder)
+						
+						var placeHolderElem = $('<option value="" data-placeholder="true">').text('Select Job Status...');
+						placeHolderElem.appendTo('#ddlJobStatus')
+						data.map(function (val, i){
+						    if (val){
+							var elem = $('<option>').val(val.StatusId).text(val.StatusName);
+							elem.appendTo("#ddlJobStatus");
+						    }
+						    
+						})
+						break;
 					
-					var placeHolderElem = $('<option value="" data-placeholder="true">').text('Select Job Status...');
-					placeHolderElem.appendTo('#ddlJobStatus')
-					data.map(function (val, i){
-					    if (val){
-						var elem = $('<option>').val(val.StatusId).text(val.StatusName);
-						elem.appendTo("#ddlJobStatus");
-					    }
-					    
-					})
-					break;
-				
-				case "updateStatusScreen":
-					
-					this.placholder = $("#ddlJobStatus2 option:first-child")[0];
-					$("#ddlJobStatus2").empty();
-					$("#ddlJobStatus2").add(this.placeholder)
-					
-					var placeHolderElem = $('<option value="" data-placeholder="true">').text('Select Job Status...');
-					placeHolderElem.appendTo('#ddlJobStatus2')
-					data.map(function (val, i){
-					    if (val){
-						var elem = $('<option>').val(val.StatusId).text(val.StatusName);
-						elem.appendTo("#ddlJobStatus2");
-					    }
-					    
-					})
-					break;
+					case "updateStatusScreen":
+						
+						this.placholder = $("#ddlJobStatus2 option:first-child")[0];
+						$("#ddlJobStatus2").empty();
+						$("#ddlJobStatus2").add(this.placeholder)
+						
+						var placeHolderElem = $('<option value="" data-placeholder="true">').text('Select Job Status...');
+						placeHolderElem.appendTo('#ddlJobStatus2')
+						data.map(function (val, i){
+						    if (val){
+							var elem = $('<option>').val(val.StatusId).text(val.StatusName);
+							elem.appendTo("#ddlJobStatus2");
+						    }
+						    
+						})
+						break;
+				}
 			}
-		}
-		
-		
-		// GET JOB STATUSES
-		var getJobStatus = function(displayType) {
-			$.mobile.loading( 'show', {
-				text: "Loading Job Status...",
-				textVisible: true,
-				theme: "a",
-				textonly: false
-			});
-			$.ajax({
-				type: "POST",
-				url: baseUrl + "job/Status",
-				dataType: "json",
-				success: function (data) {
-					$.mobile.loading("hide");
+			
+			
+			// GET JOB STATUSES
+			var getJobStatus = function(displayType) {
+				$.mobile.loading( 'show', {
+					text: "Loading Job Status...",
+					textVisible: true,
+					theme: "a",
+					textonly: false
+				});
+				$.ajax({
+					type: "POST",
+					url: baseUrl + "job/Status",
+					dataType: "json",
+					success: function (data) {
+						$.mobile.loading("hide");
+						
+						jobStatusListHandler(displayType, data);
+						
+					},
+					error: function(jqXHR, textStatus, errorThrown ){
+						$.mobile.loading("hide");
+						alert('Network error has occurred.  Do you have an internet connection?');
+					},
 					
-					jobStatusListHandler(displayType, data);
+				});
+			};
+			
+			
+			
+			
+			// COMPANY JOBS HANDLER
+			var JobsListHandler = function(type, data){
+				switch(type){
+					case "listview":
+						
+						var jobDay = "";
+						data.map(function (val, i){
+						    if (val){
+							if(jobDay != val.StartDateDay){
+								var sep = $('<li data-role="list-divider" role="heading">').html(val.StartDateDay);
+								sep.appendTo("#jobsList");
+								jobDay = val.StartDateDay
+							}
+							var liElem = $('<li data-theme="c">');
+							var aElem = $('<a href="#jobDetail" data-transition="slide">').html(val.StartDateTime + ' ' + val.StartLocation + ' to ' + val.EndLocation)
+							aElem.data(val);
+							aElem.appendTo(liElem);
+							liElem.appendTo("#jobsList");
+							$(aElem).click(function(){
+								$('#jobDetail').data($(this).data());
+							});
+						    }
+						    
+						})
+						
+						$('#jobsList').listview('refresh');
+						
+						break;
 					
-				},
-				error: function(jqXHR, textStatus, errorThrown ){
-					$.mobile.loading("hide");
-					//console.log("failed!");
-					//console.log(jqXHR);
-					//console.log(textStatus);
-					//console.log(errorThrown);
-					alert('Network error has occurred.  Do you have an internet connection?');
-				},
-				
-			});
-		};
-		
-		
-		
-		
-		// COMPANY JOBS HANDLER
-		var JobsListHandler = function(type, data){
-			switch(type){
-				case "listview":
+					case "updateStatusScreen":
+						
+						this.placholder = $("#ddlJob option:first-child")[0];
+						$("#ddlJob").empty();
+						$("#ddlJob").add(this.placeholder)
+						
+						var placeHolderElem = $('<option value="" data-placeholder="true">').text('Select Job...');
+						placeHolderElem.appendTo('#ddlJob')
+						data.map(function (val, i){
+						    if (val){
+							var elem = $('<option>').val(val.JobGuid).text(val.StartDateDay + ' ' + val.StartDateTime + ' ' + val.StartLocation + ' to ' + val.EndLocation);
+							elem.appendTo("#ddlJob");
+						    }
+						    
+						})
+						
+						break;
 					
-					var jobDay = "";
-					data.map(function (val, i){
-					    if (val){
-						if(jobDay != val.StartDateDay){
-							var sep = $('<li data-role="list-divider" role="heading">').html(val.StartDateDay);
-							sep.appendTo("#jobsList");
-							jobDay = val.StartDateDay
-						}
-						var liElem = $('<li data-theme="c">');
-						var aElem = $('<a href="#jobDetail" data-transition="slide">').html(val.StartDateTime + ' ' + val.StartLocation + ' to ' + val.EndLocation)
-						aElem.data(val);
-						aElem.appendTo(liElem);
-						liElem.appendTo("#jobsList");
-						$(aElem).click(function(){
-							$('#jobDetail').data($(this).data());
-						});
-					    }
-					    
-					})
-					
-					$('#jobsList').listview('refresh');
-					
-					break;
-				
-				case "updateStatusScreen":
-					
-					this.placholder = $("#ddlJob option:first-child")[0];
-					$("#ddlJob").empty();
-					$("#ddlJob").add(this.placeholder)
-					
-					var placeHolderElem = $('<option value="" data-placeholder="true">').text('Select Job...');
-					placeHolderElem.appendTo('#ddlJob')
-					data.map(function (val, i){
-					    if (val){
-						var elem = $('<option>').val(val.JobGuid).text(val.StartDateDay + ' ' + val.StartDateTime + ' ' + val.StartLocation + ' to ' + val.EndLocation);
-						elem.appendTo("#ddlJob");
-					    }
-					    
-					})
-					
-					break;
-				
-				case "podScreen":
-					
-					this.placholder = $("#ddlPodJob option:first-child")[0];
-					$("#ddlPodJob").empty();
-					$("#ddlPodJob").add(this.placeholder)
-					
-					var placeHolderElem = $('<option value="" data-placeholder="true">').text('Select Job...');
-					placeHolderElem.appendTo('#ddlPodJob')
-					data.map(function (val, i){
-					    if (val){
-						var elem = $('<option>').val(val.JobGuid).text(val.StartDateDay + ' ' + val.StartDateTime + ' ' + val.StartLocation + ' to ' + val.EndLocation);
-						elem.appendTo("#ddlPodJob");
-					    }
-					    
-					})
-					
-					break;
+					case "podScreen":
+						
+						this.placholder = $("#ddlPodJob option:first-child")[0];
+						$("#ddlPodJob").empty();
+						$("#ddlPodJob").add(this.placeholder)
+						
+						var placeHolderElem = $('<option value="" data-placeholder="true">').text('Select Job...');
+						placeHolderElem.appendTo('#ddlPodJob')
+						data.map(function (val, i){
+						    if (val){
+							var elem = $('<option>').val(val.JobGuid).text(val.StartDateDay + ' ' + val.StartDateTime + ' ' + val.StartLocation + ' to ' + val.EndLocation);
+							elem.appendTo("#ddlPodJob");
+						    }
+						    
+						})
+						
+						break;
+				}
 			}
-		}
-		
-		
-		// GET COMPANY Jobs
-		var getCompanyJobs = function(displayType, sortDirection) {
 			
-			$("#jobsList").empty();
 			
-			$.mobile.loading( 'show', {
-				text: "Loading jobs...",
-				textVisible: true,
-				theme: "a",
-				textonly: false
-			});
-			
-			$.ajax({
-				type: "POST",
-				url: baseUrl + "job/CompanyJobs/" + $("#userDataStore").data("companyGUID") + "/" + sortDirection,
-				dataType: "json",
-				success: function (data) {
-					
-					JobsListHandler(displayType, data);
-					$.mobile.loading("hide");
-				},
+			// GET COMPANY Jobs
+			var getCompanyJobs = function(displayType, sortDirection) {
 				
-				error: function(jqXHR, textStatus, errorThrown ){
-					$.mobile.loading("hide");
-					alert('Network error has occurred please try again!');
-				},
+				$("#jobsList").empty();
 				
-			});
-			
-			
-		};
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		/************** POD Map *******************/
-		var loadPODMap = function(latLng, zoom){
-		       
-		       console.log('calling loadPODMap');
-		       
-		       $('#PODMap').gmap({
-			       'center': latLng,
-			       'zoom': zoom,
-			       'disableDefaultUI':false,
-			       'mapTypeControl' : false, 
-			       'navigationControl' : true,
-			       'streetViewControl' : false, 
-			       'callback': function(map) {
-				       
-					//var currentPosition = new google.maps.LatLong(lat, lon);
-					var self = this;
-					console.log('running the callback function');
-				       
+				$.mobile.loading( 'show', {
+					text: "Loading jobs...",
+					textVisible: true,
+					theme: "a",
+					textonly: false
+				});
+				
+				$.ajax({
+					type: "POST",
+					url: baseUrl + "job/CompanyJobs/" + $("#userDataStore").data("companyGUID") + "/" + sortDirection,
+					dataType: "json",
+					success: function (data) {
+						
+						JobsListHandler(displayType, data);
+						$.mobile.loading("hide");
+					},
 					
-				       
-				       self.success = function(pos){
+					error: function(jqXHR, textStatus, errorThrown ){
+						$.mobile.loading("hide");
+						alert('Network error has occurred please try again!');
+					},
+					
+				});
+				
+				
+			};
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			/************** POD Map *******************/
+			var loadPODMap = function(latLng, zoom){
+			       $('#PODMap').gmap({
+				       'center': latLng,
+				       'zoom': zoom,
+				       'disableDefaultUI':false,
+				       'mapTypeControl' : false, 
+				       'navigationControl' : true,
+				       'streetViewControl' : false, 
+				       'callback': function(map) {
 					       
-					       console.log("success...now lets drop a marker!")
-					       var latlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-					       // convert to address
-					       geocoder = new google.maps.Geocoder();
-					       geocoder.geocode({'latLng': latlng}, function(results, status) {
-						   if (status == google.maps.GeocoderStatus.OK) {
-						       if (results[1]) {
-							       $("#userDataStore").data({"geoAddress": results[1].formatted_address});
-							       $("#PODMapInfoTitle").html("Current Location");
-							       $("#PODMapInfoContent").html(results[1].formatted_address);
-						       } else {
-							       alert('No results found');
-							       }
-						   } else {
-						       alert('Geocoder failed due to: ' + status);
-						   }
-					       });
-					       
-					       // are there any markers currently loaded?
-					       if ( !self.get('markers').client ) {
-						       // no marker, so add one
-						       self.addMarker({
-							       'id': 'client',
-							       'position': latlng,
-							       //'bounds': true,
-							       // need to pass in data in a function
-							       title: $("#userDataStore").data("firstName") + ' ' + $("#userDataStore").data("lastName")
-						       });
-						       map.setCenter(latlng);
-						       map.setZoom(zoom);
+						//var currentPosition = new google.maps.LatLong(lat, lon);
+						var self = this;
+						self.success = function(pos){
 						       
-					       } else {
-						       self.get('markers').client.setPosition(latlng);
-						       //map.panTo(latlng);
-					       }
-					}
-					navigator.geolocation.getCurrentPosition(self.success, onPODGeoError, {maximumAge:75000,timeout:5000,enableHighAccuracy:true});
-			       }
-			       
-		       });
-		}
-		
-		
-		$('#POD').live('pageshow', function() {
-			var now = new Date();
-			$("#PODTime").html(now.toString());
-			getCompanyJobs("podScreen", "DESC");
-			console.log('calling geolocation');
-			navigator.geolocation.getCurrentPosition(onPODGeoSuccess, onPODGeoError);
-			
-			
-			
-		});
-	
-		var onPODGeoError = function(error){
-			if(error == 1){
-				alert('Please turn on geolocation services');
+						       var latlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+						       // convert to address
+						       geocoder = new google.maps.Geocoder();
+						       geocoder.geocode({'latLng': latlng}, function(results, status) {
+							   if (status == google.maps.GeocoderStatus.OK) {
+							       if (results[1]) {
+								       $("#userDataStore").data({"geoAddress": results[1].formatted_address});
+								       $("#userDataStore").data({"geoLatLon": latlng});
+								       $("#PODMapInfoTitle").html("Current Location");
+								       $("#PODMapInfoContent").html(results[1].formatted_address);
+							       } else {
+								       alert('No results found');
+								       }
+							   } else {
+							       alert('Geocoder failed due to: ' + status);
+							   }
+						       });
+						       
+						       // are there any markers currently loaded?
+						       if ( !self.get('markers').client ) {
+							       // no marker, so add one
+							       self.addMarker({
+								       'id': 'client',
+								       'position': latlng,
+								       //'bounds': true,
+								       // need to pass in data in a function
+								       title: $("#userDataStore").data("firstName") + ' ' + $("#userDataStore").data("lastName")
+							       });
+							       map.setCenter(latlng);
+							       map.setZoom(zoom);
+							       
+						       } else {
+							       self.get('markers').client.setPosition(latlng);
+							       //map.panTo(latlng);
+						       }
+						}
+						navigator.geolocation.getCurrentPosition(self.success, onPODGeoError, {maximumAge:75000,timeout:5000,enableHighAccuracy:true});
+				       }
+				       
+			       });
 			}
-		};
-		
-		var onPODGeoSuccess = function(position){
-			lat = position.coords.latitude;
-			lon = position.coords.longitude;
-			//console.log(lat);
-			//console.log(lon);
-			console.log('onPODGeoSuccess called')
 			
-			loadPODMap(lat +','+lon, 10);
+			// Page Show Functions
+			$('#POD').live('pageshow', function() {
+				var now = new Date();
+				$("#PODTime").html(now.toString());
+				getCompanyJobs("podScreen", "DESC");
+				
+				navigator.geolocation.getCurrentPosition(onPODGeoSuccess, onPODGeoError);
+				
+			});
+		
+			var onPODGeoError = function(error){
+				if(error == 1){
+					alert('Please turn on geolocation services');
+				}
+			};
 			
-		}
-		
-		
-		
-		
-		// Page Show Functions
-		$('#availability').live('pageshow', function() {
-			getVehicles();
+			var onPODGeoSuccess = function(position){
+				lat = position.coords.latitude;
+				lon = position.coords.longitude;
+				
+				
+				loadPODMap(lat +','+lon, 10);
+				
+			}
 			
-		});	
-		
-		$('#jobs').live('pageshow', function() {
-			getCompanyJobs("listview", "ASC");
-		});
-		$('#jobDetail').live('pagebeforeshow', function(){
-			var jobInfo = $(this).data();
-			$('#jobFrom').html(jobInfo.StartLocation);
-			$('#jobTo').html(jobInfo.EndLocation);
-			$('#jobCollectionDate').html(jobInfo.StartDateDay + ' ' + jobInfo.StartDateTime);
-			$('#jobStatus').html(jobInfo.Status == '' ? 'Status has not been set' : jobInfo.Status);	
-		});
-		$('#jobDetail').live('pageshow', function(){
-			getJobStatus("jobDetailScreen");
-		});
-		$('#updateStatus').live('pagebeforeshow', function() {
-			$('#statusUpdateDetails').hide();
-		});
-		$('#updateStatus').live('pageshow', function() {
-			getCompanyJobs("updateStatusScreen", "DESC");
-			getJobStatus("updateStatusScreen");
-		});
+			
+			
+			
 		
 		
 		
+			
+			
+			// POST AVAILABILITY
+			$('#availability').live('pageshow', function() {
+				getVehicles();
+				navigator.geolocation.getCurrentPosition(onAvailabilityGeoSuccess, onAvailabilityGeoError);
+			});	
+			var onAvailabilityGeoError = function(error){
+				if(error == 1){
+					alert('Please turn on geolocation services');
+				}
+			};
+			
+			var onAvailabilityGeoSuccess = function(position){
+				lat = position.coords.latitude;
+				lon = position.coords.longitude;
+				co_ords = new google.maps.LatLng(lat, lon)
+				geocoder = new google.maps.Geocoder();
+				geocoder.geocode({'latLng': co_ords}, function(results, status) {
+				    if (status == google.maps.GeocoderStatus.OK) {
+					if (results[1]) {
+						
+						
+						var components = results[1].address_components;
+						var postcode = null;
+						var country = null;
+						var placename = null;
+						for (var i = 0, component; component = components[i]; i++) {
+						    console.log(component);
+						    
+						    switch(component.types[0]){
+							
+							case "postal_code":
+								postcode = component['long_name'];
+								break;
+							case "country":
+								country = component['short_name'];
+								break;
+							case "locality":
+								placename = component['long_name'];
+								break;
+							
+						    }
+						}
+						
+						
+						$("#userDataStore").data({"geoCountry": country});
+						$("#userDataStore").data({"geoPostcode": postcode});
+						$("#userDataStore").data({"geoPlacename": placename});
+						
+					} else {
+						alert('No results found');
+						}
+				    } else {
+					alert('Geocoder failed due to: ' + status);
+				    }
+				});
+				
+				
+			}
+			
+			
+			
+			
 		
-		
-		
-	    
-		// this is not needed!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// PHONEGAP BUILD INCLUDES THE  CORRECT CORDOVA AT BUILD TIME!!!!
-		function selectCordova() {
+			
+			
+			
+			
+			$('#jobs').live('pageshow', function() {
+				getCompanyJobs("listview", "ASC");
+			});
+			$('#jobDetail').live('pagebeforeshow', function(){
+				var jobInfo = $(this).data();
+				$('#jobFrom').html(jobInfo.StartLocation);
+				$('#jobTo').html(jobInfo.EndLocation);
+				$('#jobCollectionDate').html(jobInfo.StartDateDay + ' ' + jobInfo.StartDateTime);
+				$('#jobStatus').html(jobInfo.Status == '' ? 'Status has not been set' : jobInfo.Status);	
+			});
+			$('#jobDetail').live('pageshow', function(){
+				getJobStatus("jobDetailScreen");
+			});
+			$('#updateStatus').live('pagebeforeshow', function() {
+				$('#statusUpdateDetails').hide();
+			});
+			$('#updateStatus').live('pageshow', function() {
+				getCompanyJobs("updateStatusScreen", "DESC");
+				getJobStatus("updateStatusScreen");
+			});
+			
+			
+			
+			
+			
+			
 		    
-		    //console.log("selecting Cordova...");
+			
+			
+			
+			
+			
+			
+			
+			// this is not needed!!!!!!!!!!!!!!!!!!!!!!!!!!
+			// PHONEGAP BUILD INCLUDES THE  CORRECT CORDOVA AT BUILD TIME!!!!
+			function selectCordova() {
+			    
+			    if(isMobile.Android()){
+				$("script").attr("src", "lib/android/cordova-2.5.0.js").appendTo("head");
+				//alert("android");
+			    }else if(isMobile.iOS()){
+				$("script").attr("src", "lib/ios/cordova.ios.js").appendTo("head");
+				//alert("iOS");
+			    }else if(isMobile.BlackBerry()){
+				$("script").attr("src", "lib/blackberry/cordova-2.5.0.js").appendTo("head");
+				//alert("blackberry");
+			    }else if(isMobile.Windows()){
+				$("script").attr("src", "lib/windowsPhone7/cordova-2.5.0.js").appendTo("head");
+				//alert("Windows");
+			    }
+			    
+			}
+			
+	
+			//function onDeviceReady(){
+			//	alert("device is ready");
+			//	navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
+			//}
 		    
-		    if(isMobile.Android()){
-			$("script").attr("src", "lib/android/cordova-2.5.0.js").appendTo("head");
-			//alert("android");
-		    }else if(isMobile.iOS()){
-			$("script").attr("src", "lib/ios/cordova.ios.js").appendTo("head");
-			//alert("iOS");
-		    }else if(isMobile.BlackBerry()){
-			$("script").attr("src", "lib/blackberry/cordova-2.5.0.js").appendTo("head");
-			//alert("blackberry");
-		    }else if(isMobile.Windows()){
-			$("script").attr("src", "lib/windowsPhone7/cordova-2.5.0.js").appendTo("head");
-			//alert("Windows");
-		    }
 		    
-		}
-		
-
-		//function onDeviceReady(){
-		//	alert("device is ready");
-		//	navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
-		//}
-	    
-	    
-		var isMobile = {
-		    Android: function() {
-			return navigator.userAgent.match(/Android/i);
-		    },
-		    BlackBerry: function() {
-			return navigator.userAgent.match(/BlackBerry/i);
-		    },
-		    iOS: function() {
-			return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-		    },
-		    Opera: function() {
-			return navigator.userAgent.match(/Opera Mini/i);
-		    },
-		    Windows: function() {
-			return navigator.userAgent.match(/IEMobile/i);
-		    },
-		    any: function() {
-			return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-		    }
-		};
+			var isMobile = {
+			    Android: function() {
+				return navigator.userAgent.match(/Android/i);
+			    },
+			    BlackBerry: function() {
+				return navigator.userAgent.match(/BlackBerry/i);
+			    },
+			    iOS: function() {
+				return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+			    },
+			    Opera: function() {
+				return navigator.userAgent.match(/Opera Mini/i);
+			    },
+			    Windows: function() {
+				return navigator.userAgent.match(/IEMobile/i);
+			    },
+			    any: function() {
+				return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+			    }
+			};
 			
 	
 	
