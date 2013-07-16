@@ -210,7 +210,7 @@ $('#gps_map').live('pageinit', function() {
         
         
     
-        var listener = google.maps.event.addListener(lg_map, 'tilesloaded', function() {
+        var listener = google.maps.event.addListener(lg_map, 'idle', function() {
         
                 
                 /*
@@ -242,6 +242,15 @@ $('#gps_map').live('pageinit', function() {
                                 var mygc = new google.maps.Geocoder();
                                 var myLat, myLon;
                                 boundsHasMarkers = false;
+                               
+                                markerCheck = function(){
+                                       if(!boundsHasMarkers)
+                                                alert("There are no loads near your current location.  Zoom out to see other loads."); 
+                                }
+                               
+                               f = markerCheck();
+                                
+                                //$.each( data, function(i, load, f) {
                                 $.each( data, function(i, load) {
                                        
                                         mygc.geocode({'address' : load.LoadPlace}, function(results, status){
@@ -257,7 +266,11 @@ $('#gps_map').live('pageinit', function() {
                                                 //    position: results[0].geometry.location
                                                 //});
                                                 
-                                                var marker = new google.maps.Marker({ 'position': new google.maps.LatLng(myLat, myLon), 'bounds':false });
+                                                var marker = new google.maps.Marker({
+                                                        'position': new google.maps.LatLng(myLat, myLon),
+                                                        'bounds' :false, 
+                                                        map: lg_map
+                                                        });
                                                 lg_mgr.addMarker(marker, 0);
                                                 if( lg_map.getBounds().contains(marker.position)){
                                                         // code for showing your object, associated with markers[i]
@@ -271,9 +284,10 @@ $('#gps_map').live('pageinit', function() {
                                             
                                         });
                                         
+                                        //f;
                                         
-                                        //loadsMap.addMarker(marker)
-                                        //AddMarkerToManager(loadsMap, loadsMarkerArray,'title', 'content','link',load.LoadLat, load.LoadLon);
+                                        
+                                        
                                          
                                 });
                                 
@@ -287,15 +301,23 @@ $('#gps_map').live('pageinit', function() {
                         },
                         
                         
-                }).done(function(data) {
-                        if(!boundsHasMarkers)
-                                alert("There are no loads near your current location.  Zoom out to see other loads.");
                 });
                 
                 
                 
                 lg_mgr.refresh();
                 google.maps.event.removeListener(listener);
+                
+        });
+        
+        //var idleListner = google.maps.event.addListener(lg_map, 'idle', function() {
+        //        alert('now the markers have been placed');
+        //        //google.maps.event.removeListener(idleListner);
+        //});
+        
+        
+        google.maps.event.addListener(lg_mgr, 'visible', function() {
+                alert('Marker Manager visible');
         });
 
  
