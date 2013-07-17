@@ -217,7 +217,7 @@ $('#gps_map').on('pageinit', function() {
                 
         }
         
-        navigator.geolocation.getCurrentPosition(self.success, onGeoError, {maximumAge:7500, timeout:5000, enableHighAccuracy:true});
+        navigator.geolocation.getCurrentPosition(self.success, onGeoError, {maximumAge:7500, timeout: 10000, enableHighAccuracy: false});
         //navigator.geolocation.watchPosition(self.success, onGeoError, {maximumAge:7500, timeout:5000, enableHighAccuracy:true}); // watchPosition is polling!!!
         
         
