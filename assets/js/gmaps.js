@@ -1,54 +1,6 @@
-var getLocation = function(){
-        //alert("finding location")
-        //navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
-        if (Modernizr.geolocation) {
-            navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
-        } else {
-            // no native support; maybe try a fallback?
-            alert('Your device does not support Geo Location');
-            return false;
-        }
-        
-};
 
-// onSuccess Geolocation
-function onGeoSuccess(position) {
-        
-        //alert('success');
-        $("#userDataStore").data({"geoLat": position.coords.latitude, "geoLong": position.coords.longitude});
-        geocoder = new google.maps.Geocoder();
-        
-        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        geocoder.geocode({'latLng': latlng}, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                if (results[1]) {
-                        //alert(results[1].formatted_address);
-                        $("#userDataStore").data({"geoAddress": results[1].formatted_address});
-                        $("#aroundMeInfoTitle").html("Current Location");
-                        $("#aroundMeInfoContent").html(results[1].formatted_address);
-                } else {
-                        alert('No results found');
-                        }
-            } else {
-                alert('Geocoder failed due to: ' + status);
-            }
-        });
-        
-        // return the position object
-        return position;
-    
-    
-    
-        //var element = document.getElementById('geolocation');
-        //element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
-        //		    'Longitude: '          + position.coords.longitude             + '<br />' +
-        //		    'Altitude: '           + position.coords.altitude              + '<br />' +
-        //		    'Accuracy: '           + position.coords.accuracy              + '<br />' +
-        //		    'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-        //		    'Heading: '            + position.coords.heading               + '<br />' +
-        //		    'Speed: '              + position.coords.speed                 + '<br />' +
-        //		    'Timestamp: '          + position.timestamp          + '<br />';
-}
+
+
 
 // onError Callback receives a PositionError object
 function onGeoError(error) {
@@ -168,8 +120,8 @@ function addLoadMarkers(checkBounds){
                                         link = "#home";
                                         var Content = '<h4>' + toolTiptext + '</h4>'
                                                 + '<p>' + content + '</p>'
-                                                + '<a href="mailto:lukas.gamble@vehogroup.com" data-role="button" data-theme="b" data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-hover-b ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">email</span></span></a>'
-                                                + '<a href="tel:07870163378" data-role="button" data-theme="b" data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-hover-b ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">phone</span></span></a>';
+                                                + '<a href="mailto:' + load.ContactEmail + '" data-role="button" data-theme="b" data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-hover-b ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">email</span></span></a>'
+                                                + '<a href="tel:' + load.ContactTelephone + '" data-role="button" data-theme="b" data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-hover-b ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">phone</span></span></a>';
                                                
                                         infoWindow = new google.maps.InfoWindow({ content: Content, position: marker.position, maxWidth: 400 });
                                         
@@ -223,14 +175,14 @@ function addLoadMarkers(checkBounds){
 
 
 
-$('#gps_map').live('pageinit', function() {
+$('#gps_map').on('pageinit', function() {
 
  
         
         // initiate the map and the marker manager
         var myOptions = {
             zoom: vehoMap.zoom,
-            center: new google.maps.LatLng(51.530052,-0.101023),
+            //center: new google.maps.LatLng(51.530052,-0.101023),
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         lg_map = new google.maps.Map(document.getElementById("loadsMap"), myOptions);
@@ -252,7 +204,10 @@ $('#gps_map').live('pageinit', function() {
                                 if (results[1]) {
                                         $("#userDataStore").data({"geoAddress": results[1].formatted_address});
                                         $("#aroundMeInfoTitle").html("Current Location");
-                                        $("#aroundMeInfoContent").html(results[1].formatted_address); 
+                                        $("#aroundMeInfoContent").html(results[1].formatted_address);
+                                        
+                                        addLoadMarkers(true);
+                                        
                                 }
                         } else {
                                 alert("We could not locate you for the following reason: " + status);
@@ -262,30 +217,16 @@ $('#gps_map').live('pageinit', function() {
                 
         }
         
-        //navigator.geolocation.getCurrentPosition(self.success, onGeoError, {maximumAge:75000, timeout:5000, enableHighAccuracy:true});
-        navigator.geolocation.watchPosition(self.success, onGeoError, {maximumAge:75000, timeout:5000, enableHighAccuracy:true});
+        navigator.geolocation.getCurrentPosition(self.success, onGeoError, {maximumAge:7500, timeout:5000, enableHighAccuracy:true});
+        //navigator.geolocation.watchPosition(self.success, onGeoError, {maximumAge:7500, timeout:5000, enableHighAccuracy:true}); // watchPosition is polling!!!
         
         
-        var listener = google.maps.event.addListener(lg_map, 'bounds_changed', function() {
-                addLoadMarkers(true);
-                google.maps.event.removeListener(listener);
-        });
-    
         //var listener = google.maps.event.addListener(lg_map, 'bounds_changed', function() {
-        
-        
-        
-        //console.log('pageinit');
-        
-        //var idleListner = google.maps.event.addListener(lg_map, 'idle', function() {
-        //        alert('now the markers have been placed');
-        //        //google.maps.event.removeListener(idleListner);
+        //        addLoadMarkers(true);
+        //        google.maps.event.removeListener(listener);
         //});
+    
         
-        
-        /*google.maps.event.addListener(lg_mgr, 'visible', function() {
-                alert('Marker Manager visible');
-        })*/;
 
  
  
@@ -411,23 +352,26 @@ $('#gps_map').live('pageinit', function() {
 //});
 
 
-$('#gps_map').live('pagebeforeshow', function() {
-        //console.log('pagebeforeshow');
+$('#gps_map').on('pagebeforeshow', function() {
+        console.log('pagebeforeshow');
 });
-$('#gps_map').live('pageshow', function() {
-        //console.log('pageshow');
-        //$('#loadsMap').gmap('refresh');
-        //console.log('map got refreshed');
-        google.maps.event.trigger(lg_map, "resize");
+$('#gps_map').on('pageshow', function() {
+        console.log('pageshow');
         
-        //lg_map.checkResize();
+        
+        
+        //google.maps.event.trigger(lg_map, "resize");
+        
+        
 });
 
-$('#gps_map').live("pagehide", function() {
-        //console.log('pagehide');
+$('#gps_map').on("pagehide", function() {
+        console.log('pagehide');
         //$('#loadsMap').gmap('clearWatch');
-        addLoadMarkers();
-        google.maps.event.trigger(lg_map, "resize");
+        
+        
+        //addLoadMarkers();
+        //google.maps.event.trigger(lg_map, "resize");
 });
 
 

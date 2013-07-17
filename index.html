@@ -316,16 +316,7 @@
 			</div>
 			<div data-role="content" data-theme="c" style="padding: 0; height: 100%">
 					<div id="loadsMap" style="height: 100%;"></div>
-					<div id="aroundMeMapInfo" style="display: none; padding: 10px;margin-bottom: 300px;">
-						<h2 id="aroundMeInfoTitle">Map info</h2>
-						<p id="aroundMeInfoContent">Current Location:</p>
-					</div>
-				
-				
 			</div>
-			<!--<div data-role="footer" class="footer" data-theme="c" data-position="fixed">
-				<h2>No loads currently available</h2>
-			</div>-->
 		</div>
 	<!-- *********************************************************
        	 NEARME PAGE END
@@ -780,17 +771,7 @@
 			/* *********************************************************
 			POST AVAILABILITY
 			********************************************************* */
-			var availabilityHandler = {
-				submitHandler: function(form) {
-						getLocation();
-						postAvailability();
-					}
-			}
-			var customAvailabilityMethods = Theme.validationRules;
-			var availabilityValidationObj = $.extend(
-				availabilityHandler,
-				customAvailabilityMethods
-			);
+			
 			$('#btnPostAvailability').click(function(){
 				this.validationDefaults = Theme.validationRules;
 				this.updateHandler = {
@@ -1270,59 +1251,60 @@
 			
 			
 			/************** POD Map *******************/
-			var loadPODMap = function(latLng, zoom){
+			function loadPODMap(lat, lon, zoom){
 			       $('#PODMap').gmap({
-				       'center': latLng,
 				       'zoom': zoom,
 				       'disableDefaultUI':false,
 				       'mapTypeControl' : false, 
 				       'navigationControl' : true,
 				       'streetViewControl' : false, 
 				       'callback': function(map) {
-					       
-						//var currentPosition = new google.maps.LatLong(lat, lon);
+						
 						var self = this;
-						self.success = function(pos){
 						       
-						       var latlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-						       // convert to address
-						       geocoder = new google.maps.Geocoder();
-						       geocoder.geocode({'latLng': latlng}, function(results, status) {
-							   if (status == google.maps.GeocoderStatus.OK) {
-							       if (results[1]) {
-								       $("#userDataStore").data({"geoAddress": results[1].formatted_address});
-								       $("#userDataStore").data({"geoLatLon": latlng});
-								       $("#PODMapInfoTitle").html("Current Location");
-								       $("#PODMapInfoContent").html(results[1].formatted_address);
-							       } else {
-								       alert('No results found');
-								       }
-							   } else {
-							       alert('Geocoder failed due to: ' + status);
-							   }
-						       });
-						       
-						       // are there any markers currently loaded?
-						       if ( !self.get('markers').client ) {
-							       // no marker, so add one
-							       self.addMarker({
-								       'id': 'client',
-								       'position': latlng,
-								       //'bounds': true,
-								       // need to pass in data in a function
-								       title: $("#userDataStore").data("firstName") + ' ' + $("#userDataStore").data("lastName")
-							       });
-							       map.setCenter(latlng);
-							       map.setZoom(zoom);
-							       
-						       } else {
-							       self.get('markers').client.setPosition(latlng);
-							       //map.panTo(latlng);
-						       }
-						}
-						navigator.geolocation.getCurrentPosition(self.success, onPODGeoError, {maximumAge:75000,timeout:5000,enableHighAccuracy:true});
-				       }
-				       
+						var latlng = new google.maps.LatLng(lat, lon);
+						// convert to address
+						geocoder = new google.maps.Geocoder();
+						geocoder.geocode({'latLng': latlng}, function(results, status) {
+							 if (status == google.maps.GeocoderStatus.OK) {
+								 if (results[1]) {
+									 $("#userDataStore").data({"geoAddress": results[1].formatted_address});
+									 $("#userDataStore").data({"geoLatLon": latlng});
+									 $("#PODMapInfoTitle").html("Current Location");
+									 $("#PODMapInfoContent").html(results[1].formatted_address);
+									 
+									 
+									 
+									 
+									 // are there any markers currently loaded?
+									 if ( !self.get('markers').client ) {
+										 // no marker, so add one
+										 self.addMarker({
+											 'id': 'client',
+											 'position': latlng,
+											 title: $("#userDataStore").data("geoAddress")
+										 });
+										 
+										 // centre the map
+										 map.setCenter(latlng);
+										 //map.setZoom(zoom);
+										 
+									 } else {
+										 self.get('markers').client.setPosition(latlng);
+										 //map.panTo(latlng);
+									 }
+									 
+								 } else {
+									 alert('No results found');
+								 }
+							 
+							 
+							 } else {
+							     alert('Geocoder failed due to: ' + status);
+							 }
+						});
+						
+				       } 
 			       });
 			}
 			
@@ -1333,8 +1315,7 @@
 				var now = new Date();
 				$("#PODTime").html(now.toString());
 				getCompanyJobs("podScreen", "DESC");
-				
-				navigator.geolocation.getCurrentPosition(onPODGeoSuccess, onPODGeoError);
+				navigator.geolocation.getCurrentPosition(onPODGeoSuccess, onPODGeoError, {maximumAge:7500, timeout:5000, enableHighAccuracy:true});
 				
 			});
 		
@@ -1349,8 +1330,7 @@
 				lon = position.coords.longitude;
 				
 				
-				loadPODMap(lat +','+lon, 10);
-				
+				loadPODMap(lat, lon, 10);
 			}
 			
 			
@@ -1364,7 +1344,7 @@
 			// POST AVAILABILITY
 			$('#availability').live('pageshow', function() {
 				getVehicles();
-				navigator.geolocation.getCurrentPosition(onAvailabilityGeoSuccess, onAvailabilityGeoError);
+				navigator.geolocation.getCurrentPosition(onAvailabilityGeoSuccess, onAvailabilityGeoError, {maximumAge:7500, timeout:5000, enableHighAccuracy:true});
 			});	
 			var onAvailabilityGeoError = function(error){
 				if(error == 1){
