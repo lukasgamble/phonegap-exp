@@ -360,7 +360,7 @@ $('#gps_map').on('pageshow', function() {
         
         
         
-        //google.maps.event.trigger(lg_map, "resize");
+        google.maps.event.trigger(lg_map, "resize");
         
         
 });
