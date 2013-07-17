@@ -103,11 +103,18 @@ var CreateLatLngObject = function (Latitude, Longitude) {
     return latlng;
 }
 
-/*
-var displayLoadMarkers = function(map, obj){
+
+
+var lg_map;
+var lg_mgr;
+var boundsHasMarkers = false;
+
+
+function addLoadMarkers(checkBounds){
+                
         $.mobile.loading( 'show', {
                 text: "Finding Loads Near You...",
-                textVisible: true,
+                textVisible: checkBounds,
                 theme: "a",
                 textonly: false
         });
@@ -118,53 +125,103 @@ var displayLoadMarkers = function(map, obj){
                 success: function (data) {
                         $.mobile.loading("hide");
                         
-                        var boundsHasMarkers = false;
+                        console.log(data);
+                        
+                        var mygc = new google.maps.Geocoder();
+                        var myLat, myLon;
+                        boundsHasMarkers = false;
+                        
+                        
                         $.each( data, function(i, load) {
-                                
-                                
-                                //var marker = new google.maps.Marker({ 'position': new google.maps.LatLng(load.LoadLat, load.LoadLon), 'bounds':false });
-                                //map.addMarker(marker)
-                                
-                                
-                                AddMarkerToManager(map, loadsMarkerArray,'title', 'content','link',load.LoadLat, load.LoadLon);
-                                
-                                //console.log(map.getBounds());
-                                //if( map.getBounds().contains(marker)){
-                                //        // code for showing your object, associated with markers[i]
-                                //        boundsHasMarkers = true;
-                                //}
-                        });
-                        
-                        //if(!this.boundsHasMarkers){
-                        //        alert("There are no loads near your current location.  Zoom out to see other loads.");
-                        //}
-                        
-                        
-                        var mgrOptions = { borderPadding: 20, maxZoom: 15, trackMarkers: false };
-                        mgr = new MarkerManager(map, mgrOptions);
-                        google.maps.event.addListener(mgr, 'loaded', function () {
+                               
+                                mygc.geocode({'address' : load.LoadPlace}, function(results, status){
+                                    
+                                    myLat = results[0].geometry.location.lat();
+                                    myLon = results[0].geometry.location.lng();
+                                    
+                                    if (status == google.maps.GeocoderStatus.OK) {
+                                        
+                                        var toolTiptext = "Load available to move";
+                                        var objLatLng = new google.maps.LatLng(myLat, myLon)
+                                        var marker = new google.maps.Marker({
+                                                'position': objLatLng,
+                                                'bounds' :false,
+                                                title: toolTiptext,
+                                                map: lg_map
+                                                });
+                                        
+                                        
+                                        content = "some description here";
+                                        
+                                        
+                                        content = "From: " + load.LoadPlace
+                                                                + "<br />To: " + load.UnLoadPlace
+                                                                + "<br />Collect on: " + load.LoadDate
+                                                                + "<br />Length: " + load.Length + ". Weight: " + load.Weight
+                                                                + "<br />Service: " + load.Service + ". Express: " + load.IsExpress
                             
-                            mgr.addMarkers(loadsMarkerArray);
-                            console.log('markers loaded');
+                                        //markerPlace, deliveryPlace, dr["LoadingDate"], dr["LengthMetres"], dr["WeightKg"], dr["LoadTypeName"], (bool)dr["IsExpress"] ? "YES" : "NO").Replace("'", @"\'");
+                                        
+                                        
+                                        
+                                        
+                                        link = "#home";
+                                        var Content = '<h4>' + toolTiptext + '</h4>'
+                                                + '<p>' + content + '</p>'
+                                                + '<a href="mailto:lukas.gamble@vehogroup.com" data-role="button" data-theme="b" data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-hover-b ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">email</span></span></a>'
+                                                + '<a href="tel:07870163378" data-role="button" data-theme="b" data-inline="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-hover-b ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">phone</span></span></a>';
+                                               
+                                        infoWindow = new google.maps.InfoWindow({ content: Content, position: marker.position, maxWidth: 400 });
+                                        
+                                        google.maps.event.addListener(marker, "click", function (event) {//             
+                                            if (infoWindow) infoWindow.close();
+                                            infoWindow = new google.maps.InfoWindow({ content: Content, position: marker.position, maxWidth: 400 });
+                                            infoWindow.open(lg_map, marker);
+                                            
+                                        });
+                                        
+                                        
+                                        lg_mgr.addMarker(marker, 0);
+                                        if( lg_map.getBounds().contains(marker.position)){
+                                                boundsHasMarkers = true;
+                                                //console.log('marker is on the visible map');
+                                        }else{
+                                                //console.log('marker is NOT on the visible map');  
+                                        }
+                                        
+                                        
+                                        
+                                        if((!boundsHasMarkers) && ((i+1)== data.length) && checkBounds){
+                                           alert("There are no loads near your current location.  Zoom out to see other loads.");      
+                                        }
+                                        
+                                      } else {
+                                        alert("Geocode was not successful for the following reason: " + status);
+                                      }
+                                    
+                                });
+                                  
                         });
                         
-                        console.log(loadsMarkerArray);
-                       
+                        
+                        
                 },
-                
-                
                 error: function(jqXHR, textStatus, errorThrown ){
                         $.mobile.loading("hide");
                         alert('Network error has occurred.  Do you have an internet connection?');
                 },
                 
+                
         });
-}
-*/
+        
+        
+        
+        lg_mgr.refresh();
+        
+        
+};
 
-var lg_map;
-var lg_mgr;
-var boundsHasMarkers = false;
+
 
 $('#gps_map').live('pageinit', function() {
 
@@ -209,106 +266,16 @@ $('#gps_map').live('pageinit', function() {
         navigator.geolocation.watchPosition(self.success, onGeoError, {maximumAge:75000, timeout:5000, enableHighAccuracy:true});
         
         
-    
-        var listener = google.maps.event.addListener(lg_map, 'idle', function() {
-        
-                
-                /*
-                for (var i = 0; i < 5; i++) {
-                    var marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(Math.random() * 180 - 90, Math.random() * 360 - 180),
-                        // animation: google.maps.Animation.DROP,
-                        // animation disabled because it slows down performance
-                        title: "Random marker #" + i
-                    });
-                    console.log(marker);
-                    lg_mgr.addMarker(marker, 0);
-                }
-                */
-                
-                $.mobile.loading( 'show', {
-                        text: "Finding Loads Near You...",
-                        textVisible: true,
-                        theme: "a",
-                        textonly: false
-                });
-                $.ajax({
-                        type: "POST",
-                        url: baseUrl + "load/current/someLocation",
-                        dataType: "json",
-                        success: function (data) {
-                                $.mobile.loading("hide");
-                                
-                                var mygc = new google.maps.Geocoder();
-                                var myLat, myLon;
-                                boundsHasMarkers = false;
-                               
-                                markerCheck = function(){
-                                       if(!boundsHasMarkers)
-                                                alert("There are no loads near your current location.  Zoom out to see other loads."); 
-                                }
-                               
-                               f = markerCheck();
-                                
-                                //$.each( data, function(i, load, f) {
-                                $.each( data, function(i, load) {
-                                       
-                                        mygc.geocode({'address' : load.LoadPlace}, function(results, status){
-                                            
-                                            myLat = results[0].geometry.location.lat();
-                                            myLon = results[0].geometry.location.lng();
-                                            
-                                            if (status == google.maps.GeocoderStatus.OK) {
-                                                
-                                                //map.setCenter(results[0].geometry.location);
-                                                //var marker = new google.maps.Marker({
-                                                //    map: map,
-                                                //    position: results[0].geometry.location
-                                                //});
-                                                
-                                                var marker = new google.maps.Marker({
-                                                        'position': new google.maps.LatLng(myLat, myLon),
-                                                        'bounds' :false, 
-                                                        map: lg_map
-                                                        });
-                                                lg_mgr.addMarker(marker, 0);
-                                                if( lg_map.getBounds().contains(marker.position)){
-                                                        // code for showing your object, associated with markers[i]
-                                                        boundsHasMarkers = true;
-                                                        console.log('marker is on the visible map');
-                                                }
-                                                
-                                              } else {
-                                                alert("Geocode was not successful for the following reason: " + status);
-                                              }
-                                            
-                                        });
-                                        
-                                        //f;
-                                        
-                                        
-                                        
-                                         
-                                });
-                                
-                                
-                                
-                                
-                        },
-                        error: function(jqXHR, textStatus, errorThrown ){
-                                $.mobile.loading("hide");
-                                alert('Network error has occurred.  Do you have an internet connection?');
-                        },
-                        
-                        
-                });
-                
-                
-                
-                lg_mgr.refresh();
+        var listener = google.maps.event.addListener(lg_map, 'bounds_changed', function() {
+                addLoadMarkers(true);
                 google.maps.event.removeListener(listener);
-                
         });
+    
+        //var listener = google.maps.event.addListener(lg_map, 'bounds_changed', function() {
+        
+        
+        
+        //console.log('pageinit');
         
         //var idleListner = google.maps.event.addListener(lg_map, 'idle', function() {
         //        alert('now the markers have been placed');
@@ -316,9 +283,9 @@ $('#gps_map').live('pageinit', function() {
         //});
         
         
-        google.maps.event.addListener(lg_mgr, 'visible', function() {
+        /*google.maps.event.addListener(lg_mgr, 'visible', function() {
                 alert('Marker Manager visible');
-        });
+        })*/;
 
  
  
@@ -438,18 +405,29 @@ $('#gps_map').live('pageinit', function() {
 
 
 //$('#loadsMap').gmap().bind('init', function(event, map) { 
+//        console.log('bind init');
 //        console.log(event);
 //        console.log(map);
 //});
 
+
+$('#gps_map').live('pagebeforeshow', function() {
+        //console.log('pagebeforeshow');
+});
 $('#gps_map').live('pageshow', function() {
-        
+        //console.log('pageshow');
         //$('#loadsMap').gmap('refresh');
         //console.log('map got refreshed');
+        google.maps.event.trigger(lg_map, "resize");
+        
+        //lg_map.checkResize();
 });
 
 $('#gps_map').live("pagehide", function() {
-        $('#loadsMap').gmap('clearWatch');
+        //console.log('pagehide');
+        //$('#loadsMap').gmap('clearWatch');
+        addLoadMarkers();
+        google.maps.event.trigger(lg_map, "resize");
 });
 
 

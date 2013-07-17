@@ -313,7 +313,7 @@
 			</div>
 			<div data-role="content" data-theme="c" style="padding: 0;">
 					<div id="loadsMap" style="height: 270px;"></div>
-					<div id="aroundMeMapInfo" style="padding: 10px;margin-bottom: 300px;">
+					<div id="aroundMeMapInfo" style="display: none; padding: 10px;margin-bottom: 300px;">
 						<h2 id="aroundMeInfoTitle">Map info</h2>
 						<p id="aroundMeInfoContent">Current Location:</p>
 					</div>
@@ -771,7 +771,12 @@
 			
 			
 			
-			// POST AVAILABILITY
+			
+			
+			
+			/* *********************************************************
+			POST AVAILABILITY
+			********************************************************* */
 			var availabilityHandler = {
 				submitHandler: function(form) {
 						getLocation();
@@ -796,6 +801,7 @@
 				);
 				$('#availabilityForm').validate(this.validationObj);
 			});
+			
 			
 			
 			
@@ -1445,6 +1451,8 @@
 			
 			
 		    
+			
+			
 			
 			
 			
