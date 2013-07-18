@@ -286,7 +286,7 @@
 						
 						<div class="controls">
 							<label for="cboAvailabilityLocation" style="text-align: center">
-								<input type="checkbox" name="cboAvailabilityLocation" checked="checked">Display Your Current Location
+								<input type="checkbox" name="cboAvailabilityLocation">Display Your Current Location
 							</label>
 						</div>
 					</div>
@@ -338,11 +338,44 @@
 				
 				<h2 style="text-align: center">Current Jobs List</h2>
 				<p style="text-align: center">Touch on a job to view full details</p>
-				<div id="noJobs" style="text-align: center; margin-bottom: 280px;">
-					<img src="assets/images/noJobsIcon.png" style="margin: 0 auto;" />
-				</div>
+				
 				<ul data-role="listview" data-divider-theme="b" data-inset="true" id="jobsList">
-					
+					<!--
+					<li data-role="list-divider" role="heading">
+					    Jobs: Today
+					</li>
+					<li data-theme="c">
+					    <a href="#" data-transition="slide">
+						08:00 GB-Baglan, SA12 to GB-CoventGarden, WC2
+					    </a>
+					</li>
+					<li data-theme="c">
+					    <a href="#" data-transition="slide">
+						13:00 GB-Hampstead, NW6 to GB-Norwich, NR2
+					    </a>
+					</li>
+					<li data-role="list-divider" role="heading">
+					    Jobs: 17 APR 2013
+					</li>
+					<li data-theme="c">
+					    <a href="#" data-transition="slide">
+						10:00 GB-Norwich, NR2 to GB-Bromley, BR1
+					    </a>
+					</li>
+					<li data-theme="c">
+					    <a href="#" data-transition="slide">
+						14:00 GB-West Harrow, HA2 to GB-Swansea, SA1
+					    </a>
+					</li>
+					<li data-role="list-divider" role="heading">
+					    Jobs: 18 APR 2013
+					</li>
+					<li data-theme="c">
+					    <a href="#" data-transition="slide">
+						09:00 GB-Cardiff, CF10 to GB-Cadbury Heath, BS30
+					    </a>
+					</li>
+					-->
 				</ul>
 				
 				
@@ -432,7 +465,7 @@
 					
 					<div class="field control-group" style="margin: 20px 0;">
 						<div class="controls">
-							<select id="ddlJob" data-placeholder="true" class="required initial">
+							<select id="ddlJob" data-placeholder="true" class="required">
 								<option value="">
 									Select Your Job...
 								</option>
@@ -442,7 +475,7 @@
 					
 					<div class="field control-group" style="margin: 20px 0;">
 						<div class="controls">
-							<select id="ddlJobStatus2" data-placeholder="true" class="required initial">
+							<select id="ddlJobStatus2" data-placeholder="true" class="required">
 								<option value="">
 									Select Status...
 								</option>
@@ -654,8 +687,6 @@
 		
 
 
-		
-		
 		var GPSTimeout = 10; //init global var NOTE: I noticed that 10 gives me the quickest result but play around with this number to your own liking
 		
 		
@@ -1010,7 +1041,7 @@
 					},
 					error: function(jqXHR, textStatus, errorThrown ){
 						$.mobile.loading("hide");
-						alert('Sorry, we could not update your status.  Please ensure that you select a status from the option list.');
+						alert('Network error has occurred.  Do you have an internet connection?');
 					},
 				
 				});
@@ -1188,7 +1219,6 @@
 						var jobDay = "";
 						data.map(function (val, i){
 						    if (val){
-							$('#noJobs').hide();
 							if(jobDay != val.StartDateDay){
 								var sep = $('<li data-role="list-divider" role="heading">').html(val.StartDateDay);
 								sep.appendTo("#jobsList");
@@ -1202,9 +1232,6 @@
 							$(aElem).click(function(){
 								$('#jobDetail').data($(this).data());
 							});
-						    }else{
-							// no values - so show the no jobs logo
-							$('#noJobs').show();
 						    }
 						    
 						})
@@ -1373,8 +1400,6 @@
 				
 			});
 		
-			
-			
 			//var onPODGeoError = function(error){
 			//	if(error == 1){
 			//		alert('Please turn on geolocation services');
