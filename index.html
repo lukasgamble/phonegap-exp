@@ -1352,15 +1352,21 @@
 				getVehicles();
 				navigator.geolocation.getCurrentPosition(onAvailabilityGeoSuccess, onAvailabilityGeoError, {maximumAge:7500, timeout:5000, enableHighAccuracy:true});
 			});	
-			var onAvailabilityGeoError = function(error){
+			function onAvailabilityGeoError(error){
 				if(error == 1){
 					alert('Please turn on geolocation services');
 				}
 			};
 			
-			var onAvailabilityGeoSuccess = function(position){
+			function onAvailabilityGeoSuccess(position){
+				
 				lat = position.coords.latitude;
 				lon = position.coords.longitude;
+				
+				console.log('getCurrentPosition got!');
+				console.log(lat);
+				console.log(lon);
+				
 				co_ords = new google.maps.LatLng(lat, lon)
 				geocoder = new google.maps.Geocoder();
 				geocoder.geocode({'latLng': co_ords}, function(results, status) {
