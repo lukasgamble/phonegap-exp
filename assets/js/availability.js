@@ -3,7 +3,7 @@
 // initialise vehicle dropdown & get users current position
 $('#availability').live('pageinit', function() {
     console.log('availability pageinit');
-    navigator.geolocation.getCurrentPosition(onAvailabilityGeoSuccess, onAvailabilityGeoError, {maximumAge:7500, timeout: 10000, enableHighAccuracy:true});
+    navigator.geolocation.getCurrentPosition(onAvailabilityGeoSuccess, onAvailabilityGeoError, {maximumAge:7500, timeout: 5000, enableHighAccuracy:true});
 });
 
 $('#availability').on('pageshow', function() {
