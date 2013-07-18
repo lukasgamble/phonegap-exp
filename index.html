@@ -888,6 +888,12 @@
 			// POST AVAILABILITY
 			var postAvailability = function () {	
 				
+				updateURL = baseUrl + "vehicle/PostVehicle/" + $("#ddlVehicle").val()
+						+ '/' + $("#userDataStore").data("geoCountry")
+						+ '/' + $("#userDataStore").data("geoPostcode")
+						+ '/' + $("#userDataStore").data("geoPlacename")
+						+ '/' + $("#userDataStore").data("GUID")
+				
 				$.mobile.loading( 'show', {
 					text: "Posting Availability...",
 					textVisible: true,
@@ -897,11 +903,7 @@
 				$.ajax({
 					type: "POST",
 					//PostVehicle/{vehicleGuid}/{country}/{postcode}/{place}/{personGuid}
-					url: baseUrl + "vehicle/PostVehicle/" + $("#ddlVehicle").val()
-						+ '/' + $("#userDataStore").data("geoCountry")
-						+ '/' + $("#userDataStore").data("geoPostcode")
-						+ '/' + $("#userDataStore").data("geoPlacename")
-						+ '/' + $("#userDataStore").data("GUID"),
+					url: updateURL,
 					dataType: "json",
 					success: function (data) {
 						$.mobile.loading("hide");
@@ -909,7 +911,7 @@
 					},
 					error: function(jqXHR, textStatus, errorThrown ){
 						$.mobile.loading("hide");
-						console.log(baseUrl + "vehicle/PostVehicle/" + $("#ddlVehicle").val());
+						console.log(updateURL);
 						console.log(jqXHR);
 						console.log(textStatus);
 						console.log(errorThrown);
