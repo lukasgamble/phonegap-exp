@@ -12,7 +12,8 @@ $('#availability').on('pageshow', function() {
         //
 });	
 function onAvailabilityGeoError(error){
-        console.log(error)
+        console.log(error);
+        console.log(error.code);
         //if(error == 1){
         //        alert('Please turn on geolocation services');
         //}
