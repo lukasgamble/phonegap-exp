@@ -685,9 +685,110 @@
 		});
 		
 		
+
+
+		var GPSTimeout = 10; //init global var NOTE: I noticed that 10 gives me the quickest result but play around with this number to your own liking
+		
+		
+		//function to be called where you want the location with the callback(position)
+		function getLocation(callback)
+		{   
+		    if(navigator.geolocation)
+		    {
+			var clickedTime = (new Date()).getTime(); //get the current time
+			GPSTimeout = 10; //reset the timeout just in case you call it more then once
+			ensurePosition(callback, clickedTime); //call recursive function to get position
+		    }
+		    return true;
+		}
+
+		//recursive position function
+		function ensurePosition(callback, timestamp)
+		{
+		    if(GPSTimeout < 6000)//set at what point you want to just give up
+		    {
+			//call the geolocation function
+			navigator.geolocation.getCurrentPosition(
+				function(position) //on success
+				{
+					//if the timestamp that is returned minus the time that was set when called is greater then 0 the position is up to date
+					if(position.timestamp - timestamp >= 0)
+					    {
+						GPSTimeout = 10; //reset timeout just in case
+						callback(position); //call the callback function you created
+					    }
+					    else //the gps that was returned is not current and needs to be refreshed
+					    {
+						GPSTimeout += GPSTimeout; //increase the timeout by itself n*2
+						ensurePosition(callback, timestamp); //call itself to refresh
+					    }
+					},
+					function() //error: gps failed so we will try again
+					{
+					    GPSTimeout += GPSTimeout; //increase the timeout by itself n*2
+					    ensurePosition(callback, timestamp);//call itself to try again
+					},
+					{maximumAge:0, timeout:GPSTimeout}
+				)
+		    }       
+		}
 		
 		
 		$(document).ready(function() {
+			
+			
+			getLocation(function(position){
+				//do something cool with position
+				console.log(position);
+				lat = position.coords.latitude;
+				lon = position.coords.longitude;
+				co_ords = new google.maps.LatLng(lat, lon)
+				geocoder = new google.maps.Geocoder();
+				geocoder.geocode({'latLng': co_ords}, function(results, status) {
+				    
+				    console.log('geo coding location')
+				    
+				    if (status == google.maps.GeocoderStatus.OK) {
+					if (results[1]) {
+						
+						
+						var components = results[1].address_components;
+						var postcode = null;
+						var country = null;
+						var placename = null;
+						for (var i = 0, component; component = components[i]; i++) {
+						    
+						    switch(component.types[0]){
+							
+							case "postal_code":
+								postcode = component['long_name'];
+								break;
+							case "country":
+								country = component['short_name'];
+								break;
+							case "locality":
+								placename = component['long_name'];
+								break;
+							
+						    }
+						}
+						
+						$("#userDataStore").data({"geoCountry": country});
+						$("#userDataStore").data({"geoPostcode": postcode});
+						$("#userDataStore").data({"geoPlacename": placename});
+						
+						$("#userDataStore").data({"geoAddress": results[1].formatted_address});
+						$("#userDataStore").data({"geoLatLon": co_ords});
+						
+					} else {
+						alert('No results found');
+						}
+				    } else {
+					alert('Geocoder failed due to: ' + status);
+				    }
+				});
+			    });
+			
 			
 			
 			if(!Modernizr.input.placeholder){
