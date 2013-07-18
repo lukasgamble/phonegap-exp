@@ -3,7 +3,7 @@
 // initialise vehicle dropdown & get users current position
 $('#availability').live('pageinit', function() {
     console.log('availability pageinit');
-    navigator.geolocation.getCurrentPosition(onAvailabilityGeoSuccess, onAvailabilityGeoError, {maximumAge:7500, timeout:5000, enableHighAccuracy:true});
+    navigator.geolocation.getCurrentPosition(onAvailabilityGeoSuccess, onAvailabilityGeoError, {maximumAge:7500, timeout: 10000, enableHighAccuracy:true});
 });
 
 $('#availability').on('pageshow', function() {
@@ -13,9 +13,25 @@ $('#availability').on('pageshow', function() {
 });	
 function onAvailabilityGeoError(error){
         console.log(error)
-        if(error == 1){
+        //if(error == 1){
+        //        alert('Please turn on geolocation services');
+        //}
+        
+        switch (error.code){
+            
+            case 1:
                 alert('Please turn on geolocation services');
+                break;
+            
+            case 2:
+                alert('Sorry, we could not ascertain your location.');
+                break;
+            
+            case 3:
+                alert('We could not ascertain your location - the request timed out.');
+                break;
         }
+        
 };
 
 // Grab current location data
