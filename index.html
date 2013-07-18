@@ -1348,7 +1348,7 @@
 			
 			
 			// POST AVAILABILITY
-			$('#availability').live('pageshow', function() {
+			$('#availability').on('pageshow', function() {
 				getVehicles();
 				navigator.geolocation.getCurrentPosition(onAvailabilityGeoSuccess, onAvailabilityGeoError, {maximumAge:7500, timeout:5000, enableHighAccuracy:true});
 			});	
@@ -1364,6 +1364,9 @@
 				co_ords = new google.maps.LatLng(lat, lon)
 				geocoder = new google.maps.Geocoder();
 				geocoder.geocode({'latLng': co_ords}, function(results, status) {
+				    
+				    console.log('geo coding location')
+				    
 				    if (status == google.maps.GeocoderStatus.OK) {
 					if (results[1]) {
 						
@@ -1389,6 +1392,7 @@
 						    }
 						}
 						
+						console.log(components);
 						
 						$("#userDataStore").data({"geoCountry": country});
 						$("#userDataStore").data({"geoPostcode": postcode});
