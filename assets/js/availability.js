@@ -20,15 +20,15 @@ function onAvailabilityGeoError(error){
         
         switch (error.code){
             
-            case 1:
+            case "1":
                 alert('Please turn on geolocation services');
                 break;
             
-            case 2:
+            case "2":
                 alert('Sorry, we could not ascertain your location.');
                 break;
             
-            case 3:
+            case "3":
                 alert('We could not ascertain your location - the request timed out.');
                 break;
         }
