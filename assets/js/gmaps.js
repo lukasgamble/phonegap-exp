@@ -147,12 +147,12 @@ function addLoadMarkers(checkBounds){
                                         
                                         
                                         if((!boundsHasMarkers) && ((i+1)== data.length) && checkBounds){
-                                           alert("There are no loads near your current location.  Zoom out to see other loads.");      
+                                                alert("There are no loads near your current location.  Zoom out to see other loads.");      
                                         }
                                         
-                                      } else {
-                                        alert("Geocode was not successful for the following reason: " + status);
-                                      }
+                                        } else {
+                                                alert("Geocode was not successful for the following reason: " + status);
+                                        }
                                     
                                 });
                                   
@@ -213,15 +213,32 @@ $('#gps_map').on('pageinit', function() {
                                         $("#aroundMeInfoTitle").html("Current Location");
                                         $("#aroundMeInfoContent").html(results[1].formatted_address);
                                         
+                                        var components = results[1].address_components;
+                                        var postcode = null;
+                                        var country = null;
+                                        var placename = null;
+                                        for (var i = 0, component; component = components[i]; i++) {
+                                            
+                                            switch(component.types[0]){
+                                                
+                                                case "postal_code":
+                                                        postcode = component['long_name'];
+                                                        break;
+                                                case "country":
+                                                        country = component['short_name'];
+                                                        break;
+                                                case "locality":
+                                                        placename = component['long_name'];
+                                                        break;
+                                                
+                                            }
+                                        }
                                         
+                                        console.log(components);
                                         
-                                        
-                                        //addLoadMarkers(true);
-                                        
-                                        
-                                        //if ( !lg_map.get('markers').client ){
-                                        //    addLoadMarkers(true);    
-                                        //}
+                                        $("#userDataStore").data({"geoCountry": country});
+                                        $("#userDataStore").data({"geoPostcode": postcode});
+                                        $("#userDataStore").data({"geoPlacename": placename});
                                         
                                         
                                 }
@@ -376,6 +393,13 @@ $('#gps_map').on('pageshow', function() {
         
         addLoadMarkers(true);
         
+        $('[data-role=content]')
+        .height(
+          $(window).height() - 
+          (5 + $('[data-role=header]').last().height() 
+          + $('[data-role=footer]').last().height())
+        );
+        // tell google to resize the map
         google.maps.event.trigger(lg_map, "resize");
         
         

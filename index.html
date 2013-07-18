@@ -734,6 +734,24 @@
 		}
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		function storePosition(position){
+			
+		}
+		
+		
+		
 		$(document).ready(function() {
 			
 			
@@ -745,8 +763,6 @@
 				co_ords = new google.maps.LatLng(lat, lon)
 				geocoder = new google.maps.Geocoder();
 				geocoder.geocode({'latLng': co_ords}, function(results, status) {
-				    
-				    console.log('geo coding location')
 				    
 				    if (status == google.maps.GeocoderStatus.OK) {
 					if (results[1]) {
@@ -1372,23 +1388,31 @@
 				var now = new Date();
 				$("#PODTime").html(now.toString());
 				getCompanyJobs("podScreen", "DESC");
-				navigator.geolocation.getCurrentPosition(onPODGeoSuccess, onPODGeoError, {maximumAge:7500, timeout:5000, enableHighAccuracy:true});
+				
+				
+				getLocation(function(position){
+					lat = position.coords.latitude;
+					lon = position.coords.longitude;
+					loadPODMap(lat, lon, 10);
+				});
+				
+				//navigator.geolocation.getCurrentPosition(onPODGeoSuccess, onPODGeoError, {maximumAge:7500, timeout:5000, enableHighAccuracy:true});
 				
 			});
 		
-			var onPODGeoError = function(error){
-				if(error == 1){
-					alert('Please turn on geolocation services');
-				}
-			};
-			
-			var onPODGeoSuccess = function(position){
-				lat = position.coords.latitude;
-				lon = position.coords.longitude;
-				
-				
-				loadPODMap(lat, lon, 10);
-			}
+			//var onPODGeoError = function(error){
+			//	if(error == 1){
+			//		alert('Please turn on geolocation services');
+			//	}
+			//};
+			//
+			//var onPODGeoSuccess = function(position){
+			//	lat = position.coords.latitude;
+			//	lon = position.coords.longitude;
+			//	
+			//	
+			//	loadPODMap(lat, lon, 10);
+			//}
 			
 			
 			
