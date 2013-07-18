@@ -63,7 +63,8 @@ var boundsHasMarkers = false;
 
 
 function addLoadMarkers(checkBounds){
-                
+              
+        console.log('running  addLoadMarkers')  
         $.mobile.loading( 'show', {
                 text: "Finding Loads Near You...",
                 textVisible: checkBounds,
@@ -132,8 +133,10 @@ function addLoadMarkers(checkBounds){
                                             
                                         });
                                         
+                                        loadsMarkerArray.push(marker);
                                         
-                                        lg_mgr.addMarker(marker, 0);
+                                        //lg_mgr.addMarker(marker, 0);
+                                        
                                         if( lg_map.getBounds().contains(marker.position)){
                                                 boundsHasMarkers = true;
                                                 //console.log('marker is on the visible map');
@@ -166,9 +169,13 @@ function addLoadMarkers(checkBounds){
                 
         });
         
+        var mgrOptions = { borderPadding: 20, maxZoom: 15, trackMarkers: false };
+        myMgr = new MarkerManager(lg_map, mgrOptions);
+        google.maps.event.addListener(myMgr, 'loaded', function () {
+            myMgr.addMarkers(loadsMarkerArray);
+        });
         
-        
-        lg_mgr.refresh();
+        //lg_mgr.refresh();
         
         
 };
@@ -177,7 +184,7 @@ function addLoadMarkers(checkBounds){
 
 $('#gps_map').on('pageinit', function() {
 
- 
+        console.log('pageinit');
         
         // initiate the map and the marker manager
         var myOptions = {
@@ -206,7 +213,16 @@ $('#gps_map').on('pageinit', function() {
                                         $("#aroundMeInfoTitle").html("Current Location");
                                         $("#aroundMeInfoContent").html(results[1].formatted_address);
                                         
-                                        addLoadMarkers(true);
+                                        
+                                        
+                                        
+                                        //addLoadMarkers(true);
+                                        
+                                        
+                                        //if ( !lg_map.get('markers').client ){
+                                        //    addLoadMarkers(true);    
+                                        //}
+                                        
                                         
                                 }
                         } else {
@@ -358,7 +374,7 @@ $('#gps_map').on('pagebeforeshow', function() {
 $('#gps_map').on('pageshow', function() {
         console.log('pageshow');
         
-        
+        addLoadMarkers(true);
         
         google.maps.event.trigger(lg_map, "resize");
         
@@ -367,14 +383,28 @@ $('#gps_map').on('pageshow', function() {
 
 $('#gps_map').on("pagehide", function() {
         console.log('pagehide');
-        //$('#loadsMap').gmap('clearWatch');
         
+        RemoveLoadMarkersFromArray();
         
         //addLoadMarkers();
         //google.maps.event.trigger(lg_map, "resize");
 });
 
 
+// Remove all markers from the map
+function RemoveLoadMarkersFromArray() {
+    
+    console.log('running  RemoveLoadMarkersFromArray') 
+    
+    if (loadsMarkerArray) {
+        if (loadsMarkerArray) {
+            for (var i = 0; i < loadsMarkerArray.length; i++) {
+                loadsMarkerArray[i].setMap(null);
+            }
+        }
+    }
+    loadsMarkerArray = new Array();
+}
 
 
 
