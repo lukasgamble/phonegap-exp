@@ -909,6 +909,10 @@
 					},
 					error: function(jqXHR, textStatus, errorThrown ){
 						$.mobile.loading("hide");
+						console.log(baseUrl + "vehicle/PostVehicle/" + $("#ddlVehicle").val());
+						console.log(jqXHR);
+						console.log(textStatus);
+						console.log(errorThrown);
 						alert('Network error has occurred.  Do you have an internet connection?');
 					},
 				
