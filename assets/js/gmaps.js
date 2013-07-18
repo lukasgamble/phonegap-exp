@@ -145,7 +145,8 @@ function addLoadMarkers(checkBounds){
                                         }
                                         
                                         
-                                        
+                                        console.log(data.length + ' ' + (i+1));
+                                        console.log('checkBounds = ' + checkBounds);
                                         if((!boundsHasMarkers) && ((i+1)== data.length) && checkBounds){
                                                 alert("There are no loads near your current location.  Zoom out to see other loads.");      
                                         }
@@ -184,7 +185,6 @@ function addLoadMarkers(checkBounds){
 
 $('#gps_map').on('pageinit', function() {
 
-        console.log('pageinit');
         
         // initiate the map and the marker manager
         var myOptions = {
@@ -250,7 +250,12 @@ $('#gps_map').on('pageinit', function() {
                 
         }
         
-        navigator.geolocation.getCurrentPosition(self.success, onGeoError, {maximumAge:7500, timeout: 10000, enableHighAccuracy: false});
+        
+        getLocation(function(position){
+                self.success(position);
+        });
+        
+        //navigator.geolocation.getCurrentPosition(self.success, onGeoError, {maximumAge:7500, timeout: 10000, enableHighAccuracy: false});
         //navigator.geolocation.watchPosition(self.success, onGeoError, {maximumAge:7500, timeout:5000, enableHighAccuracy:true}); // watchPosition is polling!!!
         
         
@@ -262,134 +267,17 @@ $('#gps_map').on('pageinit', function() {
         
 
  
- 
- 
-    
-/*
-    $('#loadsMap').gmap({
-        'center': vehoMap.center,
-        'zoom': vehoMap.zoom,
-        'disableDefaultUI':false,
-        'mapTypeControl' : false, 
-        'navigationControl' : true,
-        'streetViewControl' : false, 
-        'callback': function(map) {
-            
-            
-            var self = this;
-            loadsMap = this;
-            //map.setCenter(vehoMap.center);
-            //map.setZoom(vehoMap.zoom);
-            
-            self.success = function(pos){
-                var latlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-                // convert to address
-                geocoder = new google.maps.Geocoder();
-                geocoder.geocode({'latLng': latlng}, function(results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        if (results[1]) {
-                                $("#userDataStore").data({"geoAddress": results[1].formatted_address});
-                                $("#aroundMeInfoTitle").html("Current Location");
-                                $("#aroundMeInfoContent").html(results[1].formatted_address);
-                                
-                                //displayLoadMarkers(map, self);
-                                
-                                
-                                
-                                $.mobile.loading( 'show', {
-                                        text: "Finding Loads Near You...",
-                                        textVisible: true,
-                                        theme: "a",
-                                        textonly: false
-                                });
-                                $.ajax({
-                                        type: "POST",
-                                        url: baseUrl + "load/current/someLocation",
-                                        dataType: "json",
-                                        success: function (data) {
-                                                $.mobile.loading("hide");
-                                                
-                                                var boundsHasMarkers = false;
-                                                $.each( data, function(i, load) {
-                                                       
-                                                        //var marker = new google.maps.Marker({ 'position': new google.maps.LatLng(load.LoadLat, load.LoadLon), 'bounds':false });
-                                                        //loadsMap.addMarker(marker)
-                                                        AddMarkerToManager(loadsMap, loadsMarkerArray,'title', 'content','link',load.LoadLat, load.LoadLon);
-                                                        
-                                                });
-                                                
-                                                loadsMap.setZoom(vehoMap.zoom);
-                                                
-                                                var mgrOptions = { borderPadding: 20, maxZoom: 15, trackMarkers: false };
-                                                mgr = new MarkerManager(loadsMap, mgrOptions);
-                                                google.maps.event.addListener(mgr, 'loaded', function () {
-                                                    
-                                                    mgr.addMarkers(loadsMarkerArray);
-                                                    console.log('markers loaded');
-                                                });
-                                                //mgr.refresh();
-                                                console.log(loadsMarkerArray);
-                                               
-                                        },
-                                        error: function(jqXHR, textStatus, errorThrown ){
-                                                $.mobile.loading("hide");
-                                                alert('Network error has occurred.  Do you have an internet connection?');
-                                        },
-                                        
-                                });
-                                
-                        } else {
-                                alert('Sorry, your location could not be found.');
-                                }
-                    } else {
-                        alert('Geocoder failed due to: ' + status);
-                    }
-                });
-                
-                
-                // are there any markers currently loaded?
-                if ( !self.get('markers').client ) {
-                        // no marker, so add one
-                        //self.addMarker({
-                        //        'id': 'client',
-                        //        'position': latlng,
-                        //        //'bounds': true,
-                        //        // need to pass in data in a function
-                        //        title: $("#userDataStore").data("firstName") + ' ' + $("#userDataStore").data("lastName")
-                        //});
-                        map.setCenter(latlng);
-                        map.setZoom(vehoMap.zoom);
-                        
-                } else {
-                        self.get('markers').client.setPosition(latlng);
-                        //map.panTo(latlng);
-                }
-            }
 
-            
-            //navigator.geolocation.getCurrentPosition(self.success, onGeoError, {maximumAge: 75000});
-            navigator.geolocation.getCurrentPosition(self.success, onGeoError, {maximumAge:75000,timeout:5000,enableHighAccuracy:false});
-            
-    
-           
-    }});
-*/
 
 }); /* end $('#gps_map').live *********/
 
 
-//$('#loadsMap').gmap().bind('init', function(event, map) { 
-//        console.log('bind init');
-//        console.log(event);
-//        console.log(map);
-//});
 
 
 $('#gps_map').on('pagebeforeshow', function() {
-        console.log('pagebeforeshow');
+        //console.log('pagebeforeshow');
 });
 $('#gps_map').on('pageshow', function() {
-        console.log('pageshow');
         
         addLoadMarkers(true);
         
@@ -406,12 +294,7 @@ $('#gps_map').on('pageshow', function() {
 });
 
 $('#gps_map').on("pagehide", function() {
-        console.log('pagehide');
-        
-        RemoveLoadMarkersFromArray();
-        
-        //addLoadMarkers();
-        //google.maps.event.trigger(lg_map, "resize");
+        RemoveLoadMarkersFromArray(); 
 });
 
 
