@@ -2,21 +2,19 @@
 
 // initialise vehicle dropdown & get users current position
 $('#availability').live('pageinit', function() {
-    console.log('availability pageinit');
-    navigator.geolocation.getCurrentPosition(onAvailabilityGeoSuccess, onAvailabilityGeoError, {maximumAge:7500, timeout: 5000, enableHighAccuracy:true});
+    
+    getLocation(function(position){
+            onAvailabilityGeoSuccess(position);
+    });
+    
+    
 });
 
 $('#availability').on('pageshow', function() {
-        console.log('availability pageshow');
         getVehicles();
-        //
+        
 });	
 function onAvailabilityGeoError(error){
-        console.log(error);
-        console.log(error.code);
-        //if(error == 1){
-        //        alert('Please turn on geolocation services');
-        //}
         
         switch (error.code){
             
@@ -41,15 +39,10 @@ function onAvailabilityGeoSuccess(position){
         lat = position.coords.latitude;
         lon = position.coords.longitude;
         
-        console.log('getCurrentPosition got!');
-        console.log(lat);
-        console.log(lon);
         
         co_ords = new google.maps.LatLng(lat, lon)
         geocoder = new google.maps.Geocoder();
         geocoder.geocode({'latLng': co_ords}, function(results, status) {
-            
-            console.log('geo coding location')
             
             if (status == google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
@@ -117,6 +110,8 @@ function postAvailability () {
                 success: function (data) {
                         $.mobile.loading("hide");
                         alert('Your vehicle availability has been posted to the Vehotrans website.');
+                        $('#ddlVehicle')[0].selectedIndex = 0;
+                        $('#ddlVehicle').selectmenu("refresh", true);
                 },
                 error: function(jqXHR, textStatus, errorThrown ){
                         $.mobile.loading("hide");
@@ -124,7 +119,7 @@ function postAvailability () {
                         console.log(jqXHR);
                         console.log(textStatus);
                         console.log(errorThrown);
-                        alert('Network error has occurred.  Do you have an internet connection? eh?');
+                        alert('Network error has occurred.  Do you have an internet connection?');
                 },
         
         });
