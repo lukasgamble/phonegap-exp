@@ -12,6 +12,16 @@ $('#availability').live('pageinit', function() {
 
 $('#availability').on('pageshow', function() {
         getVehicles();
+        var ua = navigator.userAgent.toLowerCase();
+        var isThisAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+        if(isThisAndroid) {
+                console.log('android device');
+                alert('android device');
+                $('.ui-icon-checkbox-on').css('background-position', '-717px 0px')
+        }else{
+                console.log('not an android device');
+                //alert('not an android device');
+        }
         
 });	
 function onAvailabilityGeoError(error){
