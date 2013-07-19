@@ -315,7 +315,12 @@
 				<a href="#home" class="homeBtn" data-transition="slideup" data-direction="reverse">Home</a>
 			</div>
 			<div data-role="content" data-theme="c" style="padding: 0; height: 100%">
-					<div id="loadsMap" style="height: 100%;"></div>
+				<div id="loadsMap" style="height: 100%;"></div>
+				<div id="noMap" style="display: none; margin-bottom: 300px; padding: 10px; text-align: center;">
+					<h2>Sorry, no can do :(</h2>
+					<p>We are very sorry, but the role set for you by your company administrator does not allow you to view "Loads Near Me".</p>
+					<p style="margin-top: 20px; font-weight: bold;">Please contact your company Vehotrans administrator to enable this view.</p>
+				</div>
 			</div>
 		</div>
 	<!-- *********************************************************
@@ -528,8 +533,8 @@
 			</div>
 		
 			<div data-role="content" data-theme="c">	
-				<h2>My Account</h2>
-				<p>Change password</p>
+				<h2 style="margin-bottom: 20px;">My Account</h2>
+				<div id="myAccountDetails" style="margin-bottom: 400px;"></div>
 				
 			</div><!-- /content -->
 		</div>
@@ -1047,7 +1052,17 @@
 							// hide the dialog
 							//$('#loginDialog').hide();
 							//store credentials with the userDataStore div object
-							$("#userDataStore").data({"firstName": data.FirstName, "lastName": data.LastName, "email": data.EmailAddress, "GUID": data.PersonGUID, "companyGUID": data.CompanyGUID});
+							$("#userDataStore").data({"firstName": data.FirstName,
+										 "lastName": data.LastName,
+										 "email": data.EmailAddress,
+										 "GUID": data.PersonGUID,
+										 "companyGUID": data.CompanyGUID,
+										 "Companyname": data.Companyname,
+										 "UserRole": data.UserRole,
+										 "MemberSince": data.MemberSince,
+										 "LoadsNearMeIsAllowed": data.LoadsNearMeIsAllowed
+										 });
+							
 							// display the username
 							$("#welcomeText").html('Welcome back ' + $("#userDataStore").data("firstName") + ' ' + $("#userDataStore").data("lastName"));
 							// load the homescreen
@@ -1374,45 +1389,25 @@
 				});
 				
 				//navigator.geolocation.getCurrentPosition(onPODGeoSuccess, onPODGeoError, {maximumAge:7500, timeout:5000, enableHighAccuracy:true});
-				
+				google.maps.event.trigger($('#PODMap'), "resize");
 			});
 		
 			
 			
-			//var onPODGeoError = function(error){
-			//	if(error == 1){
-			//		alert('Please turn on geolocation services');
-			//	}
-			//};
-			//
-			//var onPODGeoSuccess = function(position){
-			//	lat = position.coords.latitude;
-			//	lon = position.coords.longitude;
-			//	
-			//	
-			//	loadPODMap(lat, lon, 10);
-			//}
+
 			
 			
-			
-			
-		
-		
-		
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-		
-			
-			
+			$('#myAccount').live('pagebeforeshow', function() {
+				
+				var memberContent = '<p>' + $("#userDataStore").data("firstName") + ' ' + $("#userDataStore").data("lastName") + '</p>'
+						+ '<p style="font-weight: bold">' + $("#userDataStore").data("Companyname") + '</p>'
+						+ '<p>Member since: ' + $("#userDataStore").data("MemberSince") + '</p>'
+				
+				$('#myAccountDetails').html(memberContent);
+				
+				
+				
+			});
 			
 			
 			$('#jobs').live('pageshow', function() {

@@ -186,6 +186,9 @@ function addLoadMarkers(checkBounds){
 
 $('#gps_map').on('pageinit', function() {
 
+        if(!$("#userDataStore").data("LoadsNearMeIsAllowed")){
+           return;     
+        }
         
         // initiate the map and the marker manager
         var myOptions = {
@@ -256,53 +259,60 @@ $('#gps_map').on('pageinit', function() {
                 self.success(position);
         });
         
-        //navigator.geolocation.getCurrentPosition(self.success, onGeoError, {maximumAge:7500, timeout: 10000, enableHighAccuracy: false});
-        //navigator.geolocation.watchPosition(self.success, onGeoError, {maximumAge:7500, timeout:5000, enableHighAccuracy:true}); // watchPosition is polling!!!
-        
-        
-        //var listener = google.maps.event.addListener(lg_map, 'bounds_changed', function() {
-        //        addLoadMarkers(true);
-        //        google.maps.event.removeListener(listener);
-        //});
-    
-        
-
- 
 
 
-}); /* end $('#gps_map').live *********/
+
+}); 
 
 
 
 
 $('#gps_map').on('pagebeforeshow', function() {
         //console.log('pagebeforeshow');
+        
+        if(!$("#userDataStore").data("LoadsNearMeIsAllowed")){
+           //hide the loads map container
+           $('#loadsMap').hide();
+           
+           //show the upgrade container
+           $('#noMap').show();
+        }
+        
+        
 });
 $('#gps_map').on('pageshow', function() {
         
-        addLoadMarkers(true);
         
-        $('[data-role=content]')
-        .height(
-          $(window).height() - 
-          (5 + $('[data-role=header]').last().height() 
-          + $('[data-role=footer]').last().height())
-        );
-        // tell google to resize the map
-        google.maps.event.trigger(lg_map, "resize");
+        if($("#userDataStore").data("LoadsNearMeIsAllowed")){
+           
         
+                addLoadMarkers(true);
+                
+                $('[data-role=content]')
+                .height(
+                  $(window).height() - 
+                  (5 + $('[data-role=header]').last().height() 
+                  + $('[data-role=footer]').last().height())
+                );
+                // tell google to resize the map
+                google.maps.event.trigger(lg_map, "resize");
         
+        }
 });
 
 $('#gps_map').on("pagehide", function() {
-        RemoveLoadMarkersFromArray(); 
+        
+        if($("#userDataStore").data("LoadsNearMeIsAllowed")){
+         
+                RemoveLoadMarkersFromArray();    
+        }
 });
 
 
 // Remove all markers from the map
 function RemoveLoadMarkersFromArray() {
     
-    console.log('running  RemoveLoadMarkersFromArray') 
+    
     
     if (loadsMarkerArray) {
         if (loadsMarkerArray) {
