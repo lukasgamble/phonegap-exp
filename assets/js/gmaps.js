@@ -295,7 +295,10 @@ $('#gps_map').on('pageshow', function() {
                   + $('[data-role=footer]').last().height())
                 );
                 // tell google to resize the map
+                console.log(lg_map);
                 google.maps.event.trigger(lg_map, "resize");
+                
+                
         
         }
 });
