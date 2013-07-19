@@ -147,6 +147,7 @@ function addLoadMarkers(checkBounds){
                                         
                                         console.log(data.length + ' ' + (i+1));
                                         console.log('checkBounds = ' + checkBounds);
+                                        console.log('boundsHasMarkers');
                                         if((!boundsHasMarkers) && ((i+1)== data.length) && checkBounds){
                                                 alert("There are no loads near your current location.  Zoom out to see other loads.");      
                                         }
