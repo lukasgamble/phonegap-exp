@@ -657,6 +657,9 @@
 
 		
 		
+		
+		
+		
 		var GPSTimeout = 10; //init global var NOTE: I noticed that 10 gives me the quickest result but play around with this number to your own liking
 		
 		
@@ -1033,7 +1036,7 @@
 				});
 				$.ajax({
 					
-					type: "GET",
+					type: "POST",
 					url: baseUrl + "rest/Person/" + $("#txtEmail").val() + "/" + $("#txtPassword").val() ,
 					dataType: "json",
 					success: function (data) {
