@@ -186,8 +186,8 @@ function addLoadMarkers(checkBounds){
 
 $('#gps_map').on('pageinit', function() {
 
-        if(!$("#userDataStore").data("LoadsNearMeIsAllowed")){
-           return;     
+        if($("#userDataStore").data("LoadsNearMeIsAllowed") === false){
+           return false;     
         }
         
         // initiate the map and the marker manager
@@ -243,7 +243,7 @@ $('#gps_map').on('pageinit', function() {
                                         $("#userDataStore").data({"geoCountry": country});
                                         $("#userDataStore").data({"geoPostcode": postcode});
                                         $("#userDataStore").data({"geoPlacename": placename});
-                                        
+                                        $("#userDataStore").data({"geoLatLon": latlng});
                                         
                                 }
                         } else {
@@ -268,22 +268,22 @@ $('#gps_map').on('pageinit', function() {
 
 
 $('#gps_map').on('pagebeforeshow', function() {
-        //console.log('pagebeforeshow');
+        console.log('pagebeforeshow');
         
-        if(!$("#userDataStore").data("LoadsNearMeIsAllowed")){
+        if($("#userDataStore").data("LoadsNearMeIsAllowed") === false){
            //hide the loads map container
            $('#loadsMap').hide();
            
            //show the upgrade container
            $('#noMap').show();
         }
-        
-        
+//        console.log($("#userDataStore").data());
+//        console.log('LoadsNearMeIsAllowed: ' + $("#userDataStore").data("LoadsNearMeIsAllowed"));
 });
 $('#gps_map').on('pageshow', function() {
         
         
-        if($("#userDataStore").data("LoadsNearMeIsAllowed")){
+        if($("#userDataStore").data("LoadsNearMeIsAllowed") === true){
            
         
                 addLoadMarkers(true);
@@ -295,20 +295,15 @@ $('#gps_map').on('pageshow', function() {
                   + $('[data-role=footer]').last().height())
                 );
                 // tell google to resize the map
-                console.log(lg_map);
                 google.maps.event.trigger(lg_map, "resize");
-                
-                
         
+                //make sure we centre correctly
+                lg_map.setCenter($("#userDataStore").data("geoLatLon"));
         }
 });
 
-$('#gps_map').on("pagehide", function() {
-        
-        if($("#userDataStore").data("LoadsNearMeIsAllowed")){
-         
-                RemoveLoadMarkersFromArray();    
-        }
+$('#gps_map').on("pagehide", function() {   
+        RemoveLoadMarkersFromArray();    
 });
 
 
