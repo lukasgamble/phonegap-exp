@@ -785,6 +785,19 @@
 			
 			
 			
+			
+			
+			
+			var ua = navigator.userAgent.toLowerCase();
+			var isThisAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+			if(isThisAndroid) {
+				console.log('android device');
+			}else{
+				console.log('not an android device');
+			}
+			
+			
+			
 			if(!Modernizr.input.placeholder){
 
 				$('[placeholder]').focus(function() {
@@ -1102,13 +1115,7 @@
 		
 		
 		
-		var ua = navigator.userAgent.toLowerCase();
-		var isThisAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
-		if(isThisAndroid) {
-			alert('android device');
-		}else{
-			alert('not an android device');
-		}
+		
 		
 		
 		
