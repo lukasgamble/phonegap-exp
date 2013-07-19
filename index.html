@@ -286,7 +286,7 @@
 						
 						<div class="controls">
 							<label for="cboAvailabilityLocation" style="text-align: center">
-								<input type="checkbox" name="cboAvailabilityLocation" checked="checked">Display Your Current Location
+								<input type="checkbox" name="cboAvailabilityLocation" id="cboAvailabilityLocation" checked="checked">Display Your Current Location
 							</label>
 						</div>
 					</div>
@@ -732,15 +732,18 @@
 		
 		$(document).ready(function() {
 			
+			
+			alert('hello');
+			
 			var ua = navigator.userAgent.toLowerCase();
 			var isThisAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
 			if(isThisAndroid) {
 				console.log('android device');
 				alert('android device');
-				$('.ui-icon-checkbox.on').css('background-position', '-717px 0px')
+				$('#cboAvailabilityLocation').css('background-position', '-717px 0px')
 			}else{
 				console.log('not an android device');
-				alert('not an android device');
+				//alert('not an android device');
 			}
 			
 			
