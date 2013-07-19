@@ -81,11 +81,11 @@
 
 /* OVERRIDE FOR ANDROID ONLY */
 .ui-icon-checkbox-on {
-    background-position: -721px 0px;
+    background-position: -723px 0px;
 }
     
 .ui-icon-checkbox-off {
-    background-position: -756px 50%;
+    background-position: -764px 50%;
 }
 /* END OVERRIDE FOR ANDROID ONLY */
 
