@@ -102,11 +102,11 @@ function onAvailabilityGeoSuccess(position){
 // POST AVAILABILITY FUNCTION
 function postAvailability () {
         
-        updateURL = baseUrl + "vehicle/PostVehicle/" + $("#ddlVehicle").val()
-                        + '/' + $("#userDataStore").data("geoCountry")
-                        + '/' + $("#userDataStore").data("geoPostcode")
-                        + '/' + $("#userDataStore").data("geoPlacename")
-                        + '/' + $("#userDataStore").data("GUID")
+        //updateURL = baseUrl + "vehicle/PostVehicle/" + $("#ddlVehicle").val()
+        //                + '/' + $("#userDataStore").data("geoCountry")
+        //                + '/' + $("#userDataStore").data("geoPostcode")
+        //                + '/' + $("#userDataStore").data("geoPlacename")
+        //                + '/' + $("#userDataStore").data("GUID")
         
         $.mobile.loading( 'show', {
                 text: "Posting Availability...",
@@ -116,8 +116,12 @@ function postAvailability () {
         });
         $.ajax({
                 type: "POST",
-                //PostVehicle/{vehicleGuid}/{country}/{postcode}/{place}/{personGuid}
-                url: updateURL,
+                url: baseUrl + "Services/VehoTrans.asmx/PostVehicle",
+                
+                
+                data: "vehicleGuid=" + $("#ddlVehicle").val() + "&country=" + $("#userDataStore").data("geoCountry") + "&postcode=" + $("#userDataStore").data("geoPostcode") + "&place=" + $("#userDataStore").data("geoPlacename") + "&personGuid=" + $("#userDataStore").data("GUID"),
+                
+                
                 dataType: "json",
                 success: function (data) {
                         $.mobile.loading("hide");
