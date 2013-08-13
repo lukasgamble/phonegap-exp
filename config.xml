@@ -54,8 +54,8 @@
 		Use the following if you want a launch splash screen to appear briefly
 	-->
   
-  <gap:splash src="images/startup/startupRetina.jpg" width="640" height="920"/>
-  <gap:splash src="images/startup/startup.jpg" width="320" height="460"/>
+  <gap:splash src="assets/images/startup/startupRetina.jpg" width="640" height="920"/>
+  <gap:splash src="assets/images/startup/startup.jpg" width="320" height="460"/>
   
 
 	<!--
