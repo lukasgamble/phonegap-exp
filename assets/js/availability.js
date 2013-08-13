@@ -155,7 +155,13 @@ function postAvailability () {
                 dataType: "json",
                 success: function (data) {
                         $.mobile.loading("hide");
-                        alert('Your vehicle availability has been posted to the Vehotrans website.');
+                        //alert('Your vehicle availability has been posted to the Vehotrans website.');
+                        navigator.notification.alert(
+                            'Your vehicle availability has been posted to the Vehotrans website',  // message
+                            null,         // callback
+                            'Success',            // title
+                            'OK'                  // buttonName
+                        );
                         $('#ddlVehicle')[0].selectedIndex = 0;
                         $('#ddlVehicle').selectmenu("refresh", true);
                 },
@@ -165,7 +171,13 @@ function postAvailability () {
                         console.log(jqXHR);
                         console.log(textStatus);
                         console.log(errorThrown);
-                        alert('Network error has occurred.  Do you have an internet connection?');
+                        //alert('Network error has occurred.  Do you have an internet connection?');
+                        navigator.notification.alert(
+                            'Do you have an internet connection?',  // message
+                            null,         // callback
+                            'Network error',            // title
+                            'OK'                  // buttonName
+                        );
                 },
         
         });
