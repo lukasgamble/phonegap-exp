@@ -114,7 +114,13 @@
             states[NetworkStatus.REACHABLE_VIA_CARRIER_DATA_NETWORK] = 'Carrier data connection';
             states[NetworkStatus.REACHABLE_VIA_WIFI_NETWORK]         = 'WiFi connection';
     
-            alert('Connection type: ' + states[networkState]);
+            //alert('Connection type: ' + states[networkState]);
+            //navigator.notification.alert(
+            //    states[networkState],  // message
+            //    null,         // callback
+            //    'Connection type',            // title
+            //    'OK'                  // buttonName
+            //);
         }
         </script>
 	
@@ -653,7 +659,7 @@
 		var lat, lon, co_ords;
 		
 		var alertDismissed = function(){
-                        alert('IVe been dismissed');
+                        //alert('IVe been dismissed');
                 };
 		
  
@@ -814,10 +820,23 @@
 						$("#userDataStore").data({"geoLatLon": co_ords});
 						
 					} else {
-						alert('No results found');
-						}
+						//alert('No results found');
+                                                navigator.notification.alert(
+                                                    'Sorry, no results found',  // message
+                                                    null,         // callback
+                                                    'No results',            // title
+                                                    'OK'                  // buttonName
+                                                );
+					    }
 				    } else {
-					alert('Geocoder failed due to: ' + status);
+					//alert('Geocoder failed due to: ' + status);
+                                        navigator.notification.alert(
+                                            status,  // message
+                                            null,         // callback
+                                            'Geocoder failed',            // title
+                                            'OK'                  // buttonName
+                                        );
+                                        
 				    }
 				});
 			    });
@@ -978,11 +997,24 @@
                                         
 					success: function (data) {
 						$.mobile.loading("hide");
-						alert("POD has been sent to Vehotrans");
+						//alert("POD has been sent to Vehotrans");
+                                                navigator.notification.alert(
+                                                    'Your POD has been sent to Vehotrans.',  // message
+                                                    null,         // callback
+                                                    'POD Sent',            // title
+                                                    'OK'                  // buttonName
+                                                );
+                                                
 					},
 					error: function(jqXHR, textStatus, errorThrown ){
 						$.mobile.loading("hide");
-						alert('Network error has occurred.  Do you have an internet connection?');
+						//alert('Network error has occurred.  Do you have an internet connection?');
+                                                navigator.notification.alert(
+                                                    'Do you have an internet connection?',  // message
+                                                    null,         // callback
+                                                    'Network error',            // title
+                                                    'OK'                  // buttonName
+                                                );
 					},
 				
 				});
@@ -1053,14 +1085,26 @@
 						}
 						
 						
-						alert('job successfully updated')
+						//alert('job successfully updated')
+                                                navigator.notification.alert(
+                                                    'Job successfully updated',  // message
+                                                    null,         // callback
+                                                    'Success',            // title
+                                                    'OK'                  // buttonName
+                                                );
 						
 	
 						
 					},
 					error: function(jqXHR, textStatus, errorThrown ){
 						$.mobile.loading("hide");
-						alert('Sorry, we could not update your status.  Please ensure that you select a status from the option list.');
+						//alert('Sorry, we could not update your status.  Please ensure that you select a status from the option list.');
+                                                navigator.notification.alert(
+                                                    'Sorry, we could not update your status.  Please ensure that you select a status from the option list.',  // message
+                                                    null,         // callback
+                                                    'Update Failure',            // title
+                                                    'OK'                  // buttonName
+                                                );
 					},
 				
 				});
@@ -1178,7 +1222,13 @@
 					},
 					error: function(jqXHR, textStatus, errorThrown ){
 						$.mobile.loading("hide");
-						alert('Network error has occurred.  Do you have an internet connection?');
+						//alert('Network error has occurred.  Do you have an internet connection?');
+                                                navigator.notification.alert(
+                                                    'Do you have an internet connection?',  // message
+                                                    null,         // callback
+                                                    'Network error',            // title
+                                                    'OK'                  // buttonName
+                                                );
 					},
 					
 				});
@@ -1247,7 +1297,13 @@
 					},
 					error: function(jqXHR, textStatus, errorThrown ){
 						$.mobile.loading("hide");
-						alert('Network error has occurred.  Do you have an internet connection?');
+						//alert('Network error has occurred.  Do you have an internet connection?');
+                                                navigator.notification.alert(
+                                                    'Do you have an internet connection?',  // message
+                                                    null,         // callback
+                                                    'Network error',            // title
+                                                    'OK'                  // buttonName
+                                                );
 					},
 					
 				});
@@ -1355,7 +1411,13 @@
 					
 					error: function(jqXHR, textStatus, errorThrown ){
 						$.mobile.loading("hide");
-						alert('Network error has occurred please try again!');
+						//alert('Network error has occurred please try again!');
+                                                navigator.notification.alert(
+                                                    'Please try again',  // message
+                                                    null,         // callback
+                                                    'Network error',            // title
+                                                    'OK'                  // buttonName
+                                                );
 					},
 					
 				});
@@ -1420,12 +1482,24 @@
 									 }
 									 
 								 } else {
-									 alert('No results found');
+									 //alert('No results found');
+                                                                         navigator.notification.alert(
+                                                                            'Sorry, no results found',  // message
+                                                                            null,         // callback
+                                                                            'No Results',            // title
+                                                                            'OK'                  // buttonName
+                                                                        );
 								 }
 							 
 							 
 							 } else {
-							     alert('Geocoder failed due to: ' + status);
+							     //alert('Geocoder failed due to: ' + status);
+                                                             navigator.notification.alert(
+                                                                status,  // message
+                                                                null,         // callback
+                                                                'Geocoder failed',            // title
+                                                                'OK'                  // buttonName
+                                                            );
 							 }
 						});
 						

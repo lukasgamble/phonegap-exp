@@ -31,15 +31,33 @@ function onAvailabilityGeoError(error){
         switch (error.code){
             
             case "1":
-                alert('Please turn on geolocation services');
+                //alert('Please turn on geolocation services');
+                navigator.notification.alert(
+                    'Please turn on geolocation services',  // message
+                    null,         // callback
+                    'Geocode Failure',            // title
+                    'OK'                  // buttonName
+                );
                 break;
             
             case "2":
-                alert('Sorry, we could not ascertain your location.');
+                //alert('Sorry, we could not ascertain your location.');
+                navigator.notification.alert(
+                    'Sorry, we could not ascertain your location.',  // message
+                    null,         // callback
+                    'Geocode Failure',            // title
+                    'OK'                  // buttonName
+                );
                 break;
             
             case "3":
-                alert('We could not ascertain your location - the request timed out.');
+                //alert('We could not ascertain your location - the request timed out.');
+                navigator.notification.alert(
+                    'We could not ascertain your location - the request timed out.',  // message
+                    null,         // callback
+                    'Geocode Failure',            // title
+                    'OK'                  // buttonName
+                );
                 break;
         }
         
@@ -88,10 +106,22 @@ function onAvailabilityGeoSuccess(position){
                         $("#userDataStore").data({"geoPlacename": placename});
                         
                 } else {
-                        alert('No results found');
-                        }
+                        //alert('No results found');
+                        navigator.notification.alert(
+                            'Sorry, no results found.',  // message
+                            null,         // callback
+                            'No results',            // title
+                            'OK'                  // buttonName
+                        );
+                    }
             } else {
-                alert('Geocoder failed due to: ' + status);
+                //alert('Geocoder failed due to: ' + status);
+                navigator.notification.alert(
+                    status,  // message
+                    null,         // callback
+                    'Geocoder failure',            // title
+                    'OK'                  // buttonName
+                );
             }
         });
         
