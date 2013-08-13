@@ -54,9 +54,26 @@
 		Use the following if you want a launch splash screen to appear briefly
 	-->
   
-  <gap:splash src="assets/images/startup/startupRetina.jpg" width="640" height="920"/>
-  <gap:splash src="assets/images/startup/startup.jpg" width="320" height="460"/>
+ 
+ 
   
+  
+<gap:splash src="assets/images/splashscreens/appleTouchStartupImage320x480.png" gap:platform="ios" width="320" height="480" />
+
+<gap:splash src="assets/images/splashscreens/appleTouchStartupImage640x960.png" gap:platform="ios" width="640" height="960" />
+
+<gap:splash src="assets/images/splashscreens/appleTouchStartupImage640x1136.png" gap:platform="ios" width="640" height="1136" />
+
+<gap:splash src="assets/images/splashscreens/appleTouchStartupImage1024x748.png" gap:platform="ios" width="1024" height="748" />
+
+<gap:splash src="assets/images/splashscreens/appleTouchStartupImage768x1004.png" gap:platform="ios" width="768" height="1004" />
+
+<!-- retina iPad support: PhoneGap 2.5.0+ only -->
+<gap:splash src="assets/images/splashscreens/appleTouchStartupImage2048x1496.png" gap:platform="ios" width="2048" height="1496" />
+
+<gap:splash src="assets/images/splashscreens/appleTouchStartupImage1536x2008.png" gap:platform="ios" width="1536" height="2008" />
+
+
 
 	<!--
 		For each kind of mobile service required we add a plugin element. PhoneGap (Cordova)

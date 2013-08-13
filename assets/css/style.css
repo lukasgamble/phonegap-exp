@@ -245,7 +245,7 @@ CUSTOM MESSAGE STYLING
 /*--------------------------------------------------
 TAB MENU
 ---------------------------------------------------*/
-.tab-menu{color:#111; margin-right:-16px; margin-left:-8px; border-right-width:1px; border-bottom-width:1px; border-left-width:1px; border-right-color:#661615; border-bottom-color:#661615; border-left-color:#661615; width:100%; padding-bottom: 300px;}
+.tab-menu{color:#111; margin-right:-16px; margin-left:-8px; border-right-width:1px; border-bottom-width:1px; border-left-width:1px; border-right-color:#661615; border-bottom-color:#661615; border-left-color:#661615; width:100%;}
 .tab-menu-ul li{list-style:none; float:left}
 .tab-menu-ul a{display:block; padding:6px 10px; text-decoration:none!important; margin:1px; margin-left:0; color:#CCC; font-size:12px; font-weight:600; background-color:#6F1916}
 .tab-menu-ul a:hover{background:#A72622}
