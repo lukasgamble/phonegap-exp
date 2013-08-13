@@ -82,6 +82,7 @@
 		Here are some examples (although in our app we don't use any)
 	-->
 	<plugin name="Geolocation" value="org.apache.cordova.GeoBroker" />
+	<plugin name="Notification" value="CDVNotification" />
 	
 	<!--<feature name="http://api.phonegap.com/1.0/geolocation" />-->
 	
