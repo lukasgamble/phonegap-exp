@@ -100,7 +100,7 @@
         // PhoneGap is loaded and it is now safe to make calls PhoneGap methods
         //
         function onDeviceReady() {
-            navigator.network.isReachable("phonegap.com", reachableCallback, {});
+            navigator.network.isReachable("vehotrans.com", reachableCallback, {});
         }
     
         // Check network status
@@ -159,8 +159,9 @@
 			<li><a href="#POD" class="contentLink" data-transition="slide">P.O.D.<span class="icon"></span></a></li>
 		</ul>
 		<div class="separator">Exit</div>
-		<ul style="margin-bottom: 300px;">
+		<ul style="padding-bottom: 300px;">
 			<li><a href="#login" class="contentLink" data-transition="slide">Logout<span class="icon"></span></a></li>
+                        <li><a href="#login" class="contentLink" data-transition="slide">Test<span class="icon"></span></a></li>
                </ul>
             
             
@@ -652,11 +653,10 @@
 		var baseUrl = "http://vehotrans.azurewebsites.net/";
 		var lat, lon, co_ords;
 		
+		var alertDismissed = function(){
+                        alert('IVe been dismissed');
+                };
 		
-		// alert dialog dismissed
-                function alertDismissed() {
-                    // do something
-                }
  
 		
 		$(document).on("pageinit", function(){
@@ -1135,10 +1135,12 @@
 						}
 				});
 				return false;
-			//});
+			
 			};
 			
-			
+		    
+                    
+
 		
 		});
 			
