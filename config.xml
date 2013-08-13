@@ -75,14 +75,10 @@
 
 
 
-	<!--
-		For each kind of mobile service required we add a plugin element. PhoneGap (Cordova)
-		provides an API that enables access to many kinds of services: see 
-		http://docs.phonegap.com/en/2.3.0/index.html
-		Here are some examples (although in our app we don't use any)
-	-->
+	
 	<plugin name="Geolocation" value="org.apache.cordova.GeoBroker" />
-	<plugin name="Notification" value="CDVNotification" />
+	<plugin name="Notification" value="org.apache.cordova.notification.Notification" />
+	<!--<plugin name="Notification" value="CDVNotification" />-->
 	
 	<!--<feature name="http://api.phonegap.com/1.0/geolocation" />-->
 	
