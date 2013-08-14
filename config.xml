@@ -39,6 +39,13 @@
   <icon src="assets/images/android/hdpi.png" gap:platform="android" gap:density="hdpi" />
   <icon src="assets/images/android/xhdpi.png" gap:platform="android" gap:density="xhdpi" />
   
+  <icon src="assets/images/touch/icon.png" gap:platform="ios" width="57" height="57" />
+  <icon src="assets/images/touch/icon-72.png" gap:platform="ios" width="72" height="72" />
+  <icon src="assets/images/touch/icon_at_2x.png" gap:platform="ios" width="114" height="114" />
+  
+  <!-- retina iPad support: PhoneGap 2.5.0+ only -->
+  <icon src="assets/images/touch/icon-72_at_2x.png" gap:platform="ios" width="144" height="144" />
+  
 
 	<!--
 		An example of a preference setting. This preference will prevent landscape mode.
