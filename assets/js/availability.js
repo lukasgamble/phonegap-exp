@@ -31,33 +31,15 @@ function onAvailabilityGeoError(error){
         switch (error.code){
             
             case "1":
-                //alert('Please turn on geolocation services');
-                navigator.notification.alert(
-                    'Please turn on geolocation services',  // message
-                    null,         // callback
-                    'Geocode Failure',            // title
-                    'OK'                  // buttonName
-                );
+                alert('Please turn on geolocation services');
                 break;
             
             case "2":
-                //alert('Sorry, we could not ascertain your location.');
-                navigator.notification.alert(
-                    'Sorry, we could not ascertain your location.',  // message
-                    null,         // callback
-                    'Geocode Failure',            // title
-                    'OK'                  // buttonName
-                );
+                alert('Sorry, we could not ascertain your location.');
                 break;
             
             case "3":
-                //alert('We could not ascertain your location - the request timed out.');
-                navigator.notification.alert(
-                    'We could not ascertain your location - the request timed out.',  // message
-                    null,         // callback
-                    'Geocode Failure',            // title
-                    'OK'                  // buttonName
-                );
+                alert('We could not ascertain your location - the request timed out.');
                 break;
         }
         
@@ -106,22 +88,10 @@ function onAvailabilityGeoSuccess(position){
                         $("#userDataStore").data({"geoPlacename": placename});
                         
                 } else {
-                        //alert('No results found');
-                        navigator.notification.alert(
-                            'Sorry, no results found.',  // message
-                            null,         // callback
-                            'No results',            // title
-                            'OK'                  // buttonName
-                        );
-                    }
+                        alert('No results found');
+                        }
             } else {
-                //alert('Geocoder failed due to: ' + status);
-                navigator.notification.alert(
-                    status,  // message
-                    null,         // callback
-                    'Geocoder failure',            // title
-                    'OK'                  // buttonName
-                );
+                alert('Geocoder failed due to: ' + status);
             }
         });
         
@@ -155,13 +125,7 @@ function postAvailability () {
                 dataType: "json",
                 success: function (data) {
                         $.mobile.loading("hide");
-                        //alert('Your vehicle availability has been posted to the Vehotrans website.');
-                        navigator.notification.alert(
-                            'Your vehicle availability has been posted to the Vehotrans website',  // message
-                            null,         // callback
-                            'Success',            // title
-                            'OK'                  // buttonName
-                        );
+                        alert('Your vehicle availability has been posted to the Vehotrans website.');
                         $('#ddlVehicle')[0].selectedIndex = 0;
                         $('#ddlVehicle').selectmenu("refresh", true);
                 },
@@ -171,13 +135,7 @@ function postAvailability () {
                         console.log(jqXHR);
                         console.log(textStatus);
                         console.log(errorThrown);
-                        //alert('Network error has occurred.  Do you have an internet connection?');
-                        navigator.notification.alert(
-                            'Do you have an internet connection?',  // message
-                            null,         // callback
-                            'Network error',            // title
-                            'OK'                  // buttonName
-                        );
+                        alert('Network error has occurred.  Do you have an internet connection?');
                 },
         
         });

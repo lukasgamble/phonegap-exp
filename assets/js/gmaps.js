@@ -4,14 +4,8 @@
 
 // onError Callback receives a PositionError object
 function onGeoError(error) {
-        //alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
-        
-        navigator.notification.alert(
-                'message: ' + error.message,  // message
-                null,         // callback
-                'code: '    + error.code,            // title
-                'OK'                  // buttonName
-            );
+        alert('code: '    + error.code    + '\n' +
+            'message: ' + error.message + '\n');
 }
 
 // VehoGroup Ltd. HQ
@@ -155,23 +149,11 @@ function addLoadMarkers(checkBounds){
                                         console.log('checkBounds = ' + checkBounds);
                                         console.log('boundsHasMarkers = ' + boundsHasMarkers);
                                         if((!boundsHasMarkers) && ((i+1)== data.length) && checkBounds){
-                                                //alert("There are no loads near your current location.  Zoom out to see other loads.");
-                                                navigator.notification.alert(
-                                                    'There are no loads near your current location.  Zoom out to see other loads.',  // message
-                                                    null,         // callback
-                                                    'No Loads Nearby',            // title
-                                                    'OK'                  // buttonName
-                                                );
+                                                alert("There are no loads near your current location.  Zoom out to see other loads.");      
                                         }
                                         
                                         } else {
-                                                //alert("Geocode was not successful for the following reason: " + status);
-                                                navigator.notification.alert(
-                                                    status,  // message
-                                                    null,         // callback
-                                                    'Geocode failure',            // title
-                                                    'OK'                  // buttonName
-                                                );
+                                                alert("Geocode was not successful for the following reason: " + status);
                                         }
                                     
                                 });
@@ -183,13 +165,7 @@ function addLoadMarkers(checkBounds){
                 },
                 error: function(jqXHR, textStatus, errorThrown ){
                         $.mobile.loading("hide");
-                        //alert('Network error has occurred.  Do you have an internet connection?');
-                        navigator.notification.alert(
-                                'Network error has occurred.  Do you have an internet connection?',  // message
-                                null,         // callback
-                                'Network error',            // title
-                                'OK'                  // buttonName
-                            );
+                        alert('Network error has occurred.  Do you have an internet connection?');
                 },
                 
                 
@@ -271,13 +247,7 @@ $('#gps_map').on('pageinit', function() {
                                         
                                 }
                         } else {
-                                //alert("We could not locate you for the following reason: " + status);
-                                navigator.notification.alert(
-                                        status,  // message
-                                        null,         // callback
-                                        'Unable to locate you',            // title
-                                        'OK'                  // buttonName
-                                    );
+                                alert("We could not locate you for the following reason: " + status);
                         }
                 });
                 
