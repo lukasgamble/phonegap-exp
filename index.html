@@ -626,14 +626,18 @@
 	<script type="text/javascript">
 		
 		
-		document.addEventListener("deviceready",onDeviceReady,false);
+//		document.addEventListener("deviceready",onDeviceReady,false);
+//
+//                function onDeviceReady()
+//                {
+//                    $('#login').html('Hello!');
+//                    alert('ready!');
+//                }
 
-                function onDeviceReady()
-                {
-                    $('#login').html('Hello!');
-                    alert('ready!');
-                }
-
+               $(document).ready(function() {
+                alert('ready!');
+              });
+                
 
 		var baseUrl = "http://app.vehotrans.com/";
 		var lat, lon, co_ords;
