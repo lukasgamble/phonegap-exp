@@ -39,13 +39,6 @@
   <icon src="assets/images/android/hdpi.png" gap:platform="android" gap:density="hdpi" />
   <icon src="assets/images/android/xhdpi.png" gap:platform="android" gap:density="xhdpi" />
   
-  <icon src="assets/images/touch/icon.png" gap:platform="ios" width="57" height="57" />
-  <icon src="assets/images/touch/icon-72.png" gap:platform="ios" width="72" height="72" />
-  <icon src="assets/images/touch/icon_at_2x.png" gap:platform="ios" width="114" height="114" />
-  
-  <!-- retina iPad support: PhoneGap 2.5.0+ only -->
-  <icon src="assets/images/touch/icon-72_at_2x.png" gap:platform="ios" width="144" height="144" />
-  
 
 	<!--
 		An example of a preference setting. This preference will prevent landscape mode.
@@ -64,28 +57,15 @@
   <gap:splash src="images/startup/startupRetina.jpg" width="640" height="920"/>
   <gap:splash src="images/startup/startup.jpg" width="320" height="460"/>
   
-  
-<gap:splash src="assets/images/splashscreens/appleTouchStartupImage320x480.png" gap:platform="ios" width="320" height="480" />
 
-<gap:splash src="assets/images/splashscreens/appleTouchStartupImage640x960.png" gap:platform="ios" width="640" height="960" />
-
-<gap:splash src="assets/images/splashscreens/appleTouchStartupImage640x1136.png" gap:platform="ios" width="640" height="1136" />
-
-<gap:splash src="assets/images/splashscreens/appleTouchStartupImage1024x748.png" gap:platform="ios" width="1024" height="748" />
-
-<gap:splash src="assets/images/splashscreens/appleTouchStartupImage768x1004.png" gap:platform="ios" width="768" height="1004" />
-
-<!-- retina iPad support: PhoneGap 2.5.0+ only -->
-<gap:splash src="assets/images/splashscreens/appleTouchStartupImage2048x1496.png" gap:platform="ios" width="2048" height="1496" />
-
-<gap:splash src="assets/images/splashscreens/appleTouchStartupImage1536x2008.png" gap:platform="ios" width="1536" height="2008" />
-
-
-
-	
+	<!--
+		For each kind of mobile service required we add a plugin element. PhoneGap (Cordova)
+		provides an API that enables access to many kinds of services: see 
+		http://docs.phonegap.com/en/2.3.0/index.html
+		Here are some examples (although in our app we don't use any)
+	-->
 	<plugin name="Geolocation" value="org.apache.cordova.GeoBroker" />
 	<plugin name="Notification" value="org.apache.cordova.notification.Notification" />
-	<!--<plugin name="Notification" value="CDVNotification" />-->
 	
 	<!--<feature name="http://api.phonegap.com/1.0/geolocation" />-->
 	
