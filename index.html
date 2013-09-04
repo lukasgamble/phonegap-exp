@@ -160,10 +160,11 @@
 			</div>
 			
 			<div data-role="content">
-				<h2 style="text-align: center"><a href="#" onclick="navigator.notification.alert('This is the notification text',null,'Whatsup?','OK');">Login</a></h2>
-                                <!--<h2 style="text-align: center"><a href="#" onclick="alert('This is an alert');">Login</a></h2>-->
+				<!--<h2 style="text-align: center"><a href="#" onclick="navigator.notification.alert('This is the notification text',null,'Whatsup?','OK');">Login</a></h2>-->
+                                <h2 style="text-align: center">Login</h2>
 				<p style="text-align: center">Please use your Vehotrans login details to access our mobile services.</p>
 				
+                                <div id="alertTemp"></div>
 				
 				<div class="field control-group" style="margin: 20px 0;">
 					<label for="txtEmail" class="control-label">Email:</label>
@@ -1108,7 +1109,8 @@
 						console.log(jqXHR);
 						console.log(textStatus);
 						console.log(errorThrown);
-                                                alert(textStatus + '\n\n' + errorThrown);
+                                                //alert(textStatus + '\n\n' + errorThrown);
+                                                $('#alertTemp').html(textStatus + '\n\n' + errorThrown);
 						//$.mobile.changePage('#loginDialog', {role: 'dialog'});
 						//alert("There was a problem connecting to the server.  Do you have an internet connection?");
 //                                                alert(jqXHR);
