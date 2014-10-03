@@ -10,7 +10,7 @@
         xmlns:gap="http://phonegap.com/ns/1.0"
         id="com.vehotrans.vehomob.v1"
         versionCode="1"
-        version="1.0.0">
+        version="1.0.1">
   <!-- 
 	  The name and description are used in the PhoneGap Build website
   -->
