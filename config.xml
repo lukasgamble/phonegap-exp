@@ -9,7 +9,7 @@
 <widget xmlns="http://www.w3.org/ns/widgets"
         xmlns:gap="http://phonegap.com/ns/1.0"
         id="com.vehotrans.vehomob.v1"
-        versionCode="1"
+        versionCode="2"
         version="1.0.1">
   <!-- 
 	  The name and description are used in the PhoneGap Build website
